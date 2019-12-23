@@ -173,4 +173,6 @@ array_name[1]=value1
 array_name[n]=valuen
 ```
 
+[Keep Learning](https://www.runoob.com/linux/linux-shell-variable.html)
+
 ### 注释

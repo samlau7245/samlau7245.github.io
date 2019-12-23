@@ -179,6 +179,22 @@ AAA<cite>AAA</cite>AAA
 \\( \sqrt{\frac{n!}{k!(n-k)!}} \\)
 ```
 
+## 注册域名、关联`Github Page`
+
+
+### 获取`Github Page`的IP
+
+```sh
+ping xxx.github.io
+
+# 输出
+PING xxx.github.io (14.215.177.39): 56 data bytes
+```
+
+### 购买域名(阿里云)
+
+购买成功后到`域名控制台`中，选中你自己的域名`xxx.work`，执行`解析`； 把IP关联到域名。
+
 ## 参考资料
 
 - 
