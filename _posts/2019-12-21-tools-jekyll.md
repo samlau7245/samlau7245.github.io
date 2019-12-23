@@ -1,9 +1,9 @@
 ---
-layout: post
 title: Jekyll 使用手册
+layout: post
 description: 搭建一个属于自己的博客系统。
 categories:
- - jekyll
+ - tools
 ---
 
 ## 头信息
