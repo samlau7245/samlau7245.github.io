@@ -1,6 +1,6 @@
 ---
-title: Flutter入门 building...
-description: building...
+title: Flutter入门
+description:
 layout: post
 date: 2019-12-23 03:00:00
 categories:
@@ -8,6 +8,8 @@ categories:
 ---
 
 [Flutter 中文社区](https://flutter.cn/docs)
+
+## 安装环境
 
 ### 安装Flutter【macOS 环境】
 
@@ -83,8 +85,108 @@ $ flutter run		# 运行Flutter应用。这样真机中就会安装first_app应�
 
 * 通过 doctor命令查看是否安装成功：`查看` > `命令面板` > `输入 "doctor"` > 选择`Flutter: Run Flutter Doctor`
 
-### 通过`VS Code`创建Flutter应用
+## 通过`VS Code`创建Flutter应用
+
+### 创建项目
 
 * `查看` > `命令面板` > `输入 "flutter"` > 选择`Flutter: New Project` > 输入项目名称 > 选择项目文件夹
 
 * 热加载：`Hot Reload`  <img src="/assets/images/offline_bolt.png">
+
+### 使用外部 `package`
+
+* 在`pubspec.yaml` 文件中添加依赖：
+
+```dart
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  english_words: ^3.1.0		# 添加依赖
+```
+
+* 在`lib/main.dart`中导入依赖：
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart'; //  english_words 的开源软件包，其中包含数千个最常用的英文单词以及一些实用功能。
+```
+
+### 添加一个 `Stateful widget`
+
+> `Stateless widgets` 是不可变的，这意味着它们的属性不能改变 —— 所有的值都是 `final`。<br/>
+> `Stateful widgets` 持有的状态可能在 `widget` 生命周期中发生变化，实现一个 `stateful widget` 至少需要两个类： <br/>
+> 1）一个 `StatefulWidget` 类；<br/>
+> 2）一个 `State` 类，`StatefulWidget` 类本身是不变的，但是 `State` 类在 `widget` 生命周期中始终存在。
+
+* 创建一个类`RandomWords` 继承 `StatefulWidget`
+
+```dart
+// 这个类的作用基本就是，实现 createState 接口， 创建一个`State`类
+class RandomWords extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() { 
+    return null;
+  }
+}
+```
+
+* 创建一个`State`类
+
+```dart
+// 创建一个State类。应用的大部分逻辑和状态都在这里实现。
+class RandomWordsState extends State<RandomWords> {
+  @override
+  Widget build(BuildContext context) {
+    return null;
+  }
+  
+}
+```
+
+* 在`RandomWords`中，把`State`类`RandomWordsState`给创建出来。
+
+```dart
+class RandomWords extends StatefulWidget{
+  @override
+  RandomWordsState createState() { // 这个方法可以替换成简写方式：RandomWordsState createState() => RandomWordsState();
+    return RandomWordsState();
+  }
+}
+```
+
+* 实现功能：在`RandomWordsState`类的`build`方法中生成随机单词对【单词对从`english_words`依赖包中实现】
+
+```dart
+class RandomWordsState extends State<RandomWords> {
+  @override
+  Widget build(BuildContext context) {
+    final wordPair = WordPair.random();
+    return Text(wordPair.asPascalCase);
+  }
+}
+```
+
+* 在项目中运行
+
+```dart
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Welcome to Flutter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Welcome to Flutter'),
+        ),
+        body: Center(
+          child: RandomWords(), // 主要是这一句。
+        ),
+      ),
+    );
+  }
+}
+```
+
