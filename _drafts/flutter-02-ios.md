@@ -6,6 +6,48 @@ categories:
  - flutter
 ---
 
+* [flutter example](https://gitee.com/BackEndLearning/flutter_example)
+* [Material核心widget](https://flutter.cn/docs/development/ui/widgets/material)
+
+## [MaterialApp](https://api.flutter.dev/flutter/material/MaterialApp-class.html)
+
+```dart
+final Widget home;
+final Map<String, WidgetBuilder> routes;
+```
+
+* `MaterialApp`中同时指定了`home`、`routes`，则在`routes`中不能包含`'/'`。
+
+## [APP 结构和导航栏(NavigationBar)](https://flutter.cn/docs/development/ui/widgets/material#App%20structure%20and%20navigation)
+
+### BottomNavigationBar. 
+
+`MaterialApp`中要实现底部导航栏的功能，需要了解的类[BottomNavigationBar](https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html#instance-properties)、[BottomNavigationBarItem](https://api.flutter.dev/flutter/widgets/BottomNavigationBarItem-class.html#instance-properties)。其中`BottomNavigationBar`类是和`Scaffold`结合使用，作为`Scaffold`。
+
+```dart
+final Widget bottomNavigationBar
+```
+
+[查看代码](https://gitee.com/BackEndLearning/flutter_example/commit/6906c7e837e38c5662d9b3e30067d70514549423)
+
+
+<!-- ### 切换导航栏
+
+* `iOS`中可以控制`UINavigationController`来管理`viewcontroller`的显示。<br>
+* `Flutter`中可以通过`Navigator`和`Routes`来控制。其中一个`Route`可以看成应用中的屏幕或者页面，可以理解为`UIViewController`，一个`Navigator`可以管理多个`Route`的`widget`。
+
+### 跳转到其他应用
+
+`iOS`中可以通过设置`URL scheme`来实应用间跳转。<br>
+`Flutter`中可以通过插件来实现，例如：[url_launcher](https://pub.flutter-io.cn/packages/url_launcher)
+
+
+### 退回到`iOS`原生的`viewcontroller`
+
+调用：`SystemNavigator.pop()`。
+ -->
+<!-- 
+
 ## 视图类
 
 ### `UIView` & `Widget`
@@ -166,21 +208,12 @@ class _UpdatePageState extends State<UpdatePage> {
 `iOS`中可以通过继承`UIView`来创建自定义`UIView`。<br>
 `Flutter`中需要通过组合不同小的`widget`来实现自定义，而不是继承。
 
-## 导航
-
-### 切换导航栏
-
-`iOS`中可以控制`UINavigationController`来管理`viewcontroller`的显示。<br>
-`Flutter`中可以通过`Navigator`和`Routes`来控制。其中一个`Route`可以看成应用中的屏幕或者页面，可以理解为`UIViewController`，一个`Navigator`可以管理多个`Route`的`widget`。
-
-### 跳转到其他应用
-
-`iOS`中可以通过设置`URL scheme`来实应用间跳转。<br>
-`Flutter`中可以通过插件来实现，例如：[url_launcher](https://pub.flutter-io.cn/packages/url_launcher)
-
-
-### 退回到`iOS`原生的`viewcontroller`
-
-调用：`SystemNavigator.pop()`。
-
 ## 线程和异步
+
+`Dart`是单线程执行模型，类似`iOS`的`main loop`；不过它是支持 `Isolate`（一种在其他线程运行 Dart 代码的方法）、事件循环和异步编程。
+
+
+
+
+
+ -->
