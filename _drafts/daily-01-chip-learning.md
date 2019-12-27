@@ -6,8 +6,16 @@ categories:
  - daily
 ---
 
+### 脚本
+
 * [Shell](https://www.runoob.com/linux/linux-shell-variable.html)
+
+### 前端
+
 * [Flutter-MaterialApp](https://api.flutter.dev/flutter/material/MaterialApp-class.html)
+* [iOS](https://juejin.im/timeline/ios/Objective-C)
+* Swift
+ 
 
 ### Spring Security
 
@@ -17,4 +25,7 @@ categories:
 
 ### golang
 
-* [gitee 代码提交日志](https://gitee.com/BackEndLearning/spring-security-basic/commits/master)
+* [ Google资深工程师深度讲解Go语言 ](https://coding.imooc.com/class/180.html)
+
+### 设计模式
+
