@@ -25,7 +25,7 @@ categories:
 
 ### golang
 
-* [ Google资深工程师深度讲解Go语言 ](https://coding.imooc.com/class/180.html)
+* [ Google资深工程师深度讲解Go语言 ](https://coding.imooc.com/learn/list/180.html)
 
 ### 设计模式
 
