@@ -78,3 +78,5 @@ $ go get golang.org/x/tools/cmd/goimports
 
 
 ### `IntelliJ Idea` 安装和配置
+
+打开`IntelliJ Idea` -> `plugins` ->
