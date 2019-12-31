@@ -38,3 +38,7 @@ categories:
 * [人人都是产品经理](http://www.woshipm.com)
 * [鸟哥笔记](http://www.niaogebiji.com)
 * [网易云课堂](https://study.163.com)
+
+## 其他网站
+
+* [南怀瑾南禅七日](https://tv.sohu.com/v/dXMvMjgzOTE3NTI5LzgyODgzODIwLnNodG1s.html)

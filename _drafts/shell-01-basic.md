@@ -156,21 +156,41 @@ echo ${string:1:4}
 
 ### 数组
 
-只支持一维数组。
+`Shell`只支持一维数组。
+
+* 创建数组：数组元素用"空格"符号分割开。
 
 ```sh
 array_name=(value0 value1 value2 value3)
-# 或者
-array_name=(
-value0
-value1
-value2
-value3
-)
 # 或者
 array_name[0]=value0
 array_name[1]=value1
 array_name[n]=valuen
 ```
 
-### 注释
+* 读取数组：
+	* 通过数组下标显示每个元素。
+	* 使用`@`或`*`可以获取数组中的所有元素。
+
+```sh
+my_array=(A B "C" D)
+echo ${my_array[1]}
+echo "数组的元素为: ${my_array[@]}"
+```
+
+* 获取数组长度
+
+```sh
+my_array=(A B "C" D)
+echo "数组元素个数为: ${#my_array[@]}"
+```
+
+* 数组新增元素
+
+```sh
+#!/bin/sh
+my_array=(A B "C" D)
+my_array[${#my_array[*]}]=E
+```
+
+### 运算符

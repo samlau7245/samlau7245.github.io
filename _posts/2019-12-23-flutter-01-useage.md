@@ -191,3 +191,56 @@ class MyApp extends StatelessWidget {
 }
 ```
 
+## [`State<T extends StatefulWidget>`](https://api.flutter.dev/flutter/widgets/State-class.html)  讲解
+
+```
+Widget build(BuildContext context);
+void deactivate() {} // 当对象从tree中移除的时候会调用
+void dispose() {} // 当对象从tree中永久移除的时候会调用
+void initState() {} // 当对象插入到tree中会调用
+```
+
+```dart
+import 'package:flutter/material.dart';
+void main() => runApp(MyApp());
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Code Sample',
+      home: StateFullExample(),
+    );
+  }
+}
+
+class StateFullExample extends StatefulWidget {
+  @override
+  StateFullExampleState createState() {
+    return StateFullExampleState();
+  }
+}
+class StateFullExampleState extends State<StateFullExample>{
+  int _count;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('appBar'),),
+      body: Center(child: Text(_count.toString()),),
+      floatingActionButton: FloatingActionButton(child: Text('Click'),onPressed: () {
+        setState(() {
+          _count += 1;
+        },);
+      },),
+    );
+  }
+  @override
+  void deactivate() { 
+    super.deactivate();
+  }
+  @override
+  void initState(){
+    super.initState();
+    _count = 5;
+  }
+}
+```
