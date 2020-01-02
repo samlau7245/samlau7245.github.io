@@ -32,3 +32,16 @@ categories:
 
 ### 产品
 
+
+|计划|领域|URL|备注|
+|---|---|---|---|
+|√|产品|[网易云课堂-2019Axure全集100讲](https://study.163.com/course/courseMain.htm?courseId=1209489815&share=1&shareId=1405369734)||
+|√|编程|iOS 技术博客 **持续技术更新**||
+|√|产品|[MOOC 面向独享分析和设计](https://www.icourse163.org/learn/ECNU-1003434002#/learn/content)||
+|√|后台|[项目管理利器——maven](https://www.imooc.com/learn/443)||
+|√|个人|阅读》||
+|√|个人|日记||
+|√|个人|GYM-减脂||
+|√|语言|英语||
+|√|个人|烹饪、料理||
+|√|个人|自我提升||

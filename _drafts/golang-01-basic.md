@@ -338,6 +338,8 @@ func switchtest(a int) string {
 
 ### 循环语句
 
+* `golang`中没有`while`语句，这里是通过`for`语句进行了代替。
+
 ```golang
 func main() {
 	sum := 0
@@ -374,6 +376,68 @@ func test(n int) string {
 ```
 
 ### 函数
+
+```golang
+// 同类型的入参可以通过','分割
+func f1(a, b int, c string) {}
+
+// 多个出参，没有变量名
+func f2(a, b int) (int, int) {
+	return 1, 2
+}
+
+// 多个出参，有变量名
+func f3(a, b int) (c, d int) {
+	if a == 1 {
+		return a, b
+	}
+	// 这种return方式也是可以的
+	c = a + 1
+	d = b + 1
+	return
+}
+
+// 使用
+a, b := f3(2, 3) // 获取两个出参数
+c, _ := f3(1, 2) // 只想获取一个参数，那可以把不想获取的参数用 '_' 代替。
+```
+
+接下来我们把前面的方法优化下：
+
+```golang
+func switchtestOld(a, b int, c string) int {
+	var result int
+	switch c {
+	case "+":
+		result = a + b
+	case "-":
+		result = a - b
+	case "*":
+		result = a * b
+	case "/":
+		result = a / b
+	default:
+		panic("error" + c) // 这里直接中断了程序。
+	}
+	return result
+}
+
+func switchtestNew(a, b int, c string) (int, error) { // 错误通过出参来展示，不会中断程序
+	switch c {
+	case "+":
+		return a + b, nil
+	case "-":
+		return a - b, nil
+	case "*":
+		return a * b, nil
+	case "/":
+		return a / b, nil
+	default:
+		return 1, fmt.Errorf("error")
+	}
+}
+```
+
 ### 指针
 
 
