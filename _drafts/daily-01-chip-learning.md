@@ -1,24 +1,30 @@
 ---
-title: 每日碎片学习
+title: 碎片学习
 layout: post
-description: 每日碎片学习。
+description: 碎片学习。
 categories:
  - daily
 ---
 
-### 脚本
+## 技术类
 
-* [Shell](https://www.runoob.com/linux/linux-shell-variable.html)
+### 脚本语言
 
-### 前端
+* [Shell语言](https://www.runoob.com/linux/linux-shell-variable.html)
+
+### 大前端-Flutter
 
 * [Flutter-MaterialApp](https://api.flutter.dev/flutter/material/MaterialApp-class.html)
 * [flutter_example](https://gitee.com/BackEndLearning/flutter_example)
+
+### 大前端-iOS
+
 * [iOS](https://juejin.im/timeline/ios/Objective-C)
 * Swift
- 
 
-### Spring Security
+### 后台
+
+#### Spring Security
 
 * [Spring Security 技术栈开发企业级认证与授权-视频](https://coding.imooc.com/lesson/134.html#mid=6869)
 * [Spring Security 技术栈开发企业级认证与授权-源码](https://git.imooc.com/coding-134/security-new/commits/master)
@@ -30,8 +36,7 @@ categories:
 
 ### 设计模式
 
-### 产品
-
+## 产品类
 
 |计划|领域|URL|备注|
 |---|---|---|---|
@@ -45,3 +50,55 @@ categories:
 |√|语言|英语||
 |√|个人|烹饪、料理||
 |√|个人|自我提升||
+
+## 个人技能
+
+* 德州扑克[√]
+* 网球[√]
+* 游泳[2020]
+
+### 语言技能
+* 英语[2020]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
