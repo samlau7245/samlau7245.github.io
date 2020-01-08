@@ -179,6 +179,12 @@ AAA<cite>AAA</cite>AAA
 \\( \sqrt{\frac{n!}{k!(n-k)!}} \\)
 ```
 
+## 运行Jekyell
+
+```sh
+bundle exec jekyll server --draft
+```
+
 ## 注册域名、关联`Github Page`
 
 
