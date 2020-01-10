@@ -25,3 +25,15 @@ lsof -i:8080
 kill -9 PID			# 9：信息编号
 ```
 
+# 系统管理
+
+## [systemctl命令](https://man.linuxde.net/systemctl)
+
+systemctl命令用于进程和作业管理。
+
+### 查看服务当前状态
+
+```c
+// 查看firewalld 防火墙的状态
+systemctl status firewalld
+```
