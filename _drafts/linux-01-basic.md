@@ -37,5 +37,3 @@ systemctl命令用于进程和作业管理。
 // 查看firewalld 防火墙的状态
 systemctl status firewalld
 ```
-
-### 

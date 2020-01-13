@@ -42,3 +42,4 @@ categories:
 ## 其他网站
 
 * [南怀瑾南禅七日](https://tv.sohu.com/v/dXMvMjgzOTE3NTI5LzgyODgzODIwLnNodG1s.html)
+* [Rate Bear](https://www.ratebeer.com/)
