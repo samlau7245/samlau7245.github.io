@@ -201,6 +201,9 @@ PING xxx.github.io (14.215.177.39): 56 data bytes
 
 购买成功后到`域名控制台`中，选中你自己的域名`xxx.work`，执行`解析`； 把IP关联到域名。
 
+
+## GitHub page
+
 ## 参考资料
 
 - 
