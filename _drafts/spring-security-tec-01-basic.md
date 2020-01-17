@@ -20,6 +20,7 @@ categories:
 ### 快捷键
 
 * `cmd+shift+f`: 格式化代码
+* `cmd+shift+t`: 全局查找
 * `Alt + /`: 代码自动提示
 
 ### 给项目添加子模块
