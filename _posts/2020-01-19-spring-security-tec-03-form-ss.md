@@ -729,15 +729,79 @@ public class ValidateCodeController {
 git clone -b section/4-7_4-8 https://gitee.com/BackEndLearning/ss_sts_example.git
 ```
 
+# 记住我功能
+
+## 记住我功能的基本原理
+
+* 记住我过滤器`RememberMeAuthenticationFilter`在整个过滤链中的位置：这个过滤器是放在所有过滤器(绿色部分)倒数第二个位置，就是在所有过滤器不通过的情况下尝试用记住我过滤器看是否通过认证：
+
+![项目结构](/assets/images/ss_tec/10.png)
+
+![项目结构](/assets/images/ss_tec/11.png)
 
 
+> 1. 浏览器 –认证请求–> UsernamePasswordAuthenticationFilter –> 认证成功以后RememberMeService 会将Token写到DB中，同时将Token写到浏览器Cookie中。 <br>
+> 2. 浏览器再次登录时，直接走RememberMeAuthenticationFilter过滤器不用走登录过滤器逻辑 RememberMeAuthenticationFilter会读取Cookie中的Token,然后把Token交给RememberMeService RememberMeService中的TokenRepository会去DB中查找有没有Token，如果有的话就把用户名和密码返回。
+
+## 实现记住我功能
+
+* 网页中创建记住我功能：
+
+```html
+<input name="remember-me" type="checkbox" value="true" />
+```
+
+* 记住我是长参数设置为可配置：
+
+```java
+public class BrowserProperties {
+	private String loginPage = "/imooc-signIn.html";
+	private LoginType loginType = LoginType.JSON;
+	private int rememberMeSeconds = 3600; // 设置默认记住我时长
+}
+```
+
+* 在`WebSecurityConfigurerAdapter`网页适配器中配置`TokenRepository`：
+
+```java
+@Configuration
+public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+		tokenRepository.setCreateTableOnStartup(true); // 创建DB
+		return tokenRepository;
+	}
+}
+```
+
+在我们执行`tokenRepository.setCreateTableOnStartup(true);`时等价于执行下面的SQL语句：
+
+```sql
+create table persistent_logins (username varchar(64) not null, series varchar(64) primary key,token varchar(64) not null, last_used timestamp not null)
+```
+
+* 在`WebSecurityConfigurerAdapter`网页适配器中配置记住我过滤器：
+
+```java
+@Configuration
+public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+	@Autowired
+	private SecurityProperties securityProperties;
+	@Autowired
+	private UserDetailsService userDetailsService
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.formLogin().and()
+				.rememberMe().tokenRepository(persistentTokenRepository()) // 返回一个JDBC实现
+				.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds()) // 设置token有效时间
+				.userDetailsService(userDetailsService);// 用户信息
+	}
+}
+```
 
 
-
-
-
-
-
+![项目结构](/assets/images/ss_tec/12.png)
 
 
 
