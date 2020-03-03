@@ -405,7 +405,7 @@ Use shrink-to-fit meta-tag
 
 |适配前|适配后｜
 | --- | --- |
-|![./images/01-1.png](./images/01-1.png)|![./images/01-1.png](./images/01-2.png)|
+|![](/assets/images/wkwebview/01-1.png)|![](/assets/images/wkwebview/01-2.png)|
 
 ```objc
 //适配网页文本大小
@@ -844,8 +844,6 @@ iOS11.0推出了`WKHTTPCookieStore`，效果和NSHttpCookieStorage一样，是�
 
 * 导航栏新增`页面刷新`、`用系统浏览器打开`的功能。
 * 网页组件建议新增`goBack`、`goForward`，样式可以参考微信。
-
-<!-- ![](/assets/images/wkwebview/03-1.png) -->
 
 <img src="/assets/images/wkwebview/03-1.png" width = "30%" height = "30%"/>
 
