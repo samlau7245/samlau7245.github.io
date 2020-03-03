@@ -6,18 +6,112 @@ categories:
  - ios
 ---
 
-建议新增：刷新按钮。
+# WebKit组件部分属性方法
 
-https://github.com/ShingoFukuyama/WKWebViewTips
-
-# `WKWebView`
+## WKWebView
 
 ```objc
-// 是否允许手势左滑返回上一级, 类似导航控制的左滑返回
-@property (nonatomic) BOOL allowsBackForwardNavigationGestures;
+@property (nullable, nonatomic, weak) id <WKNavigationDelegate> navigationDelegate; // 导航代理
+@property (nullable, nonatomic, weak) id <WKUIDelegate> UIDelegate;// UI代理
+
+@property (nullable, nonatomic, readonly, copy) NSString *title;// 页面标题, 一般使用KVO动态获取
+@property (nonatomic, readonly) double estimatedProgress;// 页面加载进度, 一般使用KVO动态获取
+@property (nonatomic, readonly, strong) WKBackForwardList *backForwardList;// 可返回的页面列表
+@property (nullable, nonatomic, readonly, copy) NSURL *URL;// 页面url
+@property (nonatomic, readonly, getter=isLoading) BOOL loading;// 页面是否在加载中
+
+@property (nonatomic, readonly) BOOL canGoBack;// 是否可返回
+@property (nonatomic, readonly) BOOL canGoForward;// 是否可向前
+
+@property (nonatomic, readonly, strong) UIScrollView *scrollView;
+@property (nonatomic) BOOL allowsBackForwardNavigationGestures;// 是否允许手势左滑
+
+//自定义UserAgent, 会覆盖默认的值 ,iOS 9之后有效
+@property (nullable, nonatomic, copy) NSString *customUserAgent
 ```
 
-# `WKPreferences` 偏好设置类
+部分的方法：
+
+```objc
+// 带配置信息的初始化方法
+// configuration 配置信息
+- (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration
+// 加载请求
+- (nullable WKNavigation *)loadRequest:(NSURLRequest *)request;
+// 加载HTML
+- (nullable WKNavigation *)loadHTMLString:(NSString *)string baseURL:(nullable NSURL *)baseURL;
+// 返回上一级
+- (nullable WKNavigation *)goBack;
+// 前进下一级, 需要曾经打开过, 才能前进
+- (nullable WKNavigation *)goForward;
+// 刷新页面
+- (nullable WKNavigation *)reload;
+// 根据缓存有效期来刷新页面
+- (nullable WKNavigation *)reloadFromOrigin;
+// 停止加载页面
+- (void)stopLoading;
+// 执行JavaScript代码
+- (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^ _Nullable)(_Nullable id, NSError * _Nullable error))completionHandler;
+```
+
+## WKWebViewConfiguration
+
+初始化`WKWebView`的配置属性，这是个属性的集合。
+
+```objc
+@property (nonatomic, strong) WKProcessPool *processPool;
+//  首选项设置:可设置最小字号、是否通过js自动打开新的窗口
+@property (nonatomic, strong) WKPreferences *preferences;
+// 通过此属性来执行JavaScript代码来修改页面的行为
+@property (nonatomic, strong) WKUserContentController *userContentController;
+@property (nonatomic, strong) WKWebsiteDataStore *websiteDataStore API_AVAILABLE(ios(9.0));
+
+// 是使用h5的视频播放器在线播放(YES), 还是使用原生播放器全屏播放(NO),默认值：NO
+@property (nonatomic) BOOL allowsInlineMediaPlayback;
+// 设置视频是否需要用户手动播放  设置为NO则会允许自动播放。
+@property (nonatomic) BOOL requiresUserActionForMediaPlayback API_DEPRECATED_WITH_REPLACEMENT("mediaTypesRequiringUserActionForPlayback", ios(9.0, 10.0));
+//设置是否允许画中画技术 在特定设备上有效，默人YES。
+@property (nonatomic) BOOL allowsPictureInPictureMediaPlayback API_AVAILABLE(ios(9_0));
+// 设置请求的User-Agent信息中应用程序名称
+@property (nullable, nonatomic, copy) NSString *applicationNameForUserAgent API_AVAILABLE(ios(9.0));
+WKUse
+```
+
+## WKUserContentController
+
+可以通过`WKUserContentController`实现与`JavaScript`的交互。
+
+```objc
+// 注入JavaScript与原生交互协议
+// JS 端可通过 window.webkit.messageHandlers.<name>.postMessage(<messageBody>) 发送消息
+- (void)addScriptMessageHandler:(id <WKScriptMessageHandler>)scriptMessageHandler name:(NSString *)name;
+// 移除注入的协议, 在deinit方法中调用
+- (void)removeScriptMessageHandlerForName:(NSString *)name;
+
+// 通过WKUserScript注入需要执行的JavaScript代码
+- (void)addUserScript:(WKUserScript *)userScript;
+// 移除所有注入的JavaScript代码
+- (void)removeAllUserScripts;
+
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message;
+```
+
+通过`WKScriptMessageHandler`协议, 获取`JavaScript`端传递的事件和参数：
+
+```objc
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message;
+```
+
+其中`WKScriptMessage`中含有的协议名称及参数：
+
+```objc
+@property (nonatomic, readonly, copy) NSString *name;// 协议名称, 即上面的add方法传递的name
+@property (nonatomic, readonly, copy) id body;// 传递的参数
+```
+
+## WKPreferences
+
+这是首选项配置类，一般在`WKWebViewConfiguration`里面设置。
 
 ```objc
 // 最小字体大小 当将javaScriptEnabled属性设置为NO时，可以看到明显的效果
@@ -28,35 +122,224 @@ https://github.com/ShingoFukuyama/WKWebViewTips
 @property (nonatomic) BOOL javaScriptCanOpenWindowsAutomatically;
 ```
 
-# `WKWebViewConfiguration` WKWebView配置类
+## WKBackForwardList
+可返回的页面列表, 存储已打开过的网页。
 
-对象级别配置：
+## WKUserScript
 
-```objc 
-@property (nonatomic, strong) WKProcessPool *processPool;
-@property (nonatomic, strong) WKPreferences *preferences;
-@property (nonatomic, strong) WKUserContentController *userContentController;
-@property (nonatomic, strong) WKWebsiteDataStore *websiteDataStore API_AVAILABLE(ios(9.0));
-```
-
-普通属性：
+主要是需要加载的页面中添加一些额外执行的`JavaScript`代码，这是个初始化方法；一般是搭配`WKWebViewConfiguration`使用。
 
 ```objc
-// 是使用h5的视频播放器在线播放(YES), 还是使用原生播放器全屏播放(NO),默认值：NO
-@property (nonatomic) BOOL allowsInlineMediaPlayback;
-// 设置视频是否需要用户手动播放  设置为NO则会允许自动播放。
-@property (nonatomic) BOOL requiresUserActionForMediaPlayback API_DEPRECATED_WITH_REPLACEMENT("mediaTypesRequiringUserActionForPlayback", ios(9.0, 10.0));
-//设置是否允许画中画技术 在特定设备上有效，默人YES。
-@property (nonatomic) BOOL allowsPictureInPictureMediaPlayback API_AVAILABLE(ios(9_0));
-// 设置请求的User-Agent信息中应用程序名称
-@property (nullable, nonatomic, copy) NSString *applicationNameForUserAgent API_AVAILABLE(ios(9.0));
+/*
+source: 需要执行的JavaScript代码
+injectionTime: 加入的位置, 是一个枚举
+typedef NS_ENUM(NSInteger, WKUserScriptInjectionTime) {
+    WKUserScriptInjectionTimeAtDocumentStart,
+    WKUserScriptInjectionTimeAtDocumentEnd
+} API_AVAILABLE(macosx(10.10), ios(8.0));
+
+forMainFrameOnly: 是加入所有框架, 还是只加入主框架
+*/
+- (instancetype)initWithSource:(NSString *)source injectionTime:(WKUserScriptInjectionTime)injectionTime forMainFrameOnly:(BOOL)forMainFrameOnly;
 ```
 
-# `WKUserContentController`
+## WKUIDelegate
 
-# `WKBackForwardList`
+主要处理JS脚本，确认框，警告框等。
 
-可返回的页面列表, 存储已打开过的网页。
+```objc
+// web界面中有弹出警告框时调用,JS中调用alert方法
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Title" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler();
+    }])];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+// web界面中有确认框时调用,JS中调用confirm方法
+- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:([UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(NO);
+    }])];
+    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(YES);
+    }])];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+// web界面中有输入框时调用,JS中调用prompt方法
+- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:prompt message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.text = defaultText;
+    }];
+    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(alertController.textFields[0].text?:@"");
+    }])];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+```
+
+|alert|confirm|prompt|
+| --- | --- | --- |
+|![](/assets/images/wkwebview/02-1.png)|![](/assets/images/wkwebview/02-2.png)|![](/assets/images/wkwebview/02-3.png)|
+|`alert("被OC截获到了");`|`confirm("被OC截获到了");`|`prompt("A","B");`|
+
+## `WKNavigationDelegate`
+
+`WKNavigationDelegate`主要用于处理一些跳转、加载处理操作。
+
+```objc
+
+// 页面开始加载时调用
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
+}
+// 页面加载失败时调用
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+    [self.progressView setProgress:0.0f animated:NO];
+} 
+// 当内容开始返回时调用
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
+}
+// 页面加载完成之后调用
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+}
+//提交发生错误时调用
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    [self.progressView setProgress:0.0f animated:NO];
+}  
+// 接收到服务器跳转请求即服务重定向时之后调用
+- (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation {
+}
+// 根据WebView对于即将跳转的HTTP请求头信息和相关信息来决定是否跳转
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    // iTunes: App Store link
+    if ([urlString isMatch:RX(@"\\/\\/itunes\\.apple\\.com\\/")]) {
+        [[UIApplication sharedApplication] openURL:url];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    }
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+// 根据客户端受到的服务器响应头以及response相关信息来决定是否可以跳转
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
+    NSString * urlStr = navigationResponse.response.URL.absoluteString;
+    NSLog(@"当前跳转地址：%@",urlStr);
+    //允许跳转
+    decisionHandler(WKNavigationResponsePolicyAllow);
+    //不允许跳转
+    //decisionHandler(WKNavigationResponsePolicyCancel);
+} 
+// 用于授权验证
+- (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler{
+    //用户身份信息
+    NSURLCredential * newCred = [[NSURLCredential alloc] initWithUser:@"user123" password:@"123" persistence:NSURLCredentialPersistenceNone];
+    //为 challenge 的发送方提供 credential
+    [challenge.sender useCredential:newCred forAuthenticationChallenge:challenge];
+    completionHandler(NSURLSessionAuthChallengeUseCredential,newCred);
+}
+//进程被终止时调用
+- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView{
+}
+```
+
+## WKHTTPCookieStore
+
+`WKWebView`自己管理cookie的工具。
+
+```objc
+// 查找所有已存储的cookie
+- (void)getAllCookies:(void (^)(NSArray<NSHTTPCookie *> *))completionHandler;
+// 保存一个cookie, 保存成功后, 会走一次回调方法
+- (void)setCookie:(NSHTTPCookie *)cookie completionHandler:(nullable void (^)(void))completionHandler;
+// 删除一个cookie, 待删除的cookie对象可通过 'getAllCookies' 方法获取
+- (void)deleteCookie:(NSHTTPCookie *)cookie completionHandler:(nullable void (^)(void))completionHandler;
+/*! 添加一个观察者, 需要遵循协议 WKHTTPCookieStoreObserver 
+当cookie发送变化时, 会通过 WKHTTPCookieStoreObserver 的协议方法通知该观察者, 在使用完后需要移除观察者
+ */
+- (void)addObserver:(id<WKHTTPCookieStoreObserver>)observer;
+// 移除观察者
+- (void)removeObserver:(id<WKHTTPCookieStoreObserver>)observer;
+```
+
+其中`WKHTTPCookieStoreObserver`协议：
+
+```objc
+// 当cookie发生变动时触发
+- (void)cookiesDidChangeInCookieStore:(WKHTTPCookieStore *)cookieStore;
+```
+
+## WKWebsiteDataStore
+
+`WKWebsiteDataStore`包含了网页中可以使用到的数据(cookies、沙盒缓存、内存缓存...)，一般是通过`WKWebViewConfiguration`进行相关设置。
+
+```objc
++ (WKWebsiteDataStore *)defaultDataStore;// 默认的data store
+// 如果为webView设置了这个data Store，则不会有数据缓存被写入文件
+// 当需要实现隐私浏览的时候，可使用这个
++ (WKWebsiteDataStore *)nonPersistentDataStore;
+// 是否是可缓存数据的，只读
+@property (nonatomic, readonly, getter=isPersistent) BOOL persistent;
+// 获取所有可使用的数据类型
++ (NSSet<NSString *> *)allWebsiteDataTypes;
+// 查找指定类型的缓存数据
+// 回调的值是WKWebsiteDataRecord的集合
+- (void)fetchDataRecordsOfTypes:(NSSet<NSString *> *)dataTypes completionHandler:(void (^)(NSArray<WKWebsiteDataRecord *> *))completionHandler;
+// 删除指定的纪录
+// 这里的参数是通过上面的方法查找到的WKWebsiteDataRecord实例获取的
+- (void)removeDataOfTypes:(NSSet<NSString *> *)dataTypes forDataRecords:(NSArray<WKWebsiteDataRecord *> *)dataRecords completionHandler:(void (^)(void))completionHandler;
+// 删除某时间后修改的某类型的数据
+- (void)removeDataOfTypes:(NSSet<NSString *> *)websiteDataTypes modifiedSince:(NSDate *)date completionHandler:(void (^)(void))completionHandler;
+// 保存的HTTP cookies
+@property (nonatomic, readonly) WKHTTPCookieStore *httpCookieStore
+```
+
+其中`WKWebsiteDataRecord`网页数据记录类：
+
+```objc
+@property (nonatomic, readonly, copy) NSString *displayName;// 展示名称, 通常是域名
+@property (nonatomic, readonly, copy) NSSet<NSString *> *dataTypes;// 包含的数据类型
+```
+
+而`dataTypes`中的数据缓存类型：
+
+```objc
+WK_EXTERN NSString * const WKWebsiteDataTypeDiskCache;// 硬盘缓存
+WK_EXTERN NSString * const WKWebsiteDataTypeMemoryCache;// 内存缓存
+WK_EXTERN NSString * const WKWebsiteDataTypeOfflineWebApplicationCache;// HTML离线web应用程序缓存
+WK_EXTERN NSString * const WKWebsiteDataTypeCookies;// cookies
+WK_EXTERN NSString * const WKWebsiteDataTypeSessionStorage;// HTML会话存储
+WK_EXTERN NSString * const WKWebsiteDataTypeLocalStorage;// 本地缓存
+WK_EXTERN NSString * const WKWebsiteDataTypeWebSQLDatabases;// WebSQL 数据库
+WK_EXTERN NSString * const WKWebsiteDataTypeIndexedDBDatabases;//  IndexedDB 数据库
+```
+
+### 删除指定时间的网页数据
+
+```objc
+NSSet<NSString *> * data = [WKWebsiteDataStore allWebsiteDataTypes];
+NSDate *filterDate = [NSDate dateWithTimeIntervalSince1970:0];
+[[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:data modifiedSince:filterDate completionHandler:^{
+}];
+```
+
+### 查找并且删除
+
+```objc
+NSSet<NSString *> * data = [WKWebsiteDataStore allWebsiteDataTypes];
+[[WKWebsiteDataStore defaultDataStore] fetchDataRecordsOfTypes:data completionHandler:^(NSArray<WKWebsiteDataRecord *> * _Nonnull records) {
+    for (WKWebsiteDataRecord *record in records) {
+        if ([record.displayName isEqualToString:@"baidu"]) {
+            [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:record.dataTypes forDataRecords:@[record] completionHandler:^{
+            }];
+        }
+}];
+```
+
+
+建议新增：刷新按钮。
+
+# Q&A
 
 ## 在多个`WKWebView`之间共享cookie
 
@@ -173,107 +456,8 @@ WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jSString injectio
 }
 ```
 
-## `WKNavigationDelegate`
 
-`WKNavigationDelegate`主要用于处理一些跳转、加载处理操作。
-
-```objc
-
-// 页面开始加载时调用
-- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-}
-// 页面加载失败时调用
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-    [self.progressView setProgress:0.0f animated:NO];
-} 
-// 当内容开始返回时调用
-- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
-}
-// 页面加载完成之后调用
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-}
-//提交发生错误时调用
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    [self.progressView setProgress:0.0f animated:NO];
-}  
-// 接收到服务器跳转请求即服务重定向时之后调用
-- (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation {
-}
-// 根据WebView对于即将跳转的HTTP请求头信息和相关信息来决定是否跳转
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    // iTunes: App Store link
-    if ([urlString isMatch:RX(@"\\/\\/itunes\\.apple\\.com\\/")]) {
-        [[UIApplication sharedApplication] openURL:url];
-        decisionHandler(WKNavigationActionPolicyCancel);
-        return;
-    }
-    decisionHandler(WKNavigationActionPolicyAllow);
-}
-// 根据客户端受到的服务器响应头以及response相关信息来决定是否可以跳转
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
-    NSString * urlStr = navigationResponse.response.URL.absoluteString;
-    NSLog(@"当前跳转地址：%@",urlStr);
-    //允许跳转
-    decisionHandler(WKNavigationResponsePolicyAllow);
-    //不允许跳转
-    //decisionHandler(WKNavigationResponsePolicyCancel);
-} 
-//需要响应身份验证时调用 同样在block中需要传入用户身份凭证
-- (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler{
-    //用户身份信息
-    NSURLCredential * newCred = [[NSURLCredential alloc] initWithUser:@"user123" password:@"123" persistence:NSURLCredentialPersistenceNone];
-    //为 challenge 的发送方提供 credential
-    [challenge.sender useCredential:newCred forAuthenticationChallenge:challenge];
-    completionHandler(NSURLSessionAuthChallengeUseCredential,newCred);
-}
-//进程被终止时调用
-- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView{
-}
-```
-
-## `WKUIDelegate` 涉及UI的原生实现
-
-主要处理JS脚本，确认框，警告框等
-
-```objc
-// web界面中有弹出警告框时调用,JS中调用alert方法
-- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Title" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        completionHandler();
-    }])];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-// web界面中有确认框时调用,JS中调用confirm方法
-- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:([UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        completionHandler(NO);
-    }])];
-    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        completionHandler(YES);
-    }])];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-// web界面中有输入框时调用,JS中调用prompt方法
-- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:prompt message:@"" preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.text = defaultText;
-    }];
-    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        completionHandler(alertController.textFields[0].text?:@"");
-    }])];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-```
-
-|alert|confirm|prompt|
-| --- | --- | --- |
-|![](/assets/images/wkwebview/02-1.png)|![](/assets/images/wkwebview/02-2.png)|![](/assets/images/wkwebview/02-3.png)|
-|`alert("被OC截获到了");`|`confirm("被OC截获到了");`|`prompt("A","B");`|
-
-### 解决`WKWebView`不能打开任何有`target="_blank"`（`开一个新的窗口`）属性的网页
+## 解决`WKWebView`不能打开任何有`target="_blank"`（`开一个新的窗口`）属性的网页
 
 ```objc
 - (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
