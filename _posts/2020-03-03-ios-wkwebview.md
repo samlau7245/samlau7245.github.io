@@ -1,6 +1,6 @@
 ---
-title: WKWebView替换
-description: WKWebView 替换。
+title: WKWebView网页组件
+description: WKWebView 网页组件记录。
 layout: post
 categories:
  - ios
@@ -335,9 +335,6 @@ NSSet<NSString *> * data = [WKWebsiteDataStore allWebsiteDataTypes];
         }
 }];
 ```
-
-
-建议新增：刷新按钮。
 
 # Q&A
 
@@ -820,6 +817,16 @@ iOS11.0推出了`WKHTTPCookieStore`，效果和NSHttpCookieStorage一样，是�
 }
 ```
 
+# TODO
+
+* 导航栏新增`页面刷新`、`用系统浏览器打开`的功能。
+* 网页组件建议新增`goBack`、`goForward`，样式可以参考微信。
+
+<!-- ![](/assets/images/wkwebview/03-1.png) -->
+
+<img src="/assets/images/wkwebview/03-1.png" width = "30%" height = "30%"/>
+
+
 # 参考资料
 
 * [WKWebView的使用--API篇](https://www.jianshu.com/p/833448c30d70)
@@ -827,3 +834,4 @@ iOS11.0推出了`WKHTTPCookieStore`，效果和NSHttpCookieStorage一样，是�
 * [IOS进阶之WKWebView](https://www.jianshu.com/p/4fa8c4eb1316)
 * [WKWebView 那些坑](https://mp.weixin.qq.com/s/rhYKLIbXOsUJC_n6dt9UfA?)
 * [WBWebViewConsole](https://github.com/Naituw/WBWebViewConsole)
+* [stackoverflow:Can I set the cookies to be used by a WKWebView?](https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview/26577303#26577303)
