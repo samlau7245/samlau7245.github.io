@@ -367,7 +367,7 @@ webview = [[WKWebView alloc] initWithFrame:frame configuration:config];
 
 ```objc
 WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-config.mediaPlaybackRequiresUserAction = NO; // 默认YES
+config.requiresUserActionForMediaPlayback = NO; // 默认YES
 ```
 
 ## WKWebView 页面样式问题
@@ -651,6 +651,25 @@ wkWebConfig.userContentController = wkUController;
 wkWebV = [[WKWebView alloc] initWithFrame:self.view.frame configuration:wkWebConfig];
 ```
 
+## 设置`userAgent`
+
+```objc
+[_webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+    NSString *oldUA = result;
+    NSString *newUA =[NSString stringWithFormat:@"%@/uhome_iPhone", oldUA];
+    
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUA, @"UserAgent", nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (@available(iOS 9.0, *)) {
+        _webView.customUserAgent = newUA;
+    } else {
+        [_webView setValue:newUA forKey:@"applicationNameForUserAgent"];
+    }
+}]
+```
+
 # Cookies
 
 JS原生方法可以获取cookie：`document.cookie`
@@ -800,7 +819,7 @@ JS原生方法可以获取cookie：`document.cookie`
 设置`document.cookie`：
 
 ```objc
-WKUserContentController* userContentController = [WKUserContentController new] 
+WKUserContentController* userContentController = [WKUserContentController new] ;
 WKUserScript * cookieScript = [[WKUserScript alloc] initWithSource: @"document.cookie = 'skey=skeyValue';" injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO]; 
 [userContentController addUserScript:cookieScript];
 config.userContentController = userContentController;
@@ -839,6 +858,8 @@ iOS11.0推出了`WKHTTPCookieStore`，效果和NSHttpCookieStorage一样，是�
     }];
 }
 ```
+
+# iOS13 新方法
 
 # TODO
 
