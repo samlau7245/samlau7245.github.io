@@ -60,8 +60,9 @@ $ git remote set-url origin https://github.com/Homebrew/homebrew-core.git
 $ brew update
 $ brew doctor
 ```
+# Ruby
 
-# 卸载、安装Ruby
+## 卸载、重新安装
 
 ```sh
 # 查看ruby版本
@@ -158,6 +159,22 @@ Installing required packages: autoconf, automake, libtool, pkg-config, coreutils
 $ ruby -v
 ```
 
+## 其他用法
+
+```sh
+# 查询已经安装的 ruby
+$ rvm list
+
+# 切换 Ruby 版本
+$ rvm use 2.2.0
+
+# 设置默认版本
+rvm use 2.2.0 --default
+
+# 如果之前安装过 RVM 想要更新 
+$ rvm get stable
+```
+
 # 报错日志记录
 
 ```sh
@@ -166,6 +183,7 @@ $ rvm install 2.5 --disable-binary
 Checking requirements for osx.
 About to install Homebrew, press `Enter` for default installation in `/usr/local`,
 type new path if you wish custom Homebrew installation (the path needs to be writable for user)
+# 如果中间停顿，则是 要授权 输入  yes 即可，初次安装要等好久，切记要耐心!
 : yes
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
