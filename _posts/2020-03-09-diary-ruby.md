@@ -11,7 +11,10 @@ categories:
 因为重新安装`Ruby`会依赖于`Brew`，所以我们先安装`Brew`环境,[Brew官网](https://brew.sh/index_zh-cn.html)。
 
 ```sh
-# 把：https://raw.githubusercontent.com/Homebrew/install/master/install.sh 保存到本地为：install.sh
+# 根据官方的地址，安装环境
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+# 如果执行上面的命令失败，可以把：https://raw.githubusercontent.com/Homebrew/install/master/install.sh 保存到本地为：install.sh
 $ sh install.sh
 
 # 如果报如下错误：
@@ -153,10 +156,41 @@ $ rvm install 2.5 --disable-binary
 Checking requirements for osx.
 Installing requirements for osx.
 Updating system............
-Installing required packages: autoconf, automake, libtool, pkg-config, coreutils, libyaml, readline, libksba, openssl@1.1-
+Installing required packages: autoconf, automake, libtool, pkg-config, coreutils, libyaml, readline, libksba, openssl@1.1..-............
+Certificates bundle '/usr/local/etc/openssl@1.1/cert.pem' is already up to date.
+Requirements installation successful.
+Installing Ruby from source to: /Users/shanliu/.rvm/rubies/ruby-2.5.1, this may take a while depending on your cpu(s)...
+ruby-2.5.1 - #downloading ruby-2.5.1, this may take a while depending on your connection...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 13.3M  100 13.3M    0     0  1751k      0  0:00:07  0:00:07 --:--:-- 2922k
+ruby-2.5.1 - #extracting ruby-2.5.1 to /Users/shanliu/.rvm/src/ruby-2.5.1.....
+ruby-2.5.1 - #configuring...................................................................
+ruby-2.5.1 - #post-configuration.
+ruby-2.5.1 - #compiling...............................................................
+ruby-2.5.1 - #installing.........
+ruby-2.5.1 - #making binaries executable..
+ruby-2.5.1 - #downloading rubygems-2.7.10
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  843k  100  843k    0     0   5247      0  0:02:44  0:02:44 --:--:-- 10129
+No checksum for downloaded archive, recording checksum in user configuration.
+ruby-2.5.1 - #extracting rubygems-2.7.10.....
+ruby-2.5.1 - #removing old rubygems........
+ruby-2.5.1 - #installing rubygems-2.7.10.....................................
+ruby-2.5.1 - #gemset created /Users/shanliu/.rvm/gems/ruby-2.5.1@global
+ruby-2.5.1 - #importing gemset /Users/shanliu/.rvm/gemsets/global.gems...................................................
+ruby-2.5.1 - #generating global wrappers.......
+ruby-2.5.1 - #gemset created /Users/shanliu/.rvm/gems/ruby-2.5.1
+ruby-2.5.1 - #importing gemsetfile /Users/shanliu/.rvm/gemsets/default.gems evaluated to empty gem list
+ruby-2.5.1 - #generating default wrappers.......
+ruby-2.5.1 - #adjusting #shebangs for (gem irb erb ri rdoc testrb rake).
+Install of ruby-2.5.1 - #complete 
+Ruby was built without documentation, to build it run: rvm docs generate-ri
 
 # 查看版本
 $ ruby -v
+ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-darwin18]
 ```
 
 ## 其他用法
