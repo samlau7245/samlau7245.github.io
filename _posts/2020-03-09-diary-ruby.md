@@ -1,7 +1,7 @@
 ---
 title: Ruby使用记录
-layout: post
 description: Mac环境下对Ruby的使用[卸载、安装、更新]，涉及到Brew的使用
+layout: post
 categories:
  - diary
 ---

@@ -654,20 +654,87 @@ wkWebV = [[WKWebView alloc] initWithFrame:self.view.frame configuration:wkWebCon
 ## 设置`userAgent`
 
 ```objc
-[_webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-    NSString *oldUA = result;
-    NSString *newUA =[NSString stringWithFormat:@"%@/uhome_iPhone", oldUA];
+_webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, WK_SCREEN_WIDTH(), WK_SCREEN_HEIGHT()) configuration:config];
+[_webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id result, NSError *error) {
+    NSString *userAgent = result;
+    NSString *newUserAgent = [userAgent stringByAppendingString:@"/uhome_iPhone"];
     
-    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUA, @"UserAgent", nil];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if (@available(iOS 9.0, *)) {
-        _webView.customUserAgent = newUA;
+        [self->_webView setCustomUserAgent:newUserAgent];
     } else {
-        [_webView setValue:newUA forKey:@"applicationNameForUserAgent"];
+        [self->_webView setValue:newUserAgent forKey:@"applicationNameForUserAgent"];
     }
-}]
+}];
+```
+# WKBackForwardList 的使用
+
+`WKBackForwardList`类可以通过前进或者后退来进行对网页视图的访问。
+
+```objc
+@interface WKBackForwardList : NSObject
+@property (nullable, nonatomic, readonly, strong) WKBackForwardListItem *currentItem;
+@property (nullable, nonatomic, readonly, strong) WKBackForwardListItem *backItem;
+@property (nullable, nonatomic, readonly, strong) WKBackForwardListItem *forwardItem;
+- (nullable WKBackForwardListItem *)itemAtIndex:(NSInteger)index;
+@property (nonatomic, readonly, copy) NSArray<WKBackForwardListItem *> *backList;
+@property (nonatomic, readonly, copy) NSArray<WKBackForwardListItem *> *forwardList;
+@end
+```
+
+在`WKWebView`中支持`WKBackForwardList`的属性和方法：
+
+```objc
+@property (nonatomic, readonly, strong) WKBackForwardList *backForwardList;
+@property (nonatomic) BOOL allowsBackForwardNavigationGestures;
+@property (nonatomic, readonly) BOOL canGoBack;
+@property (nonatomic, readonly) BOOL canGoForward;
+
+- (nullable WKNavigation *)goToBackForwardListItem:(WKBackForwardListItem *)item;
+- (nullable WKNavigation *)goBack;
+- (nullable WKNavigation *)goForward;
+
+// 可以在执行 goBack、goForward之前先把loading停了。
+- (void)stopLoading;
+- (nullable WKNavigation *)reload;
+```
+
+通过`KVO`来监控`@"canGoBack"`、`@"canGoForward"`属性，动态获取页面goBack、goForward情况。
+
+```objc
+-(void)segAddKVO{
+    [self.webView addObserver:self forKeyPath:@"canGoBack" options:NSKeyValueObservingOptionNew context:nil];
+    [self.webView addObserver:self forKeyPath:@"canGoForward" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    if (object == self.webView && [keyPath isEqualToString:@"canGoBack"]){
+        [self updateBottomViewGoBackButtonStatus];
+    }else if (object == self.webView && [keyPath isEqualToString:@"canGoForward"]){
+        [self updateBottomViewGoForwardButtonStatus];
+    }else{
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)dealloc{
+    [_webView removeObserver:self forKeyPath:@"canGoBack"];
+    [_webView removeObserver:self forKeyPath:@"canGoForward"];
+}
+```
+
+## WKBackForwardListItem
+
+```objc
+@interface WKBackForwardListItem : NSObject
+- (instancetype)init NS_UNAVAILABLE;
+@property (readonly, copy) NSURL *URL;
+@property (nullable, readonly, copy) NSString *title;
+@property (readonly, copy) NSURL *initialURL;
+@end
 ```
 
 # Cookies
