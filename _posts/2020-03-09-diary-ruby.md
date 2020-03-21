@@ -232,36 +232,17 @@ Requirements installation failed with status: 1.
 
 > 需要安装`brew`环境。
 
+# 学习指南
+
+* [Ruby Koans](http://rubykoans.com):可以指引你走过学习 Ruby 的启蒙之路。在这里可以学到 Ruby 语言的语法、结构、常用函数和库。当然，还有 Ruby 文化。
+* [Ruby 程序员最好的朋友](https://www.ruby-lang.org/zh_cn/documentation/)
+* [Ruby 参考教程](https://www.cnblogs.com/lsgxeva/p/10966715.html)
+* [最新最全Ruby、Ruby on Rails精品电子书等学习资料下载](http://club.topsage.com/thread-368403-1-1.html)
+
 # 参考资料
 
 * [brew](http://caibaojian.com/a-programmer/software/mac/softwares/brew.html)
 * [Mac必备神器Homebrew](https://zhuanlan.zhihu.com/p/59805070)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* [《Ruby编程语言》]()
+* [《Ruby元编程》]()
+* [《Programming Ruby》-大卫.托马斯]()
