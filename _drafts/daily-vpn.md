@@ -45,7 +45,8 @@ chmod +x tcp.sh
 * [Project V](https://v2ray.com/)
 * [千影-BBR](https://www.94ish.me/)
 * [v2ray综合网](https://www.v2rayssr.com/)
-
+* [检查IP](https://www.vps234.com/ipchecker/)
+* [SSL](https://www.v2rayssr.com/v2raywstls.html)
 
 # 软路由
 * `刷梅林固件`：
@@ -53,3 +54,13 @@ chmod +x tcp.sh
 
 # NAS
 
+
+
+`Hostwinds`
+
+
+
+
+
+https://www.namesilo.com samlaunamesilo namesilo/7245
+samlau7245@icloud.com
