@@ -17,6 +17,8 @@ categories:
 
 ## Trojan
 
+[全系统支持，Trojan一键安装脚本，自动续签SSL证书，自动配置伪装网站，支持centos7+/debian9+/ubuntu16+](https://www.v2rayssr.com/trojan-1.html)
+
 ## V2Ray
 
 ```sh
@@ -64,3 +66,9 @@ chmod +x tcp.sh
 
 https://www.namesilo.com samlaunamesilo namesilo/7245
 samlau7245@icloud.com
+
+https://github.com/yanue/V2rayU/releases
+
+https://github.com/shadowsocks/shadowsocks-iOS/wiki/Shadowsocks-for-OSX-Help
+
+https://github.com/search?q=Shadowsocks+iOS&type=Repositories
