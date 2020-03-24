@@ -1,9 +1,13 @@
 # !/usr/local/bin/ruby -w
 
-puts `git pull`
-puts `git status`
-puts `git add .`
 print "Input Commit Log:"
 log = gets
-puts `git commit -m "#{log}"`
-puts `git push`
+
+puts `git pull`
+if log.length >= 0
+	puts `git add .`
+	puts `git commit -m "#{log}"`
+	puts `git push`
+else
+	puts `git status`
+end
