@@ -628,7 +628,7 @@ OC原生方法：
 }
 ```
 
-## 在WKWebView中实现UIWebView's scalesPageToFit
+## scalesPageToFit
 
 UIWebView:
 
