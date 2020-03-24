@@ -8,6 +8,4 @@ if log.length >= 0
 	puts `git add .`
 	puts `git commit -m "#{log}"`
 	puts `git push`
-else
-	puts `git status`
 end
