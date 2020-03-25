@@ -5,7 +5,15 @@ categories:
  - ios
 ---
 
+虚拟专用网络(Virtual Private Network(VPN)): 就是在公用网络上建立专用网络，进行加密通讯。
+
+VPN的协议总类：`PPTP`、`L2TP`和`IPSec`。
+
 为了实现满足设备对VPN的要求，苹果公司创建了一套[NetworkExtension网络框架](https://developer.apple.com/documentation/networkextension?language=objc)以允许开发人员轻松创建VPN应用程序。
+
+## 服务器VPN环境搭建
+
+### Linux服务器搭建VPN
 
 ## `NetworkExtension`iOS网络扩展库学习
 
@@ -26,10 +34,7 @@ API支持的协议：
 
 #### Wi-Fi配置
 
-使用`NEHotspotConfigurationManager`类，创建两种不同方式的Wi-Fi管理方式，用户必须明确授权这两个操作。
-
-* 永久配置，等同于用户使用“设置”应用加入Wi-Fi网络
-* 一次加入配置，可将设备暂时移至特定的Wi-Fi网络
+`NEHotspotConfigurationManager`类是iOS11推出让用户获取Wi-Fi信息的模块。如果要使用这个功能需要添加两个Capability：`Network Extensions`、`Hostsport Configration`。
 
 `NEHotspotConfigurationManager`支持多种身份验证模型：
 
@@ -37,6 +42,8 @@ API支持的协议：
 * 具有基于密码的身份验证的SSID（WEP，WPA和WPA2）
 * 具有EAP身份验证的SSID
 * 具有EAP身份验证的Hotspot 2.0
+
+可以通过`joinOnce`属性来授权两种Wi-Fi管理方式：`永久配置` - 等同于用户使用“设置”应用加入Wi-Fi网络、`一次加入配置` - 可将设备暂时移至特定的Wi-Fi网络。
 
 ```objc
 @interface NEHotspotConfigurationManager : NSObject
@@ -48,7 +55,7 @@ API支持的协议：
 
 ```objc
 @interface NEHotspotConfiguration : NSObject <NSCopying,NSSecureCoding>
-@property (readonly) NSString * SSID; // >=iOS11
+@property (readonly) NSString * SSID; // >=iOS11 - SSID(Service Set IDentifier, 即Wifi网络的公开名称)
 @property (readonly) NSString * SSIDPrefix; // >=iOS11
 @property BOOL joinOnce; // >=iOS11，默认NO。如果设置为YES则Wi-Fi为长久连接。
 // 配置的生命周期，以天为单位。 配置将存储此属性指定的天数。 最小值为1天，最大值为365天。 如果未设置此属性或将其设置为无效值，则不会自动删除配置。 此属性不适用于企业和HS2.0网络。
@@ -74,8 +81,19 @@ API支持的协议：
 @end
 ```
 
+连接Wi-Fi的代码：
+
+```objc
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    NEHotspotConfiguration * config = [[NEHotspotConfiguration alloc] initWithSSID:@"xxx" passphrase:@"xxx" isWEP:NO];
+    [[NEHotspotConfigurationManager sharedManager] applyConfiguration:config completionHandler:^(NSError * _Nullable error) {
+    }];
+}
+```
+
 #### 热点助手
-`NEHotspotHelper`允许您的应用参与热点网络。
+`NEHotspotHelper`允许您的应用参与热点网络;也就是说可以让你搜索附近的可用WIFI列表信息，包括信号强度，Mac地址。要实现这个功能需要到官方[Hotspot Helper Request](https://developer.apple.com/contact/request/hotspot-helper/)申请权限。
 
 ```objc
 @interface NEHotspotHelper : NSObject
@@ -86,6 +104,36 @@ API支持的协议：
 // 获取热点网络状态
 + (NSArray *_Nullable)supportedNetworkInterfaces;
 @end
+```
+
+* [获取Wi-Fi列表](https://group.cnblogs.com/topic/78158.html)
+* [iOS MFi App端开发步骤](https://www.jianshu.com/p/8f69c9c4e71e)
+
+#### 获取Wi-Fi信息
+
+在`#import<SystemConfiguration/CaptiveNetwork.h>`系统库`CNCopySupportedInterfaces` 获取Wi-Fi信息的方法`>=ios(4.1)`，但是在iOS 12中无法获取WiFi的SSID。官方给说法：项目证书添加Capability：`Access Wi-Fi Information`。
+
+```objc
+//获取当前已经链接的SSID
+-(NSString *)wifi{
+    NSString *strWifiName = @"";
+    CFArrayRef wifiInterfaces = CNCopySupportedInterfaces();
+    if(wifiInterfaces){
+        NSArray *arrInterface = (__bridge NSArray *)wifiInterfaces;
+        for (NSString *interfaceName in arrInterface) {
+            CFDictionaryRef dictRef = CNCopyCurrentNetworkInfo((__bridge CFStringRef)(interfaceName));
+            
+            if(dictRef){
+                NSDictionary *networkInfo = (__bridge NSDictionary *)dictRef;
+                strWifiName = [networkInfo objectForKey:(__bridge NSString *)kCNNetworkInfoKeySSID];
+                CFRelease(dictRef);
+            }
+        }
+        CFRelease(wifiInterfaces);
+        
+    }
+    return strWifiName;
+}
 ```
 
 ### 虚拟私人网络
@@ -102,12 +150,17 @@ API支持的协议：
 
 ```objc
 @interface NEVPNManager : NSObject
+// 设置按需连接规则
 @property (copy, nullable) NSArray<NEOnDemandRule *> *onDemandRules;
+// 按需连接默认开关
 @property (getter=isOnDemandEnabled) BOOL onDemandEnabled;
+// VPN本地名称
 @property (copy, nullable) NSString *localizedDescription;
 @property (strong, nullable) NEVPNProtocol *protoco;
+// 选择VPN连接的协议(IPsec、IKEv2)
 @property (strong, nullable) NEVPNProtocol *protocolConfiguration;
-@property (readonly) NEVPNConnection *connectio;
+@property (readonly) NEVPNConnection *connection;
+// 激活VPN
 @property (getter=isEnabled) BOOL enabled;
 
 + (NEVPNManager *)sharedManager;
@@ -160,7 +213,77 @@ NEVPN_EXPORT NSString * const NEVPNConnectionStartOptionPassword;
 @end
 ```
 
-##### 整体流程
+##### VPN协议
+
+* `IPsec(Internet Protocol Security)`协议
+
+```objc
+@interface NEVPNProtocolIPSec : NEVPNProtocol
+/* 使用IPSec服务器对设备进行身份验证的方法。
+NEVPNIKEAuthenticationMethodNone // 不要使用IPSec服务器进行身份验证。 仅对 IKEv2 有效
+NEVPNIKEAuthenticationMethodCertificate // 使用证书和私钥作为身份验证凭据。证书和私钥集在NEVPNProtocol的 identityReference、identityData属性中被用到。
+NEVPNIKEAuthenticationMethodSharedSecret // 使用共钥作为身份验证凭据。共钥的设置在 sharedSecretReference 属性里
+*/
+@property NEVPNIKEAuthenticationMethod authenticationMethod;
+// 指示是否将协商扩展身份验证。
+@property BOOL useExtendedAuthentication;
+// 对包含IKE共享机密的钥匙串中获取
+@property (copy, nullable) NSData *sharedSecretReference;
+// 标识用于身份验证的iOS或macOS设备的字符串
+@property (copy, nullable) NSString *localIdentifier;
+// 标识用于身份验证的IPSec服务器的字符串
+@property (copy, nullable) NSString *remoteIdentifier;
+@end
+
+@interface NEVPNProtocol : NSObject <NSCopying,NSSecureCoding>
+// 隧道服务器的地址
+@property (copy, nullable) NSString *serverAddress;
+// 隧道协议身份验证凭据的用户名组件。
+@property (copy, nullable) NSString *username;
+// 对包含隧道协议身份验证凭证的密码组件的钥匙串中获取。
+@property (copy, nullable) NSData *passwordReference;
+// 对包含隧道协议身份验证凭证的证书和私钥组件的钥匙串中获取。
+@property (copy, nullable) NSData *identityReference;
+// 隧道协议身份验证凭证的证书和私钥组件，以PKCS12格式编码。
+@property (copy, nullable) NSData *identityData;
+// 用于解密属性中PKCS12数据集的密码。
+@property (copy, nullable) NSString *identityDataPassword;
+// 指示在设备休眠时是否应断开VPN连接。
+@property BOOL disconnectOnSleep;
+// 包含用于通过VPN路由的HTTP和HTTPS连接的代理设置。
+@property (copy, nullable) NEProxySettings *proxySettings;
+// 指示系统通过隧道发送所有网络流量。
+@property BOOL includeAllNetworks;
+// 示系统从隧道中排除所有发往本地网络的流量。
+@property BOOL excludeLocalNetworks;
+@end
+```
+
+* `IKEv2`协议
+
+```objc
+@interface NEVPNProtocolIKEv2 : NEVPNProtocolIPSec
+@property NEVPNIKEv2DeadPeerDetectionRate deadPeerDetectionRate; // 
+@property (copy, nullable) NSString *serverCertificateIssuerCommonName; // 
+@property (copy, nullable) NSString *serverCertificateCommonName; // 
+@property NEVPNIKEv2CertificateType certificateType; // 
+@property BOOL useConfigurationAttributeInternalIPSubnet; // 
+@property (readonly) NEVPNIKEv2SecurityAssociationParameters *IKESecurityAssociationParameters; // 
+@property (readonly) NEVPNIKEv2SecurityAssociationParameters *childSecurityAssociationParameters; // 
+@property BOOL disableMOBIKE; // 
+@property BOOL disableRedirect; // 
+@property BOOL enablePFS; // 
+@property BOOL enableRevocationCheck; // 
+@property BOOL strictRevocationCheck; // 
+@property NEVPNIKEv2TLSVersion minimumTLSVersion; // 
+@property NEVPNIKEv2TLSVersion maximumTLSVersion; // 
+@property BOOL enableFallback; // 
+@end
+```
+
+##### 项目集成
+
+项目证书添加Capability：`Network Extensions`、`Personal VPN`。
 
 ```objc
 -(void)personal_vpn{
@@ -216,6 +339,21 @@ NEVPN_EXPORT NSString * const NEVPNConnectionStartOptionPassword;
 
 > 要想使用`NEPacketTunnelProvider`类，必须先添加`com.apple.developer.networking.networkextension`。在程序员开发应用程序ID时，启动这个权限。
 
+使用步骤：
+
+* 在`Info.plist`中添加扩展：
+
+```objc
+<key>NSExtension</key>
+<dict>
+    <key>NSExtensionPointIdentifier</key>
+    <string>com.apple.networkextension.packet-tunnel</string>
+    <key>NSExtensionPrincipalClass</key>
+    <string>MyCustomPacketTunnelProvider</string>
+</dict>
+```
+
+在项目中新增`Target-Network Extentions`，在Capability中添加`App Groups`。
 
 [SimpleTunnel：使用NetworkExtension框架的自定义网络](https://developer.apple.com/library/archive/samplecode/SimpleTunnel/Introduction/Intro.html#//apple_ref/doc/uid/TP40016140)
 
@@ -237,6 +375,8 @@ NEVPN_EXPORT NSString * const NEVPNConnectionStartOptionPassword;
 
 // ===通过隧道创建网络连接===
 // 通过当前隧道创建TCP连接
+// enableTLS：是否启动安全传输层协议
+// delegate: NWTCPConnectionAuthenticationDelegate
 - (NWTCPConnection *)createTCPConnectionThroughTunnelToEndpoint:(NWEndpoint *)remoteEndpoint enableTLS:(BOOL)enableTLS TLSParameters:(nullable NWTLSParameters *)TLSParameters delegate:(nullable id)delegate;
 // 通过当前隧道创建UDP会话
 - (NWUDPSession *)createUDPSessionThroughTunnelToEndpoint:(NWEndpoint *)remoteEndpoint fromEndpoint:(nullable NWHostEndpoint *)localEndpoint;
@@ -327,6 +467,76 @@ NEVPN_EXPORT NSString * const NEVPNConnectionStartOptionPassword;
 - (void)readPacketObjectsWithCompletionHandler:(void (^)(NSArray<NEPacket *> *packets))completionHandler;
 - (BOOL)writePacketObjects:(NSArray<NEPacket *> *)packets;
 @end
+
+// 网络终点
+@interface NWHostEndpoint : NWEndpoint
++ (instancetype)endpointWithHostname:(NSString *)hostname port:(NSString *)port;
+@property (readonly) NSString *hostname;
+@property (readonly) NSString *port;
+@end
+
+// 安全传输协议TLS相关参数
+@interface NWTLSParameters : NSObject
+// 关联TCP的 SessionID
+@property (nullable, copy) NSData *TLSSessionID;
+// SSL
+@property (nullable, copy) NSSet<NSNumber *> *SSLCipherSuites;
+@property (assign) NSUInteger minimumSSLProtocolVersion;
+@property (assign) NSUInteger maximumSSLProtocolVersion;
+@end
+
+// TCP连接身份认证代理
+@protocol NWTCPConnectionAuthenticationDelegate <NSObject>
+@optional
+// 是否进行身份验证
+- (BOOL)shouldProvideIdentityForConnection:(NWTCPConnection *)connection;
+- (void)provideIdentityForConnection:(NWTCPConnection *)connection completionHandler:(void (^)(SecIdentityRef identity, NSArray<id> *certificateChain))completion;
+
+- (BOOL)shouldEvaluateTrustForConnection:(NWTCPConnection *)connection;
+- (void)evaluateTrustForConnection:(NWTCPConnection *)connection peerCertificateChain:(NSArray<id> *)peerCertificateChain completionHandler:(void (^)(SecTrustRef trust))completion;
+@end
+
+// 用于管理TCP的连接
+@interface NWTCPConnection : NSObject
+//======监视连接状态======
+/*
+NWTCPConnectionStateInvalid: 无效连接
+NWTCPConnectionStateConnecting: 正在尝试连接
+NWTCPConnectionStateWaiting: 等待连接
+NWTCPConnectionStateConnected: 已连接 可以传输数据了 正在使用TLS，则TLS握手已完成
+NWTCPConnectionStateDisconnected: 断开连接 应调用cancel以清理资源
+NWTCPConnectionStateCancelled: 客户端调用已取消连接cancel
+*/
+@property (readonly) NWTCPConnectionState state;
+// 是否可以传输数据
+@property (readonly, getter=isViable) BOOL viable;
+// 连接的错误属性
+@property (readonly, nullable) NSError *error;
+
+//======传输资料======
+// 读取请求的字节范围
+- (void)readMinimumLength:(NSUInteger)minimum maximumLength:(NSUInteger)maximum completionHandler:(void (^)(NSData * __nullable data, NSError * __nullable error))completion;
+// 读取连接上的一定数量的字节
+- (void)readLength:(NSUInteger)length completionHandler:(void (^)(NSData * __nullable data, NSError * __nullable error))completion;
+// 将数据写入连接。
+- (void)write:(NSData *)data completionHandler:(void (^)(NSError * __nullable error))completion;
+// 关闭连接以进行写入
+- (void)writeClose;
+
+//======获取连接属性======
+@property (readonly) NWEndpoint *endpoint;
+@property (readonly, nullable) NWPath *connectedPath;
+@property (readonly, nullable) NWEndpoint *localAddress;
+@property (readonly, nullable) NWEndpoint *remoteAddress;
+@property (readonly, nullable) NSData *txtRecord;
+
+//======应对网络变化======
+@property (readonly) BOOL hasBetterPath;
+- (instancetype)initWithUpgradeForConnection:(NWTCPConnection *)connection;
+
+//======取消连接======
+- (void)cancel;
+@end
 ```
 
 ##### 封包处理(Packet Handling)
@@ -347,10 +557,21 @@ https://developer.apple.com/documentation/networkextension?language=objc
 * [Apple Developer Forums-want to build my own vpn app](https://forums.developer.apple.com/thread/74786)
 * [iPhone 和 iPad 部署参考](https://support.apple.com/zh-cn/guide/deployment-reference-ios/welcome/web)
 * [Mac的网络框架-Core WLAN](https://developer.apple.com/documentation/corewlan?language=objc)
+* [分享开发 iOS 和 Mac 全新 VPN 的艰难历程，顺带求帮忙测试](https://www.v2ex.com/amp/t/264480/2)
+* [YouTube - What is a VPN and How Does it Work? [Video Explainer]](https://www.youtube.com/watch?v=_wQTRMBAvzg)
+* [VPN技术原理详解](https://wenku.baidu.com/view/521d38e01eb91a37f1115cee.html)
+* [.IPSecVPN](http://www.doc88.com/p-2078215330073.html)
+* [论坛-关于VPN的文档](https://max.book118.com/index.php?m=Search&a=index&q=第9篇_SSL远程访问VPN&s=4705696648556193051&p=1)
+* [手把手 NetworkExtension（二）：分析官方 Demo 源码之 NEPacketTunnelProvider 使用部分](https://toutiao.io/posts/7kbamd/preview)
+
+* https://wenku.baidu.com/view/311764f5f021dd36a32d7375a417866fb84ac02f.html
+* https://cloud.tencent.com/developer/news/332796
+* https://www.wangjibao.com.cn/2019/07/02/IPSec-VPN搭建及协议解析/
 
 
+我们给网页域名->服务器解析域名到IP
 
-
+每一个连接互联网的设备都有自己对应的IP。
 
 
 
