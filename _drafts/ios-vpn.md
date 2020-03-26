@@ -164,7 +164,7 @@ API支持的协议：
 @property (getter=isEnabled) BOOL enabled;
 
 + (NEVPNManager *)sharedManager;
-// 从网络扩展首选项中加载VPN配置。
+// 加载VPN配置的偏好设置中的信息
 - (void)loadFromPreferencesWithCompletionHandler:(void (^)(NSError *  error))completionHandler;
 // 从网络扩展首选项中删除VPN配置。
 - (void)removeFromPreferencesWithCompletionHandler:(nullable void (^)(NSError *  error))completionHandler;
@@ -173,6 +173,28 @@ API支持的协议：
 
 // TARGET_OS_OSX
 - (void)setAuthorization:(AuthorizationRef)authorization
+@end
+
+// 定义了何时自动启动VPN连接的规则。
+@interface NEOnDemandRule : NSObject <NSSecureCoding,NSCopying>
+/*
+NEOnDemandRuleActionConnect = 1, // 启动VPN连接
+NEOnDemandRuleActionDisconnect = 2, // 不要启动VPN连接，如果当前未断开连接，请断开VPN连接
+NEOnDemandRuleActionEvaluateConnection = 3, // 根据规则的连接规则评估要访问的目标主机后，启动VPN
+NEOnDemandRuleActionIgnore = 4, // 不连接VPN，保持VPN现状
+*/ 
+@property (readonly) NEOnDemandRuleAction action;
+@property (copy, nullable) NSArray<NSString *> *DNSSearchDomainMatch;
+@property (copy, nullable) NSArray<NSString *> *DNSServerAddressMatch;
+/*
+NEOnDemandRuleInterfaceTypeAny      
+NEOnDemandRuleInterfaceTypeEthernet
+NEOnDemandRuleInterfaceTypeWiFi
+NEOnDemandRuleInterfaceTypeCellular 
+*/ 
+@property NEOnDemandRuleInterfaceType interfaceTypeMatch;
+@property (copy, nullable) NSArray<NSString *> *SSIDMatch;
+@property (copy, nullable) NSURL *probeURL;
 @end
 ```
 
@@ -220,14 +242,14 @@ NEVPN_EXPORT NSString * const NEVPNConnectionStartOptionPassword;
 ```objc
 @interface NEVPNProtocolIPSec : NEVPNProtocol
 /* 使用IPSec服务器对设备进行身份验证的方法。
-NEVPNIKEAuthenticationMethodNone // 不要使用IPSec服务器进行身份验证。 仅对 IKEv2 有效
-NEVPNIKEAuthenticationMethodCertificate // 使用证书和私钥作为身份验证凭据。证书和私钥集在NEVPNProtocol的 identityReference、identityData属性中被用到。
-NEVPNIKEAuthenticationMethodSharedSecret // 使用共钥作为身份验证凭据。共钥的设置在 sharedSecretReference 属性里
+NEVPNIKEAuthenticationMethodNone // 需要与服务器进行验证。 仅对 IKEv2 有效
+NEVPNIKEAuthenticationMethodCertificate // 使用证书和私钥作为验证凭证。证书和私钥集在NEVPNProtocol的 identityReference、identityData属性中被用到。
+NEVPNIKEAuthenticationMethodSharedSecret // 使用共享的秘钥作为验证凭证。共钥的设置在 sharedSecretReference 属性里
 */
-@property NEVPNIKEAuthenticationMethod authenticationMethod;
-// 指示是否将协商扩展身份验证。
+@property NEVPNIKEAuthenticationMethod authenticationMethod; //身份验证方法
+// 指示是否使用额外的验证方法。这个验证方式是作为IKE验证方法的所额外添加的，它用来验证IKE会话的终止。
 @property BOOL useExtendedAuthentication;
-// 对包含IKE共享机密的钥匙串中获取
+// 共享的秘钥
 @property (copy, nullable) NSData *sharedSecretReference;
 // 标识用于身份验证的iOS或macOS设备的字符串
 @property (copy, nullable) NSString *localIdentifier;
@@ -563,15 +585,184 @@ https://developer.apple.com/documentation/networkextension?language=objc
 * [.IPSecVPN](http://www.doc88.com/p-2078215330073.html)
 * [论坛-关于VPN的文档](https://max.book118.com/index.php?m=Search&a=index&q=第9篇_SSL远程访问VPN&s=4705696648556193051&p=1)
 * [手把手 NetworkExtension（二）：分析官方 Demo 源码之 NEPacketTunnelProvider 使用部分](https://toutiao.io/posts/7kbamd/preview)
-
+* [手把手NetworkExtension: 1. 创建L2TP/IPSec VPN连接](https://www.itread01.com/p/358486.html)
 * https://wenku.baidu.com/view/311764f5f021dd36a32d7375a417866fb84ac02f.html
 * https://cloud.tencent.com/developer/news/332796
 * https://www.wangjibao.com.cn/2019/07/02/IPSec-VPN搭建及协议解析/
+* https://www.jianshu.com/p/f13ca176186e
+* https://github.com/shadowsocksrr/shadowsocksr-csharp/issues/34
+* https://github.com/shadowsocks/ShadowsocksX-NG/wiki/SIP003-Plugin
+* http://ibloodline.com/articles/2017/11/15/NetworkExtension-02.html
+* https://github.com/zhuhaow/NEKit
+* https://zhuhaow.me/NEKit/
+* https://nssurge.zendesk.com/hc/zh-cn/articles/360025271874-Surge-iOS-%E5%B7%B2%E8%BD%AC%E5%8F%98%E4%B8%BA%E5%8A%9F%E8%83%BD%E6%9B%B4%E6%96%B0%E8%AE%A2%E9%98%85%E5%88%B6
+* [Keychain 浅析](https://www.cnblogs.com/zxykit/p/6164025.html)
+* [提示-未提供任何VPN共享密钥](https://github.com/lexrus/VPNOn)
+
+NetworkExtension包含三个主要的类：NEVPNManager、NEVPNProtocol、NEVPNConnection
+
+NEVPNManager是这个框架中最重要的类。它主要负责加载、保存、移除VPN配置的偏好信息。
+
+苹果支持两种协议：IPSec和IKEv2.IKEv2协议被几乎所有的主流操作系统所支持，除了这两个协议外，苹果也支持你自己创建的协议。这个特性对于那些自己实现协议的人来说非常重要。
+NEVPNProtocol是一个虚基类来让你去创建自己的协议
 
 
-我们给网页域名->服务器解析域名到IP
 
-每一个连接互联网的设备都有自己对应的IP。
+
+
+Network Extentions 类：
+
+* `NEAppProxyFlow.h` : 
+* `NEAppProxyProvider.h` : 
+* `NEAppProxyProviderManager.h` : 
+* `NEAppProxyTCPFlow.h` : 
+* `NEAppProxyUDPFlow.h` : 
+* `NEAppRule.h` : 
+* `NEDNSProxyManager.h` : 
+* `NEDNSProxyProvider.h` : 
+* `NEDNSProxyProviderProtocol.h` : DNS代理提供商提供的特定于网络扩展的配置设置。
+* `NEDNSSettings.h` : 
+* `NEFilterControlProvider.h` : 
+* `NEFilterDataProvider.h` : 
+* `NEFilterFlow.h` : 
+* `NEFilterManager.h` : 
+* `NEFilterPacketProvider.h` : 
+* `NEFilterProvider.h` : 
+* `NEFilterProviderConfiguration.h` : 
+* `NEFilterRule.h` : 
+* `NEFilterSettings.h` : 
+* `NEFlowMetaData.h` : 
+* `NEHotspotConfigurationManager.h` : 
+* `NEHotspotHelper.h` : 
+* `NEIPv4Settings.h` : 
+* `NEIPv6Settings.h` : 
+* `NENetworkRule.h` : 
+* `NEOnDemandRule.h` : 
+* `NEPacket.h` : 
+* `NEPacketTunnelFlow.h` : 
+* `NEPacketTunnelNetworkSettings.h` : 
+* `NEPacketTunnelProvider.h` : 
+* `NEProvider.h` : 
+* `NEProxySettings.h` : 
+* `NETransparentProxyManager.h` : 
+* `NETransparentProxyNetworkSettings.h` : 
+* `NETunnelNetworkSettings.h` : 
+* `NETunnelProvider.h` : 
+* `NETunnelProviderManager.h` : 
+* `NETunnelProviderProtocol.h` : 包含网络隧道的配置参数。
+* `NETunnelProviderSession.h` : 
+* `NEVPNConnection.h` : 
+* `NEVPNManager.h` : 
+* `NEVPNProtocol.h` : 
+* `NEVPNProtocolIKEv2.h` : 
+* `NEVPNProtocolIPSec.h` : 
+* `NWBonjourServiceEndpoint.h` : 
+* `NWEndpoint.h` : 
+* `NWHostEndpoint.h` : 
+* `NWPath.h` : 
+* `NWTCPConnection.h` : 
+* `NWTLSParameters.h` : 
+* `NWUDPSession.h` : 
+* `NetworkExtension.apinotes` : 
+* `NetworkExtension.h` : 
+
+
+项目配置：
+
+Provision 资料配置好。
+
+Capabilities 启动：
+
+* NetworkExtensions
+    * 勾选：App Proxy、Content Filter、Packet Tunel
+* Personal VPN
+* Keychain Sharing：建立vpn時的密碼是要從KeyChain當中獲取
+
+
+
+
+[Linux 一键脚本搭建L2TP+IPSec](https://blog.bbskali.cn/index.php/archives/616/)
+
+```sh
+wget --no-check-certificate https://raw.githubusercontent.com/teddysun/across/master/l2tp.sh
+chmod +x l2tp.sh
+./l2tp.sh
+```
+
+```sh
+########## System Information ##########
+
+CPU model            : Intel(R) Xeon(R) Gold 61xx CPU
+Number of cores      : 2
+CPU frequency        : 2499.968 MHz
+Total amount of ram  : 3789 MB
+Total amount of swap : 0 MB
+System uptime        : 282days, 5:20:30
+Load average         : 0.01, 0.04, 0.05
+OS                   : CentOS 7.6.1810
+Arch                 : x86_64 (64 Bit)
+Kernel               : 3.10.0-957.21.2.el7.x86_64
+Hostname             : VM_0_6_centos
+IPv4 address         : 
+
+########################################
+
+Please enter IP-Range:
+(Default Range: 192.168.18):192.168.18 # 局域网网段，自己定义
+Please enter PSK:
+(Default PSK: teddysun.com):ttt # PSK密钥(预共享密钥)，自己定义
+Please enter Username:
+(Default Username: teddysun):sam # 连接用户名，自己定义
+Please enter sams password:
+(Default Password: zUjl63lwEi):passtttt # 连接密码，自己定义
+
+ServerIP:123.207.94.227
+Server Local IP:192.168.18.1
+Client Remote IP Range:192.168.18.2-192.168.18.254
+PSK:ttt
+
+Press any key to start... or press Ctrl + C to cancel.
+
+If you want to modify user settings, please use below command(s):
+l2tp -a (Add a user)
+l2tp -d (Delete a user)
+l2tp -l (List all users)
+l2tp -m (Modify a user password)
+
+Welcome to visit our website: https://teddysun.com/448.html
+Enjoy it!
+
+# ipsec status （查看 IPSec 运行状态）
+# ipsec verify （查看 IPSec 检查结果）
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
