@@ -736,61 +736,25 @@ Enjoy it!
 # ipsec verify （查看 IPSec 检查结果）
 ```
 
+3.未提供任何 VPN 共享密钥。（IPSec）<br>
+共享密钥认证属性设置错误，也可能是没有使用 Keychain 永久引用。
+
+
+https://developer.apple.com/documentation/security/certificate_key_and_trust_services/keys?language=objc
+
+https://danleechina.github.io/iOS-create-SecKeyRef-official-way/
 
 
 
+```
+2020-03-26 22:55:21.242612+0800 SAVFun[736:29293] Load config success
+2020-03-26 22:55:21.294806+0800 SAVFun[736:29293] [] (null): SecItemCopyMatching failed: -50
+2020-03-26 22:55:21.295903+0800 SAVFun[736:29293] [] (null): SecItemCopyMatching failed: -50
+2020-03-26 22:56:01.509759+0800 SAVFun[736:29293] VPNConfigurationChangeNotification
+2020-03-26 22:56:01.509874+0800 SAVFun[736:29293] Save To Preferences success
+2020-03-26 22:56:01.517353+0800 SAVFun[736:29293] The operation couldn’t be completed. (NEVPNErrorDomain error 1.)
+```
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+http://read.pudn.com/downloads719/sourcecode/comm/android/2880470/cordova-plugin-vpn-master/src/ios/VPNManager.m__.htm
