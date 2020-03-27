@@ -598,6 +598,12 @@ https://developer.apple.com/documentation/networkextension?language=objc
 * https://nssurge.zendesk.com/hc/zh-cn/articles/360025271874-Surge-iOS-%E5%B7%B2%E8%BD%AC%E5%8F%98%E4%B8%BA%E5%8A%9F%E8%83%BD%E6%9B%B4%E6%96%B0%E8%AE%A2%E9%98%85%E5%88%B6
 * [Keychain 浅析](https://www.cnblogs.com/zxykit/p/6164025.html)
 * [提示-未提供任何VPN共享密钥](https://github.com/lexrus/VPNOn)
+* [在Linux中安装IPSec服务器](https://github.com/hwdsl2/setup-ipsec-vpn/blob/master/README-zh.md)
+* [iOS-使用NetworkExtension创建-VPN(1)](https://github.com/AlexYangLe/iOS-VPN-NetworkExtension/wiki/iOS-使用NetworkExtension创建-VPN(1))
+
+
+
+https://developer.apple.com/videos/play/wwdc2017/707/
 
 NetworkExtension包含三个主要的类：NEVPNManager、NEVPNProtocol、NEVPNConnection
 
@@ -758,3 +764,138 @@ https://danleechina.github.io/iOS-create-SecKeyRef-official-way/
 
 
 http://read.pudn.com/downloads719/sourcecode/comm/android/2880470/cordova-plugin-vpn-master/src/ios/VPNManager.m__.htm
+
+
+
+常见错误：
+1、与服务器协议错误（IPSec）
+IPSec PSK 密钥错误或者conf.localIdentifier 和 conf.remoteIdentifier设置错误。
+2、未提供任何VPN共享秘钥（IPSec）
+共享密钥认证属性设置错误或者IPSce协议中的密码和共享密钥没有使用keyChain中密码的永久引用，需要将 kSecReturnPersistentRef 设置成YES。
+3、VPN服务器未响应。
+服务器地址错误，或者服务器本身有错误。
+
+
+
+### keyChain
+ios中的keychain，用于保存用户的机密信息，对keychain的操作有4种
+
+* `SecItemCopyMatching`: 查
+* `SecItemAdd`: 增
+* `SecItemUpdate`: 改
+* `SecItemDelete`: 删
+
+每个操作，都需要定义相应的CFDictionary
+
+* `kSecClass`: 
+    * kSecClassGenericPassword， //存储普通的密码
+        * kSecAttrAccess (macOS only)
+        * kSecAttrAccessControl
+        * kSecAttrAccessGroup (iOS; also macOS if kSecAttrSynchronizable specified)
+        * kSecAttrAccessible (iOS; also macOS if kSecAttrSynchronizable specified)
+        * kSecAttrCreationDate
+        * kSecAttrModificationDate
+        * kSecAttrDescription
+        * kSecAttrComment
+        * kSecAttrCreator
+        * kSecAttrType
+        * kSecAttrLabel
+        * kSecAttrIsInvisible
+        * kSecAttrIsNegative
+        * kSecAttrAccount // 帐户名
+        * kSecAttrService // 项目服务名
+        * kSecAttrGeneric // 用户定义属性。
+        * kSecAttrSynchronizable
+    * kSecClassInternetPassword ，//存储网络密码
+        * kSecAttrAccess (macOS only)
+        * kSecAttrAccessGroup (iOS; also macOS if kSecAttrSynchronizable specified)
+        * kSecAttrAccessible (iOS; also macOS if kSecAttrSynchronizable specified)
+        * kSecAttrCreationDate
+        * kSecAttrModificationDate
+        * kSecAttrDescription
+        * kSecAttrComment
+        * kSecAttrCreator
+        * kSecAttrType
+        * kSecAttrLabel
+        * kSecAttrIsInvisible
+        * kSecAttrIsNegative
+        * kSecAttrAccount
+        * kSecAttrSecurityDomain //项目的安全域。
+        * kSecAttrServer //项目的服务器。
+        * kSecAttrProtocol //项目的协议。
+        * kSecAttrAuthenticationType //项目的身份验证方案。
+        * kSecAttrPort // 项目的端口。
+        * kSecAttrPath // 项目的路径属性。
+        * kSecAttrSynchronizable    
+    * kSecClassCertificate ，     //存储证书，证书中包含共有密匙
+        * kSecAttrAccess (macOS only)
+        * kSecAttrAccessGroup (iOS only)
+        * kSecAttrAccessible (iOS only)
+        * kSecAttrCertificateType
+        * kSecAttrCertificateEncoding
+        * kSecAttrLabel
+        * kSecAttrSubject
+        * kSecAttrIssuer
+        * kSecAttrSerialNumber
+        * kSecAttrSubjectKeyID
+        * kSecAttrPublicKeyHash    
+    * kSecClassKey ，             //存储密匙，其实就是私有密匙
+        * kSecAttrAccess (macOS only)
+        * kSecAttrAccessGroup (iOS only)
+        * kSecAttrAccessible (iOS only)
+        * kSecAttrKeyClass
+        * kSecAttrLabel
+        * kSecAttrApplicationLabel
+        * kSecAttrIsPermanent
+        * kSecAttrApplicationTag
+        * kSecAttrKeyType
+        * kSecAttrPRF
+        * kSecAttrSalt
+        * kSecAttrRounds
+        * kSecAttrKeySizeInBits
+        * kSecAttrEffectiveKeySize
+        * kSecAttrCanEncrypt
+        * kSecAttrCanDecrypt
+        * kSecAttrCanDerive
+        * kSecAttrCanSign
+        * kSecAttrCanVerify
+        * kSecAttrCanWrap
+        * kSecAttrCanUnwrap    
+    * kSecClassIdentity ，        //存储Identity item，包括一个证书和一个密匙
+        * 这个类中的属性包括了`kSecClassKey`、`kSecClassCertificate` 这两个key中的所有属性
+
+* Item Result Keys
+    * kSecReturnData: Boolean - 判断是否返回 item-data
+    * kSecReturnAttributes : Boolean - 判断是否返回 item-attributes
+    * kSecReturnRef : Boolean - 判断是否返回 item-reference
+    * kSecReturnPersistentRef : Boolean - 判断是否返回 item-persistent reference
+* Item Value Type Keys
+    * kSecValueData : value,item - data
+    * kSecValueRef : value,item - reference
+    * kSecValuePersistentRef : value,item - reference
+
+
+
+```
+//keychain项保护等级列表  
+kSecAttrAccessibleWhenUnlocked                          //keychain项受到保护，只有在设备未被锁定时才可以访问  
+kSecAttrAccessibleAfterFirstUnlock                      //keychain项受到保护，直到设备启动并且用户第一次输入密码  
+kSecAttrAccessibleAlways                                //keychain未受保护，任何时候都可以访问 （Default）  
+kSecAttrAccessibleWhenUnlockedThisDeviceOnly            //keychain项受到保护，只有在设备未被锁定时才可以访问，而且不可以转移到其他设备  
+kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly        //keychain项受到保护，直到设备启动并且用户第一次输入密码，而且不可以转移到其他设备  
+kSecAttrAccessibleAlwaysThisDeviceOnly                  //keychain未受保护，任何时候都可以访问，但是不能转移到其他设备  
+```
+
+
+
+
+Server IP: 123.207.94.227
+IPsec PSK: 6c7zdJoXmxwrGVhkutKd
+Username: vpnuser
+Password: 7qDMfkfZw8dJA8zF
+
+
+
+
+
+
