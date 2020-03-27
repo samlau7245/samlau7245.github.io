@@ -896,6 +896,13 @@ Password: 7qDMfkfZw8dJA8zF
 
 
 
+/System/Library/Frameworks/NetworkExtension.framework/Resources/NEProviderTargetTemplate.pkg
 
 
+http://www.lib4dev.in/info/ss-abramchuk/OpenVPNAdapter/80986171
 
+https://github.com/MyTheValentinus/openvpn-ios-client
+
+https://github.com/yaooort/OpenVPN-IOS
+
+https://www.twblogs.net/a/5ba186842b71771a4da93258
