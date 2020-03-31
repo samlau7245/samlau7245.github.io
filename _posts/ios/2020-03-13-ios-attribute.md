@@ -15,7 +15,7 @@ GCC环境下提供可以使用的编译属性。
 
 `format`属性指定一个函数具有`printf`，`scanf`，`strftime`或者`strfmon`根据格式字符串类型的参数，是对于数据类型的检查。在OC中使用`__NSString__`具有相同的效果。
 
-```
+```c
 FOUNDATION_EXPORT void NSLog(NSString *format, ...) NS_FORMAT_FUNCTION(1,2) NS_NO_TAIL_CALL;
 ```
 
@@ -37,7 +37,7 @@ extern void * testFunc(void *var1, const void *var2) __attribute__((nonnull(1,2)
 
 `noreturn`：这个属性告诉编译器函数不会返回，这可以用来抑制关于未达到代码路径的错误。
 
-```
+```c
 // stdlib.h
 void abort(void) __attribute__((noreturn));
 void exit(int) __attribute__((noreturn));        
@@ -46,7 +46,8 @@ void exit(int) __attribute__((noreturn));
 [AFNetworking 将该noreturn属性用于其网络请求线程入口点方法](https://github.com/AFNetworking/AFNetworking/blob/1.1.0/AFNetworking/AFURLConnectionOperation.m#L157)
 
 ### visibility
-```
+
+```c
 __attribute__((visibility("default")))  //默认，设置为：default之后就可以让外面的类看见了。
 __attribute__((visibility("hideen")))  //隐藏
 ```
@@ -56,7 +57,7 @@ __attribute__((visibility("hideen")))  //隐藏
 ### constructor / destructor
 * `constructor / destructor`：构造器(`constructor`)和析构器(`destructor`)，加上这两个属性的函数会在分别在可执行文件（或 `shared library`）`load` 和 `unload` 时被调用，可以理解为在 `main()` 函数调用前和 `return` 后执行
 
-```
+```c
 //main.m
 __attribute__((constructor))
 static void beforeMain(void){NSLog(@"beforeMain");}
@@ -86,13 +87,13 @@ static void afterMain(void){NSLog(@"ViewController01-afterMain");}
 }
 @end
 
-===> 从应用启动到消失
-2019-08-07 17:09:33.320935+0800 RACDemo01[97014:1447204] ViewController01-load
-2019-08-07 17:09:33.321707+0800 RACDemo01[97014:1447204] ViewController01-beforeMain
-2019-08-07 17:09:33.322068+0800 RACDemo01[97014:1447204] beforeMain
-2019-08-07 17:09:33.322225+0800 RACDemo01[97014:1447204] main
-2019-08-07 17:09:52.370147+0800 RACDemo01[97014:1447204] afterMain
-2019-08-07 17:09:52.370427+0800 RACDemo01[97014:1447204] ViewController01-afterMain
+// ===> 从应用启动到消失
+// 2019-08-07 17:09:33.320935+0800 RACDemo01[97014:1447204] ViewController01-load
+// 2019-08-07 17:09:33.321707+0800 RACDemo01[97014:1447204] ViewController01-beforeMain
+// 2019-08-07 17:09:33.322068+0800 RACDemo01[97014:1447204] beforeMain
+// 2019-08-07 17:09:33.322225+0800 RACDemo01[97014:1447204] main
+// 2019-08-07 17:09:52.370147+0800 RACDemo01[97014:1447204] afterMain
+// 2019-08-07 17:09:52.370427+0800 RACDemo01[97014:1447204] ViewController01-afterMain
 ```
 
 > `constructor`和`+load`方法都是在`main`函数执行前调用,但 `+load` 比 `constructor` 更加早一点，因为 `dyld（动态链接器，程序的最初起点）`在加载 `image（可以理解成 Mach-O 文件`）时会先通知 `objc runtime` 去加载其中所有的类， <br/>
@@ -107,15 +108,15 @@ static void afterMain(void){NSLog(@"ViewController01-afterMain");}
 ### objc_boxable
 * `objc_boxable`：Objective-C 中的 `@(...)` 语法糖可以将基本数据类型 box 成 `NSNumber` 对象
 
-```
+```c
 typedef struct __attribute__((objc_boxable)) {
     CGFloat x, y, width, height;
 } XXRect;
 
-CGRect rect1 = {1, 2, 3, 4};
-NSValue *value1 = @(rect1); // <--- Compile Error
-XXRect rect2 = {1, 2, 3, 4};
-NSValue *value2 = @(rect2); // √
+// CGRect rect1 = {1, 2, 3, 4};
+// NSValue *value1 = @(rect1); // <--- Compile Error
+// XXRect rect2 = {1, 2, 3, 4};
+// NSValue *value2 = @(rect2); // √
 ```
 
 ### overloadable
@@ -147,7 +148,8 @@ NSValue *value2 = @(rect2); // √
 * `macosx`：Apple的OS X操作系统。
 
 **方法**
-```
+
+```c
 -(void)testFunction1 __attribute__((availability(ios,introduced=2_0,deprecated=4_0,obsoleted=11_0,message="这是个测试信息")));
 -(void)testFunction2 NS_CLASS_DEPRECATED_IOS(2_0,9_0,"这是个测试信息"); // NS_CLASS_DEPRECATED_IOS 这是系统定义的。
 ```
@@ -155,12 +157,13 @@ NSValue *value2 = @(rect2); // √
 <img src="/assets/images/ios_attribute/07.png" width = "50%" height = "50%"/>
 
 **类**
-```
+
+```c
 __attribute__((availability(ios,introduced=2_0,deprecated=4_0,obsoleted=11_0,message="这是个测试信息")))
 @interface ViewController01 : UIViewController
 @end
 
-或者
+// 或者
 
 NS_CLASS_DEPRECATED_IOS(2_0,9_0,"这是个测试信息")
 @interface ViewController01 : UIViewController
@@ -170,10 +173,11 @@ NS_CLASS_DEPRECATED_IOS(2_0,9_0,"这是个测试信息")
 <img src="/assets/images/ios_attribute/08.png" width = "50%" height = "50%"/>
 
 **unavailable**
-```
+
+```c
 // 定义在ios平台不能用,强制使用会报错
 -(void)testFunction1 __attribute__((availability(ios,unavailable,message="这是个测试信息")));
-或者
+//或者
 -(void)testFunction1 NS_UNAVAILABLE;
 ```
 
@@ -182,7 +186,7 @@ NS_CLASS_DEPRECATED_IOS(2_0,9_0,"这是个测试信息")
 ### unavailable
 * `unavailable`：告诉编译器某方法不可用，如果强行调用编译器会提示错误
 
-```
+```c
 @property (strong,nonatomic) id var1 NS_UNAVAILABLE;
 -(void)testFunction1 __attribute__((unavailable("这是个测试信息")));
 ```
@@ -196,7 +200,7 @@ NS_CLASS_DEPRECATED_IOS(2_0,9_0,"这是个测试信息")
 
 从上面的方法可以看出，`nonnull`必须为指针类型，所以优化结果：
 
-```
+```c
 -(void)testFunctionWithPara1:(NSString*)para1 para2:(NSString*)para2 para3:(NSInteger)para3 __attribute__((nonnull(1,2)));
 ```
 
@@ -207,7 +211,7 @@ NS_CLASS_DEPRECATED_IOS(2_0,9_0,"这是个测试信息")
 
 `NSObject`就是通过`OBJC_ROOT_CLASS`来设置为基类的。
 
-```
+```objc
 OBJC_ROOT_CLASS
 @interface NSObject <NSObject> {
 }
@@ -216,7 +220,7 @@ OBJC_ROOT_CLASS
 
 OBJC_ROOT_CLASS
 
-```
+```objc
 #if !defined(OBJC_ROOT_CLASS)
 #   if __has_attribute(objc_root_class)
 #       define OBJC_ROOT_CLASS __attribute__((objc_root_class))
@@ -243,7 +247,7 @@ OBJC_ROOT_CLASS
 ### objc_runtime_name
 * `objc_runtime_name`：用于 @interface 或 @protocol，将类或协议的名字在编译时指定成另一个。
 
-```
+```objc
 __attribute__((objc_runtime_name("SarkGay")))
 @interface Sark : NSObject
 @end
@@ -252,13 +256,14 @@ NSLog(@"%@", NSStringFromClass([Sark class])); // "SarkGay"
 ```
 
 最直接的用处就是进行代码混淆：
-```
+
+```objc
 __attribute__((objc_runtime_name("40ea43d7629d01e4b8d6289a132482d0dd5df4fa")))
 @interface SecretClass : NSObject
 @end
 ```
 
-```
+```objc
 / @singleton 包裹了 __attribute__((objc_runtime_name(...)))
 // 将类名改名成 "SINGLETON_Sark_sharedInstance"
 @singleton(Sark, sharedInstance)
@@ -280,7 +285,7 @@ __attribute__((objc_runtime_name("40ea43d7629d01e4b8d6289a132482d0dd5df4fa")))
 ### cleanup
 `__attribute__((cleanup(...)))`：用于修饰一个`变量(基础变量、系统对象类型、自定义Class类型)`，在它的`作用域结束(包括大括号结束、return、goto、break、exception等各种情况)`时可以自动执行一个指定的方法。
 
-```
+```objc
 // 系统对象类型
 // 指定一个cleanup方法，注意入参是所修饰变量的地址，类型要一样
 // 对于指向objc对象的指针(id *)，如果不强制声明__strong默认是__autoreleasing，造成类型不匹配
@@ -312,7 +317,7 @@ NSInteger integer __attribute__((cleanup(intCleanUp))) = 1;
 
 ## 使用block
 
-```
+```objc
 static void blockCleanUp(__strong void(^*block)(void)) {
     (*block)();
 }
@@ -330,13 +335,13 @@ static void blockCleanUp(__strong void(^*block)(void)) {
 `I'm dying...` 这句话会在`didFinishLaunchingWithOptions`方法执行完以后输出。<mark>将一段写在前面的代码最后执行</mark>
 
 可以将成对出现的代码写在一起，比如说一个lock：<br/>
-```
+
+```objc
 NSRecursiveLock *aLock = [[NSRecursiveLock alloc] init];
 [aLock lock];
 // 这里有100多万行
 [aLock unlock]; // 看到这儿的时候早忘了和哪个lock对应着了
 ```
-
 ---
 
 ## 参考资料
