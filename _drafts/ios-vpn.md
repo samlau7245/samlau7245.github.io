@@ -886,18 +886,12 @@ kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly        //keychain项受到保�
 kSecAttrAccessibleAlwaysThisDeviceOnly                  //keychain未受保护，任何时候都可以访问，但是不能转移到其他设备  
 ```
 
-
-
-
 Server IP: 123.207.94.227
 IPsec PSK: 6c7zdJoXmxwrGVhkutKd
 Username: vpnuser
 Password: 7qDMfkfZw8dJA8zF
 
-
-
 /System/Library/Frameworks/NetworkExtension.framework/Resources/NEProviderTargetTemplate.pkg
-
 
 http://www.lib4dev.in/info/ss-abramchuk/OpenVPNAdapter/80986171
 
@@ -910,3 +904,10 @@ https://www.twblogs.net/a/5ba186842b71771a4da93258
 https://www.cnblogs.com/javaIOException/p/7525407.html
 
 wireguard
+
+
+算法加密、跨平台、嵌入式
+
+
+重要的不是语言，而是技术难点，多看计算机相关的论文，计算机组成原理。【网络、加密】
+
