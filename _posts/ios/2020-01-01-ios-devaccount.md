@@ -13,7 +13,6 @@ categories:
 * Capabilities:
 	* `App Groups` : APP数据共享
 	* `Network Extensions` : 网络拓展
-	* ` ` : 
 
 ## 证书签名请求(Certificate Signing Request(CSR))
 [CSR官方教程](https://help.apple.com/developer-account/#/devbfa00fef7)
@@ -79,24 +78,3 @@ Provisioning profile "iOS Team Provisioning Profile: com.xxxxxx" doesn't match t
 
 ## 参考资料
 * [Apple Store Connection 帮助](https://help.apple.com/app-store-connect/#/devdbefef011)
-
-com.fun.more
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
