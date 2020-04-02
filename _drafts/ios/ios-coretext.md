@@ -26,7 +26,7 @@ categories:
 }
 ```
 
-#### 创建PDF图形上下文
+#### 创建PDF图形上下文(PDF Graphics Context)
 
 API提供两种创建PDF图形上下文的函数:
 
