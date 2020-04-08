@@ -379,73 +379,95 @@ void main() {
 ```
 
 ### 构造函数
-* 在没有声明构造函数的情况下，`Dart`会提供一个默认的构造函数。
-* 子类不会继承父类的构造函数。
 
 ```dart
-class Point {
-  num x, y;
-
-  Point(num x, num y) {
-    this.x = x;
-    this.y = y;
-  }
+void main() {
+  var p2 = Point(1,2);
+  print(p2.x);
 }
 
-// 或者
-class Point {
-  num x, y;
-  Point(this.x, this.y);
+class Point{
+  num x,y;
+  /*
+  Point(num x,num y){
+    this.x = x;// this 引用当前实例对象，当存在命名冲突的时候可以通过this进行区分
+    this.y = y;
+  }*/
+  // 等价
+  Point(this.x,this.y);
 }
 ```
 
-命名构造函数 : 使用命名构造函数可为一个类实现多个构造函数， 也可以使用命名构造函数来更清晰的表明函数意图。
+**在没有构造函数的情况下，系统会提供一个无参的构造函数，并且调用父类构造函数**
 
 ```dart
-class Point {
-  num x, y;
+void main() {
+  var p1 = Point(); // 系统提供的无参构造函数，
+  print(p1.x); // null
+}
 
-  Point(this.x, this.y);
+class Point{
+  num x,y;
+}
+```
 
-  // 命名构造函数
-  Point.origin() {
+#### 命名构造函数
+使用命名构造函数可为一个类实现多个构造函数。
+
+```dart
+void main() {
+  var p1 = Point.origin();
+  print(p1.x); // 0
+  var p2 = Point.center();
+  print(p2.x); // 300
+}
+
+class Point{
+  num x,y;
+  Point(this.x,this.y);
+  Point.origin(){
     x = 0;
     y = 0;
   }
+  Point.center(){
+    x = 300;
+    y = 300;
+  }
 }
 ```
 
-调用父类非默认构造函数:
-
+#### 调用父类非系统构造函数
 ```dart
-class Person {
-  String firstName;
-
-  Person.fromJson(Map data) {
-    print('in Person');
+void main() {
+  var b = Birds.func(1,2);
+  if(b is Animals){
+    print('Animals');
+  }else{
+    print('Birds');
   }
 }
 
-class Employee extends Person {
-  // Person does not have a default constructor;
-  // you must call super.fromJson(data).
-  Employee.fromJson(Map data) : super.fromJson(data) {
-    print('in Employee');
+class Animals {
+  num age;
+  num sex;
+  
+  Animals.func(num age,num sex){
+    this.age = age;
+    this.sex = sex;
+    print('Animals: ' + age.toString() + ',' + sex.toString());
   }
 }
 
-main() {
-  var emp = new Employee.fromJson({});
-
-  // Prints:
-  // in Person
-  // in Employee
-  if (emp is Person) {
-    // Type check
-    emp.firstName = 'Bob';
+class Birds extends Animals {
+  Birds.func(age,sex) : super.func(age,sex){
+    print('Birds');
   }
-  (emp as Person).firstName = 'Bob';
 }
+
+// 输出：
+// Animals: 1,2
+// Birds
+// Animals
 ```
 
 ## 参考资料

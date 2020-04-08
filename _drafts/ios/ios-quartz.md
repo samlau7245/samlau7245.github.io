@@ -5,8 +5,536 @@ categories:
  - ios
 ---
 
-## Graphics Contexts[$]
-## Paths[$$]
+## Graphics Contexts
+
+通过重写`UIView`中的`- (void)drawRect:(CGRect)rect {}`方法来进行绘制图形。通过`UIGraphicsGetCurrentContext()`方法来获取当前`UIView`的图形上下文。
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+}
+```
+
+在`UIView`中的坐标系为: 原点在左上角，正x向右，正y向下。而在`Quartz`的坐标系中，看下图：
+
+<img src="/assets/images/coretext/09.gif" width = "50%" height = "50%"/>
+
+可以通过转换矩阵或者CTM将图形上下文旋转45度时，可以将原点转移到左上角。
+
+<img src="/assets/images/coretext/10.jpg" width = "50%" height = "50%"/>
+
+### 创建PDF图形上下文
+创建PDF图形上下文的两种方式:`CGPDFContextCreateWithURL`、`CGPDFContextCreate`。
+
+```objc
+// mediaBox: 是PDF图形上下文的边界边框
+CGContextRef myPDFContextCreateWithURL(const CGRect *mediaBox,CFStringRef filePath) {
+    CGContextRef pdfContext = NULL;
+    CFURLRef url;
+    
+    url = CFURLCreateWithFileSystemPath(NULL, filePath, kCFURLPOSIXPathStyle, false);
+    if (url != NULL) {
+        pdfContext = CGPDFContextCreateWithURL(url, mediaBox, NULL);
+        CFRelease(url);
+    }
+    return pdfContext;
+}
+
+CGContextRef myCGPDFContextCreate(const CGRect *mediaBox,CFStringRef filePath) {
+    CGContextRef pdfContext = NULL;
+    CFURLRef url;
+    CGDataConsumerRef consumer;
+    
+    url = CFURLCreateWithFileSystemPath(NULL, filePath, kCFURLPOSIXPathStyle, false);
+    if (url != NULL) {
+        consumer = CGDataConsumerCreateWithURL(url);
+        if (consumer != NULL) {
+            pdfContext = CGPDFContextCreate(consumer, mediaBox, NULL);
+            CGDataConsumerRelease (consumer);
+        }
+        CFRelease(url);
+    }
+    return pdfContext;
+}
+
+- (void)drawRect:(CGRect)rect {
+    CGRect mediaBox;
+    CGContextRef pdfContext;
+    
+    mediaBox = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+    pdfContext = myPDFContextCreateWithURL(&mediaBox, CFSTR("test.pdf"));
+    CGContextRelease(pdfContext);
+}
+```
+
+### 创建位图(Bitmap)图形上下文
+当绘制位图图形上下文时，会将位图图形上下文存储到`内存缓存区`中，当更新绘制时缓存区也会更新。
+
+> 位图图形上下文可用于屏幕外绘制。可以参考资料`Core Graphics Layer Drawing`。<br>
+
+`UIGraphicsBeginImageContextWithOptions` 需要详细了解
+
+```objc
+// data: 如果不是NULL，则指针指向的内存块必须大于(bytesPerRow*height)。如果是NULL，则图形上下文会被自动创建，在 deallocated 时会被释放。
+// width: 位图图形上下文宽，像素
+// height: 位图图形上下文高，像素
+// bitsPerComponent: 内存中像素的每个组件的位数.例如，对于32位像素格式和RGB 颜色空间，你应该将这个值设为8。
+// bytesPerRow: 每一行要使用的内存字节数得大于:width * bytes per pixel
+// colorspace: 颜色颜色空间
+// bitmapInfo: 
+CGContextRef CGBitmapContextCreate(void * data,size_t width, size_t height, size_t bitsPerComponent, size_t bytesPerRow,CGColorSpaceRef space, uint32_t bitmapInfo);
+```
+
+```objc
+CGContextRef myCGBitmapContextCreate(int pixelsWidth,int pixelsHight) {
+    CGContextRef bitmapContext = NULL;
+    void * data;
+    int bitsPerComponent = 8;
+    int bytesPerRow;
+    CGColorSpaceRef space;
+    
+    bytesPerRow = pixelsWidth * 4;//4:位图中的每个像素都由4个字节表示；红色，绿色，蓝色和Alpha分别为8位。
+    data = calloc( bytesPerRow, sizeof(uint8_t) );
+    space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+    
+    if (data == NULL) {
+        fprintf (stderr, "Memory not allocated!");
+        return NULL;
+    }
+    bitmapContext = CGBitmapContextCreate(data, pixelsWidth, pixelsHight, bitsPerComponent, bytesPerRow, space, kCGImageAlphaPremultipliedLast);
+    if (bitmapContext == NULL) {
+        free (data);
+        fprintf (stderr, "Context not created!");
+        return NULL;
+    }
+    CGColorSpaceRelease(space);
+    return bitmapContext;
+}
+
+- (void)drawRect:(CGRect)rect {
+    CGContextRef myContext = UIGraphicsGetCurrentContext();
+    CGRect myBoundingBox;
+    CGContextRef myBitmapContext;
+    CGImageRef myImage;
+    
+    myBoundingBox = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+    myBitmapContext = myCGBitmapContextCreate(myBoundingBox.size.width,myBoundingBox.size.height);
+    
+    myImage = CGBitmapContextCreateImage (myBitmapContext);// 5
+    CGContextDrawImage(myContext, myBoundingBox, myImage);// 6
+    CGImageRelease(myImage);
+}
+```
+
+### 支持的像素格式
+
+* `CS` : 关联的色彩空间。`CGColorSpaceRef`
+* `bpp` : bits per pixel
+* `bpc` : bits per component
+* 像素格式关联的位图信息常量。
+
+<img src="/assets/images/coretext/03.png" width = "100%" height = "100%"/>
+
+### 抗锯齿
+```objc
+void CGContextSetShouldAntialias(CGContextRef cg_nullable c,bool shouldAntialias);
+void CGContextSetAllowsAntialiasing(CGContextRef cg_nullable c,bool allowsAntialiasing);
+```
+<img src="/assets/images/coretext/08.jpg" width = "50%" height = "50%"/>
+
+## [Paths](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_paths/dq_paths.html#//apple_ref/doc/uid/TP30001066-CH211-TPXREF101)
+
+### 点
+点是x和y坐标，它们指定用户空间中的位置。
+
+```objc
+// 指定新路径的起始位置。
+CGContextMoveToPoint(CGContextRef cg_nullable c,CGFloat x, CGFloat y);
+```
+
+### 线
+```objc
+void CGContextAddLineToPoint(CGContextRef c, CGFloat x, CGFloat y);
+
+// 第一点必须是第一条线的起点；其余点是端点。
+// points: 一个值数组，指定要绘制的线段的起点和终点。
+// count: points数组中元素的数量。
+void CGContextAddLines(CGContextRef c, const CGPoint *points, size_t count);
+```
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    
+    CGContextMoveToPoint(c, 10, 10);
+    CGContextAddLineToPoint(c, 10, 100);
+
+    CGContextMoveToPoint(c, 20, 20);
+    CGContextAddLineToPoint(c, 20, 200);
+    
+    CGContextStrokePath(c);
+}
+
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    
+    CGPoint points[] = {
+        CGPointMake(10.0, 90.0),
+        CGPointMake(70.0, 60.0),
+        CGPointMake(130.0, 90.0),
+        CGPointMake(190.0, 60.0),
+        CGPointMake(250.0, 90.0),
+        CGPointMake(310.0, 60.0),
+    };
+    
+    CGContextAddLines(c, points, sizeof(points)/sizeof(points[0]));
+    CGContextStrokePath(c);
+}
+```
+
+<img src="/assets/images/coretext/11.png"/>
+
+### 弧线
+```objc
+// x: 中心点。
+// y: 中心点。
+// radius: 圆弧半径。
+// startAngle: 与弧起点的夹角，以弧度为单位，从x轴正方向开始。
+// endAngle: 与弧的终点之间的角度，以弧度为单位，从正x轴开始以弧度为单位。
+// clockwise: 0 顺时针圆弧, 1 逆时针圆弧
+void CGContextAddArc(CGContextRef c, CGFloat x, CGFloat y, CGFloat radius, CGFloat startAngle, CGFloat endAngle, int clockwise);
+```
+<img src="/assets/images/coretext/12.png"/>
+
+```
+M_PI   : 3.14159265358979323846264338327950288   --> pi      
+M_PI_2 : 1.57079632679489661923132169163975144   --> pi/2    
+M_PI_4 : 0.785398163397448309615660845819875721  --> pi/4    
+M_1_PI : 0.318309886183790671537767526745028724  --> 1/pi    
+M_2_PI : 0.636619772367581343075535053490057448  --> 2/pi    
+```
+
+```objc
+// x1: 用户空间坐标中第一条切线终点的x值。从当前点到（x1，y1）绘制第一条切线。
+// y1: 用户空间坐标中第一条切线终点的y值。从当前点到（x1，y1）绘制第一条切线。
+// x2: 用户空间坐标中第二条切线终点的x值。第二条切线从（x1，y1）绘制到（x2，y2）。
+// y2: 用户空间坐标中第二条切线终点的y值。第二条切线从（x1，y1）绘制到（x2，y2）。
+// radius: 用户空间坐标中的圆弧半径
+void CGContextAddArcToPoint(CGContextRef c, CGFloat x1, CGFloat y1, CGFloat x2, CGFloat y2, CGFloat radius);
+```
+
+<img src="/assets/images/coretext/13.png"/>
+
+其中`P1`是起始点。
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+
+    CGContextAddArc(c, rect.size.width*0.5, rect.size.height*0.5, 50, 0, M_PI*1.5, 0);
+    
+    CGContextStrokePath(c);
+}
+
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    
+    CGPoint P1 = CGPointMake(rect.size.width*0.25, rect.size.height*0.25);
+    CGPoint X1 = CGPointMake(P1.x+200, P1.y);
+    CGPoint X2 = CGPointMake(P1.x+200, P1.y+300);
+    
+    CGContextMoveToPoint(c, P1.x, P1.y);
+    CGContextAddArcToPoint(c, X1.x, X1.y, X2.x, X2.y, 30);
+    CGContextStrokePath(c);
+    
+    // 测试画线
+    CGContextSetLineWidth(c, 0.8);
+    CGContextSetStrokeColorWithColor(c, UIColor.blueColor.CGColor);
+    CGContextMoveToPoint(c, P1.x, P1.y);
+    CGContextAddLineToPoint(c, X1.x, X1.y);
+    
+    CGContextMoveToPoint(c, X1.x, X1.y);
+    CGContextAddLineToPoint(c, X2.x, X2.y);
+    
+    CGContextStrokePath(c);
+}
+```
+
+<img src="/assets/images/coretext/14.png"/>
+
+### 曲线
+```objc
+// 从当前点附加三次贝塞尔曲线
+void CGContextAddCurveToPoint(CGContextRef c, CGFloat cp1x, CGFloat cp1y, CGFloat cp2x, CGFloat cp2y, CGFloat x, CGFloat y);
+
+// 指定一个控制点和一个端点，从当前点附加一个二次贝塞尔曲线。 
+void CGContextAddQuadCurveToPoint(CGContextRef c, CGFloat cpx, CGFloat cpy, CGFloat x, CGFloat y);
+```
+
+<img src="/assets/images/coretext/15.png"/>
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    
+    CGPoint currentP = CGPointMake(100, 200);
+    CGPoint cp1 = CGPointMake(200, 100);
+    CGPoint cp2 = CGPointMake(300, 300);
+    CGPoint cp3 = CGPointMake(400, 200);
+    
+    CGContextMoveToPoint(c, currentP.x, currentP.y);
+    CGContextAddCurveToPoint(c, cp1.x, cp1.y, cp2.x, cp2.y, cp3.x, cp3.y);
+    CGContextStrokePath(c);
+    
+    [self gridWithContext:c];
+    
+    CGContextMoveToPoint(c, currentP.x, currentP.y);
+    CGContextAddLineToPoint(c, cp1.x, cp1.y);
+    
+    CGContextMoveToPoint(c, cp1.x, cp1.y);
+    CGContextAddLineToPoint(c, cp2.x, cp2.y);
+    
+    CGContextMoveToPoint(c, cp2.x, cp2.y);
+    CGContextAddLineToPoint(c, cp3.x, cp3.y);
+    CGContextStrokePath(c);
+}
+
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    
+    CGPoint currentP = CGPointMake(100, 200);
+    CGPoint cp1 = CGPointMake(200, 100);
+    CGPoint cp2 = CGPointMake(300, 300);
+    CGPoint cp3 = CGPointMake(400, 200);
+    
+    CGContextMoveToPoint(c, currentP.x, currentP.y);
+    //CGContextAddCurveToPoint(c, cp1.x, cp1.y, cp2.x, cp2.y, cp3.x, cp3.y);
+    CGContextAddQuadCurveToPoint(c, cp1.x, cp1.y, cp2.x, cp2.y);
+    CGContextStrokePath(c);
+    
+    [self gridWithContext:c];
+    
+    CGContextMoveToPoint(c, currentP.x, currentP.y);
+    CGContextAddLineToPoint(c, cp1.x, cp1.y);
+    
+    CGContextMoveToPoint(c, cp1.x, cp1.y);
+    CGContextAddLineToPoint(c, cp2.x, cp2.y);
+    
+    CGContextMoveToPoint(c, cp2.x, cp2.y);
+    CGContextAddLineToPoint(c, cp3.x, cp3.y);
+    CGContextStrokePath(c);
+}
+
+-(void)gridWithContext:(CGContextRef)c{
+    CGContextSetLineWidth(c, 1);
+    CGContextSetStrokeColorWithColor(c, UIColor.blueColor.CGColor);
+    CGFloat lengths = 3;
+    CGContextSetLineDash(c, 0, &lengths,1);
+    
+    // 网格
+    CGPoint minPoint = CGPointMake(0, 0);
+    CGPoint maxPoint = CGPointMake(400, 400);
+    CGFloat margin = 100;
+    for (NSInteger i = 0; i <= maxPoint.y/margin; i ++) {
+        // 纵向
+        CGContextMoveToPoint(c, margin*i, minPoint.y);
+        CGContextAddLineToPoint(c, margin*i, maxPoint.y);
+        //横向
+        CGContextMoveToPoint(c, minPoint.x, margin*i);
+        CGContextAddLineToPoint(c, maxPoint.x, margin*i);
+    }
+    
+    CGContextStrokePath(c);
+}
+```
+
+<img src="/assets/images/coretext/16.png"/>
+
+### 关闭子路径
+
+弧线、曲线在绘制的时候并没有关闭子路径，需要调用`CGContextClosePath`来关闭子路径。
+
+```objc
+void CGContextClosePath(CGContextRef c);
+```
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    
+    CGPoint currentP = CGPointMake(100, 200);
+    CGPoint cp1 = CGPointMake(200, 100);
+    CGPoint cp2 = CGPointMake(300, 300);
+    CGPoint cp3 = CGPointMake(400, 200);
+    
+    CGContextMoveToPoint(c, currentP.x, currentP.y);
+    CGContextAddQuadCurveToPoint(c, cp1.x, cp1.y, cp2.x, cp2.y);
+    //CGContextClosePath(c);
+    CGContextAddLineToPoint(c, 400, 400);
+    
+    CGContextStrokePath(c);
+}
+```
+
+下面展示执行`CGContextClosePath(c)`区别：左图不执行关闭路径函数，右图执行关闭路径函数(关闭路径后再继续向该路径添加直线、圆弧或曲线时，Quartz从您刚刚关闭的子路径的起点开始一个新的子路径)。
+
+<img src="/assets/images/coretext/17.png"/>
+
+### 椭圆形
+```objc
+// rect: rect是正方形，则椭圆是圆形
+void CGContextAddEllipseInRect(CGContextRef c, CGRect rect);
+```
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    CGContextAddEllipseInRect(c, CGRectMake(100, 100, 100, 100));
+    CGContextStrokePath(c);
+    [self gridWithContext:c];
+}
+
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    CGContextAddEllipseInRect(c, CGRectMake(100, 100, 200, 100));
+    CGContextStrokePath(c);
+    [self gridWithContext:c];
+}
+
+-(void)gridWithContext:(CGContextRef)c{
+    CGContextSetLineWidth(c, 1);
+    CGContextSetStrokeColorWithColor(c, UIColor.blueColor.CGColor);
+    CGFloat lengths = 3;
+    CGContextSetLineDash(c, 0, &lengths,1);
+    
+    // 网格
+    CGPoint minPoint = CGPointMake(0, 0);
+    CGPoint maxPoint = CGPointMake(400, 400);
+    CGFloat margin = 100;
+    for (NSInteger i = 0; i <= maxPoint.y/margin; i ++) {
+        // 纵向
+        CGContextMoveToPoint(c, margin*i, minPoint.y);
+        CGContextAddLineToPoint(c, margin*i, maxPoint.y);
+        //横向
+        CGContextMoveToPoint(c, minPoint.x, margin*i);
+        CGContextAddLineToPoint(c, maxPoint.x, margin*i);
+    }
+    
+    CGContextStrokePath(c);
+}
+```
+
+<img src="/assets/images/coretext/18.png"/>
+
+### 长方形
+
+```objc
+// 创建单个长方形
+void CGContextAddRect(CGContextRef c, CGRect rect);
+// 创建多个长方形
+void CGContextAddRects(CGContextRef c, const CGRect *rects, size_t count);
+```
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    CGContextAddRect(c, CGRectMake(300, 300, 50, 100));
+    
+    CGRect rects[] = {
+        CGRectMake(0, 0, 100, 100),
+        CGRectMake(0, 200, 200, 100)
+    };
+    CGContextAddRects(c, rects, sizeof(rects)/sizeof(rects[0]));
+    CGContextStrokePath(c);
+    [self gridWithContext:c];
+}
+```
+
+<img src="/assets/images/coretext/19.png"/>
+
+### 创建路径
+
+```objc
+void CGContextBeginPath(CGContextRef c);
+```
+
+* 在开始新路径之前，请调用函数`CGContextBeginPath`。
+* 从当前点开始绘制直线，圆弧和曲线。空路径没有当前点。您必须调用`CGContextMoveToPoint`来设置第一个子路径的起点，或调用一个为您隐式执行此操作的便捷函数。
+* 当您要关闭路径中的当前子路径时，请调用该函数`CGContextClosePath`以将线段连接到子路径的起点。即使您未明确设置新的起点，后续的路径调用也会开始新的子路径。
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    
+    //子路径1
+    CGContextMoveToPoint(c, 100, 100);
+    CGContextAddLineToPoint(c, 300, 300);
+    CGContextStrokePath(c);// 下左图效果是注释掉这句
+    
+    //新建一个子路径2
+    CGContextBeginPath(c);//开始一个新的子路径2
+    CGContextMoveToPoint(c, 300, 100);//新的子路径2需要设置一个起点。
+    CGContextAddLineToPoint(c, 200, 400);
+    CGContextClosePath(c);// 关闭路径中的当前子路径2
+    
+    //子路径3,自动开始一个新的路径
+    
+    CGContextStrokePath(c);
+    [self gridWithContext:c];
+}
+```
+
+<img src="/assets/images/coretext/20.png"/>
+
+* 绘制圆弧时，Quartz会在圆弧的当前点和起点之间绘制一条直线。
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 2);
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    
+    //子路径1
+    CGContextMoveToPoint(c, 100, 100);// 下左图效果是注释掉这句
+    CGContextAddLineToPoint(c, 300, 300);
+    CGContextStrokePath(c);// 下左图效果是注释掉这句
+    
+    //子路径2
+    CGContextBeginPath(c);//开始一个新的子路径2
+    CGContextAddArc(c, rect.size.width*0.5, rect.size.height*0.5, 50, 0, M_PI*1.5, 0);
+    CGContextClosePath(c);// 关闭路径中的当前子路径2
+    
+    //子路径3,自动开始一个新的路径
+    
+    CGContextStrokePath(c);
+    [self gridWithContext:c];
+}
+```
+
+<img src="/assets/images/coretext/21.png"/>
+
 ## Color and Color Spaces[$]
 ## Transforms[$]
 ## Patterns[$]
@@ -20,7 +548,8 @@ categories:
 ## PDF Document Parsing[$]
 ## PostScript Conversion[$]
 
-
+## 参考资料
+* [iOS的View编程指南](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Introduction/Introduction.html#//apple_ref/doc/uid/TP40009503)
 
 <!-- ## Quartz 2D 编程指导
 
