@@ -454,7 +454,7 @@ class Animals {
   Animals.func(num age,num sex){
     this.age = age;
     this.sex = sex;
-    print('Animals: ' + age.toString() + ',' + sex.toString());
+    print('Animals: ' + age.toString() + ',' + sex.toString()); // 父类的构造函数参数在子类构造函数执行之前执行
   }
 }
 
@@ -469,6 +469,41 @@ class Birds extends Animals {
 // Birds
 // Animals
 ```
+
+#### 初始化列表
+
+给`Point.center`构造函数可以这样给实例变量`x,y`进行初始化：
+
+```dart
+class Point{
+  num x,y;
+  Point.center(){
+    x = 300;
+    y = 300;
+  }
+}
+
+class Point{
+  num x,y;
+  Point.center(): x = 1,y = 3{}
+}
+```
+
+初始化`final`实例变量：
+
+```dart
+class Point{
+  final num x,y,distanceFromOrigin; // 所有的final变量都必须被初始化
+  
+  //Point.withAssert(x, y): x = x, y = y, distanceFromOrigin = (x * x + y * y){}
+  Point.withAssert(x, y): x = x, y = y, distanceFromOrigin = (x * x + y * y);// 当{}内没有代码时，可以省略。
+}
+```
+
+#### 常量构造函数
+#### 工厂构造函数
+
+> 工厂构造函数无法使用`this`。
 
 ## 参考资料
 

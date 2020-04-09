@@ -137,19 +137,19 @@ CGContextRef myCGBitmapContextCreate(int pixelsWidth,int pixelsHight) {
 
 ### 抗锯齿
 ```objc
-void CGContextSetShouldAntialias(CGContextRef cg_nullable c,bool shouldAntialias);
-void CGContextSetAllowsAntialiasing(CGContextRef cg_nullable c,bool allowsAntialiasing);
+void CGContextSetShouldAntialias(CGContextRef c,bool shouldAntialias);
+void CGContextSetAllowsAntialiasing(CGContextRef c,bool allowsAntialiasing);
 ```
 <img src="/assets/images/coretext/08.jpg" width = "50%" height = "50%"/>
 
-## [Paths](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_paths/dq_paths.html#//apple_ref/doc/uid/TP30001066-CH211-TPXREF101)
+## [路径(Paths)](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_paths/dq_paths.html#//apple_ref/doc/uid/TP30001066-CH211-TPXREF101)
 
 ### 点
 点是x和y坐标，它们指定用户空间中的位置。
 
 ```objc
 // 指定新路径的起始位置。
-CGContextMoveToPoint(CGContextRef cg_nullable c,CGFloat x, CGFloat y);
+CGContextMoveToPoint(CGContextRef c,CGFloat x, CGFloat y);
 ```
 
 ### 线
@@ -472,7 +472,7 @@ void CGContextAddRects(CGContextRef c, const CGRect *rects, size_t count);
 
 <img src="/assets/images/coretext/19.png"/>
 
-### 创建路径
+### 创建子路径
 
 ```objc
 void CGContextBeginPath(CGContextRef c);
@@ -481,6 +481,7 @@ void CGContextBeginPath(CGContextRef c);
 * 在开始新路径之前，请调用函数`CGContextBeginPath`。
 * 从当前点开始绘制直线，圆弧和曲线。空路径没有当前点。您必须调用`CGContextMoveToPoint`来设置第一个子路径的起点，或调用一个为您隐式执行此操作的便捷函数。
 * 当您要关闭路径中的当前子路径时，请调用该函数`CGContextClosePath`以将线段连接到子路径的起点。即使您未明确设置新的起点，后续的路径调用也会开始新的子路径。
+* 您必须调用绘画功能来填充或描边路径，因为创建路径不会绘制路径。
 
 ```objc
 - (void)drawRect:(CGRect)rect {
@@ -516,15 +517,15 @@ void CGContextBeginPath(CGContextRef c);
     CGContextSetLineWidth(c, 2);
     CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
     
-    //子路径1
-    CGContextMoveToPoint(c, 100, 100);// 下左图效果是注释掉这句
+    //子路径1-直线
+    CGContextMoveToPoint(c, 100, 100);
     CGContextAddLineToPoint(c, 300, 300);
-    CGContextStrokePath(c);// 下左图效果是注释掉这句
+    CGContextStrokePath(c);
     
-    //子路径2
-    CGContextBeginPath(c);//开始一个新的子路径2
+    //子路径2-圆弧
+    CGContextBeginPath(c);//开始一个新的子路径2，下左图效果是注释掉这句
     CGContextAddArc(c, rect.size.width*0.5, rect.size.height*0.5, 50, 0, M_PI*1.5, 0);
-    CGContextClosePath(c);// 关闭路径中的当前子路径2
+    CGContextClosePath(c);// 关闭路径中的当前子路径2，下左图效果是注释掉这句
     
     //子路径3,自动开始一个新的路径
     
@@ -535,7 +536,302 @@ void CGContextBeginPath(CGContextRef c);
 
 <img src="/assets/images/coretext/21.png"/>
 
-## Color and Color Spaces[$]
+绘制路径后，将从图形上下文中**清除该路径**，Quartz提供了两种数据类型来创建可重用的路径：
+
+```objc
+// 路径
+typedef const struct CGPath *CGPathRef;
+typedef struct CGPath CGMutablePathRef;
+
+// 创建可变的CGPath对象，并向其中添加直线，圆弧，曲线和矩形。
+CGMutablePathRef CGPathCreateMutable(void);
+```
+
+|可变路径函数|被替代函数|
+|---|---|
+|`CGPathCreateMutable`|`CGContextBeginPath`|
+|`CGPathMoveToPoint`|`CGContextMoveToPoint`|
+|`CGPathAddLineToPoint`|`CGContextAddLineToPoint`|
+|`CGPathAddCurveToPoint`|`CGContextAddCurveToPoint`|
+|`CGPathAddEllipseInRect`|`CGContextAddEllipseInRect`|
+|`CGPathAddArc`|`CGContextAddArc`|
+|`CGPathAddRect`|`CGContextAddRect`|
+|`CGPathCloseSubpath`|`CGContextClosePath`|
+
+```objc
+CGMutablePathRef CGPathCreateMutable(void);
+void CGPathMoveToPoint(CGMutablePathRef path, const CGAffineTransform *m, CGFloat x, CGFloat y);
+void CGPathAddLineToPoint(CGMutablePathRef path, const CGAffineTransform *m, CGFloat x, CGFloat y);
+void CGPathAddCurveToPoint(CGMutablePathRef path, const CGAffineTransform *m, CGFloat cp1x, CGFloat cp1y, CGFloat cp2x, CGFloat cp2y, CGFloat x, CGFloat y);
+void CGPathAddEllipseInRect(CGMutablePathRef path, const CGAffineTransform *m, CGRect rect);
+void CGPathAddArc(CGMutablePathRef path, const CGAffineTransform *m, CGFloat x, CGFloat y, CGFloat radius, CGFloat startAngle, CGFloat endAngle, bool clockwise);
+void CGPathAddRect(CGMutablePathRef path, const CGAffineTransform *m, CGRect rect);
+void CGPathCloseSubpath(CGMutablePathRef path);
+```
+
+调用`CGContextAddPath`函数将路径追加到图形上下文中。该路径将保留在图形上下文中，直到Quartz绘制它为止。可以通过调用`CGContextAddPath`函数再次添加路径。
+
+```objc
+void CGContextAddPath(CGContextRef c, CGPathRef path);
+```
+
+可以通过调用函数将图形上下文中的路径替换为路径的描边版本:
+
+```objc
+void CGContextReplacePathWithStrokedPath(CGContextRef c);
+```
+
+### 绘制路径
+
+#### 影响路径的参数
+
+绘制路径有两种方式`描边`、`填充`。
+
+设置线宽：
+
+```objc
+// 线宽度
+void CGContextSetLineWidth(CGContextRef c, CGFloat width);
+// limit：当 CGContextSetLineJoin函数设置 join 为 kCGLineJoinMiter，limit的数值为锐角的长度
+void CGContextSetMiterLimit(CGContextRef c, CGFloat limit);
+// 描边色彩空间
+void CGContextSetStrokeColorSpace(CGContextRef c,CGColorSpaceRef space);
+// 描边的颜色
+void CGContextSetStrokeColor(CGContextRef c,const CGFloat * components);
+void CGContextSetStrokeColorWithColor(CGContextRef c,CGColorRef color);
+
+// 描边模式
+void CGContextSetStrokePattern(CGContextRef c,CGPatternRef pattern, const CGFloat * components);
+```
+
+线连接的展示样式:
+
+```objc
+// kCGLineJoinMiter
+// kCGLineJoinRound
+// kCGLineJoinBevel
+void CGContextSetLineJoin(CGContextRef c, CGLineJoin join);
+```
+
+|样式|展示|
+|---|---|
+|kCGLineJoinMiter|<img src="/assets/images/coretext/22.gif"/>|
+|kCGLineJoinRound|<img src="/assets/images/coretext/23.gif"/>|
+|kCGLineJoinBevel|<img src="/assets/images/coretext/24.gif"/>|
+
+线两端的展示样式:
+
+```objc
+
+// kCGLineCapButt
+// kCGLineCapRound
+// kCGLineCapSquare
+void CGContextSetLineCap(CGContextRef c, CGLineCap cap);
+```
+
+|样式|展示|
+|---|---|
+|kCGLineCapButt|<img src="/assets/images/coretext/25.gif"/>|
+|kCGLineCapRound|<img src="/assets/images/coretext/26.gif"/>|
+|kCGLineCapSquare|<img src="/assets/images/coretext/27.gif"/>|
+
+```objc
+// c: 
+// phase: 表示在第一个虚线绘制的时候跳过多少个点。
+// lengths: 虚线的宽度，在线条的上色和未上色的线段之间交替
+// count: lengths
+void CGContextSetLineDash(CGContextRef c, CGFloat phase, const CGFloat *lengths, size_t count);
+```
+
+<img src="/assets/images/coretext/28.gif"/>
+
+```objc
+float lengths[] = {10,10}; // 表示先绘制10个点，再跳过10个点，如此反复
+CGContextSetLineDash(context, 0, lengths,2);
+```
+
+<img src="/assets/images/coretext/29.png"/>
+
+```objc
+float lengths[] = {10,20,10}; // 表示先绘制10个点，跳过20个点，绘制10个点，跳过10个点，再绘制20个点，如此反复
+CGContextSetLineDash(context, 0, lengths,2);
+```
+
+<img src="/assets/images/coretext/30.png"/>
+
+```objc
+float lengths[] = {10,5};  
+CGContextSetLineDash(context, 0, lengths, 2);
+CGContextSetLineDash(context, 5, lengths, 2);
+CGContextSetLineDash(context, 8, lengths, 2);
+```
+
+<img src="/assets/images/coretext/31.png"/>
+
+#### 描边(Stroke)路径
+```objc
+// 对当前路径进行描边
+void CGContextStrokePath(CGContextRef c);
+// 对rect范围进行描边
+void CGContextStrokeRect(CGContextRef c, CGRect rect);
+// 对rect范围进行描边,并且加上宽度为width的边界线
+void CGContextStrokeRectWithWidth(CGContextRef c,CGRect rect, CGFloat width);
+void CGContextStrokeEllipseInRect(CGContextRef c,CGRect rect);
+// 绘制多条线
+// points: 数组如果为偶数，则偶数坐标为线的起点和终点，如果为奇数那么线的起点默认为 (0,0)到(x,y)的连线。
+void CGContextStrokeLineSegments(CGContextRef c,const CGPoint * points, size_t count);
+void CGContextDrawPath(CGContextRef c,CGPathDrawingMode mode);
+```
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 3);
+    
+    CGContextSetStrokeColorWithColor(c, UIColor.redColor.CGColor);
+    CGContextStrokeRectWithWidth(c, CGRectMake(100, 100, 100, 100), 5);
+    
+    CGContextSetStrokeColorWithColor(c, UIColor.greenColor.CGColor);
+    CGContextStrokeEllipseInRect(c, CGRectMake(0, 0, 300, 300));
+    
+    CGContextSetStrokeColorWithColor(c, UIColor.orangeColor.CGColor);
+    CGPoint points[] = {CGPointMake(100, 200),CGPointMake(200, 100),CGPointMake(300, 300),CGPointMake(400, 400)};
+    CGContextStrokeLineSegments(c, points, sizeof(points)/sizeof(points[0]));
+    
+    [self gridWithContext:c];
+}
+```
+
+<img src="/assets/images/coretext/32.png"/>
+
+#### 填充(Fill)路径
+
+```objc
+// 使用奇偶填充当前路径
+void CGContextEOFillPath(CGContextRef c);
+// 使用非零绕数填充当前路径。
+void CGContextFillPath(CGContextRef c);
+// 填充适合指定矩形的区域
+void CGContextFillRect(CGContextRef c, CGRect rect);
+// 填充适合指定矩形的区域
+void CGContextFillRects(CGContextRef c,const CGRect * rects, size_t count);
+// 填充适合指定矩形的椭圆
+void CGContextFillEllipseInRect(CGContextRef c,CGRect rect);
+
+// 通过mode来指定填充规则。
+// kCGPathFill 非零绕数
+// kCGPathEOFill 奇数
+// kCGPathStroke 
+// kCGPathFillStroke 
+// kCGPathEOFillStroke 
+void CGContextDrawPath(CGContextRef c,CGPathDrawingMode mode);
+```
+
+* `奇偶填充(even-odd)`：
+* `非零绕数(the nonzero winding number)`：
+
+<img src="/assets/images/coretext/34.gif"/>
+
+
+```objc
+// 奇偶填充(even-odd)示例：
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    
+    CGContextAddEllipseInRect(c, CGRectMake(100, 100, 200, 200));
+    CGContextAddEllipseInRect(c, CGRectMake(150, 150, 100, 100));
+    CGContextAddEllipseInRect(c, CGRectMake(175, 175, 50, 50));
+    CGContextAddEllipseInRect(c, CGRectMake(187.5, 187.5, 25, 25));
+    CGContextEOFillPath(c);
+    
+    [self gridWithContext:c];
+}
+```
+
+<img src="/assets/images/coretext/35.png"/>
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(c, 3);
+    
+    CGContextSetFillColorWithColor(c, UIColor.redColor.CGColor);
+    CGContextFillRect(c, CGRectMake(0, 0, 50, 50));
+    
+    CGContextSetFillColorWithColor(c, UIColor.greenColor.CGColor);
+    CGRect rects[] = {
+        CGRectMake(100, 0, 50, 50),
+        CGRectMake(100, 60, 50, 50),
+        CGRectMake(100, 120, 50, 50)
+    };
+    CGContextFillRects(c, rects, sizeof(rects)/sizeof(rects[0]));
+    
+    CGContextSetFillColorWithColor(c, UIColor.orangeColor.CGColor);
+    CGContextFillEllipseInRect(c, CGRectMake(200, 0, 100, 100));
+
+    [self gridWithContext:c];
+}
+```
+
+<img src="/assets/images/coretext/33.png"/>
+
+#### [设置混合模式(Blend Modes)](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_paths/dq_paths.html#//apple_ref/doc/uid/TP30001066-CH211-TPXREF101)
+
+混合模式指定Quartz如何在背景上应用绘画。
+
+```objc
+// 设置混合模式
+// kCGBlendModeNormal,普通混合模式
+// kCGBlendModeMultiply,乘法混合模式
+// kCGBlendModeScreen,屏幕混合模式
+// kCGBlendModeOverlay,叠加混合模式
+// kCGBlendModeDarken,调暗混合模式
+// kCGBlendModeLighten,减轻混合模式
+// kCGBlendModeColorDodge,道奇混合模式
+// kCGBlendModeColorBurn,混色混合模式
+// kCGBlendModeSoftLight,柔光混合模式
+// kCGBlendModeHardLight,硬光混合模式
+// kCGBlendModeDifference,差异混合模式
+// kCGBlendModeExclusion,排除混合模式
+// kCGBlendModeHue,色相混合模式
+// kCGBlendModeSaturation,饱和混合模式
+// kCGBlendModeColor,色彩混合模式
+void CGContextSetBlendMode(CGContextRef c, CGBlendMode mode);
+void CGContextSaveGState(CGContextRef c);
+void CGContextRestoreGState(CGContextRef c);
+```
+
+#### 剪切路径
+
+```objc
+// 使用非零绕数规则来计算当前路径与当前剪切路径的交集。
+void CGContextClip(CGContextRef c);
+// 使用奇偶规则计算当前路径与当前剪切路径的交集。
+void CGContextEOClip(CGContextRef c);
+// 
+void CGContextClipToRect(CGContextRef c, CGRect rect);
+// 
+void CGContextClipToRects(CGContextRef c,const CGRect *  rects, size_t count);
+// 
+void CGContextClipToMask(CGContextRef c, CGRect rect,CGImageRef mask);
+```
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+
+    CGContextClipToRect(c, CGRectMake(100, 100, 100, 100)); //左图是加了这句代码的效果
+    CGContextAddEllipseInRect(c, CGRectMake(100, 100, 200, 200));
+    CGContextAddEllipseInRect(c, CGRectMake(100, 100, 50, 50));
+    CGContextFillPath(c);
+    [self gridWithContext:c];
+}
+```
+
+<img src="/assets/images/coretext/36.png"/>
+
+## Color and Color Spaces
+
 ## Transforms[$]
 ## Patterns[$]
 ## Shadows[$]
@@ -653,7 +949,7 @@ CGContextRef MyCreateBitmapContext(int pixelsWide,int pixelsHigh){
     // bytesPerRow: 当 data 和 bytesPerRow 是 16-byte 对其的时候，将获得最佳性能。
     // space: 用于位图上下文的颜色空间。创建位图图形上下文时，可以提供Gray，RGB，CMYK或NULL颜色空间。
     // bitmapInfo: 指定要用于内存中像素每个部分的位数。例如，对于32位像素格式和RGB颜色空间，应为每个组件指定8位的值。
-    //CGBitmapContextCreate(void * __nullable data,size_t width, size_t height, size_t bitsPerComponent, size_t bytesPerRow,CGColorSpaceRef cg_nullable space, uint32_t bitmapInfo)
+    //CGBitmapContextCreate(void * __nullable data,size_t width, size_t height, size_t bitsPerComponent, size_t bytesPerRow,CGColorSpaceRef space, uint32_t bitmapInfo)
     
 }
 
@@ -724,7 +1020,7 @@ Quartz中的颜色由一组值表示：(值范围:0.0-1.0)
 
 ```objc
 // 通过这个函数可以清除图形上下文中的透明度值
-void CGContextClearRect(CGContextRef cg_nullable c, CGRect rect);
+void CGContextClearRect(CGContextRef c, CGRect rect);
 ```
 
 #### 创建通用的色彩空间
@@ -748,7 +1044,7 @@ CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 索引颜色空间包含一个最多包含256个条目的颜色表。
 
 ```objc
-CGColorSpaceRef __nullable CGColorSpaceCreateIndexed(CGColorSpaceRef baseSpace,size_t lastIndex, const unsigned char * cg_nullable colorTable);
+CGColorSpaceRef __nullable CGColorSpaceCreateIndexed(CGColorSpaceRef baseSpace,size_t lastIndex, const unsigned char * colorTable);
 ```
 
 #### 设置和创建颜色
@@ -757,9 +1053,9 @@ Quartz提供了一组用于设置 填充色(fill color)、 描边色(stroke colo
 
 ```objc
 // 设置填充色空间
-CGContextSetFillColorSpace(CGContextRef cg_nullable c,CGColorSpaceRef cg_nullable space);
+CGContextSetFillColorSpace(CGContextRef c,CGColorSpaceRef space);
 // 设置描边色空间
-CGContextSetStrokeColorSpace(CGContextRef cg_nullable c,CGColorSpaceRef cg_nullable space);
+CGContextSetStrokeColorSpace(CGContextRef c,CGColorSpaceRef space);
 ```
 
 |功能|用于设置颜色|
@@ -771,14 +1067,14 @@ CGContextSetStrokeColorSpace(CGContextRef cg_nullable c,CGColorSpaceRef cg_nulla
 |CGContextSetStrokeColor<br>CGContextSetFillColor|当前的色彩空间。不建议使用。可以使用`CGContextSetFillColorSpace`、`CGContextSetStrokeColorSpace`函数|
 
 ```objc
-CGColorRef __nullable CGColorCreate(CGColorSpaceRef cg_nullable space,const CGFloat * cg_nullable components);
+CGColorRef __nullable CGColorCreate(CGColorSpaceRef space,const CGFloat * components);
 ```
 
 #### 设置渲染
 定Quartz如何将颜色从源颜色空间映射到图形上下文的目标颜色空间的色域内。
 
 ```objc
-void CGContextSetRenderingIntent(CGContextRef cg_nullable c,CGColorRenderingIntent intent);
+void CGContextSetRenderingIntent(CGContextRef c,CGColorRenderingIntent intent);
 ```
 
 * `kCGRenderingIntentDefault`: 使用上下文的默认呈现方式。
