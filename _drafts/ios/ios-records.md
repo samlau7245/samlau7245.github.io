@@ -59,6 +59,17 @@ imgView.tintColor = [UIColor whiteColor];
 [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NSNotificationName" object:nil userInfo:@{}]];
 ```
 
+#### NSString
+
+##### NSMutableAttributedString 用H5属性展示
+
+```objc
+NSDictionary *options = @{ NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType };
+NSString* htmlString = @"<font color='#DC143C'>订单将会在</font>"; // 展示颜色为#DC143C的字体
+NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:options documentAttributes:nil error:nil];
+```
+
 #### [iOS NSError HTTP错误码大全](https://www.cnblogs.com/yang-shuai/p/6830142.html)
 
 #### 字典(NSDictionary)和JSON字符串(NSString)之间互转
+

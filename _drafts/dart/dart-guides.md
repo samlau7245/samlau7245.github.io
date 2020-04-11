@@ -221,18 +221,15 @@ assert(loudify('hello') == '!!! HELLO !!!');
 ```dart
 /// 返回一个函数，返回的函数参数与 [addBy] 相加。
 Function makeAdder(num addBy) {
-  return (num i) => addBy + i;
+  return (num i){
+    return addBy + i;
+  };
 }
 
 void main() {
-  // 创建一个加 2 的函数。
-  var add2 = makeAdder(2);
-
-  // 创建一个加 4 的函数。
-  var add4 = makeAdder(4);
-
-  assert(add2(3) == 5);
-  assert(add4(3) == 7);
+  var add = makeAdder(2);
+  var result = add(2);
+  print(result);// 4
 }
 ```
 
@@ -738,12 +735,223 @@ class Last<T> {
 #### 在函数中使用范型(不想写)
 
 ## 库和可见性
+* `import`和`library`指令可以用来创建一个模块化的、可共享的代码库。
+* 以下划线`(_)`开头的标识符仅在库内可见。
+
+### 使用库
+* 通过`import`来使用库。
+
+```dart
+// 导入系统库
+import 'dart:html';
+
+//========================
+
+//如果导入两个存在冲突标识符的库， 则可以为这两个库，或者其中一个指定前缀。
+import 'package:lib1/lib1.dart';
+import 'package:lib2/lib2.dart' as lib2;
+
+Element element1 = Element();// 使用 lib1 中的 Element。
+lib2.Element element2 = lib2.Element();// 使用 lib2 中的 Element。
+
+//========================
+
+//如果只使用库的一部分功能，则可以选择需要导入的 内容。
+import 'package:lib1/lib1.dart' show foo;// Import only foo.
+import 'package:lib2/lib2.dart' hide foo;// Import all names EXCEPT foo.
+```
+
+#### 延迟加载库
+* 延迟加载库：`deferred as`，在用到的时候再加载。
+
+```dart
+import 'package:greetings/hello.dart' deferred as hello;
+
+Future greet() async {
+  await hello.loadLibrary(); // 使用 await 关键字暂停代码执行一直到库加载完成。
+  hello.printGreeting();
+}
+```
+### 新建库
+### 管理库
+
+## 异步支持
+* 异步编程通常使用回调方法来实现，但是Dart提供了其他方案：`Future`和`Stream`对象。
+* `Future`代表在将来某个时刻会返回一个结果。
+
+* 使用`async`和`await`关键字实现异步编程。
+* `await` 必须再`async`中使用。在一个异步函数中可以多次使用`await` 。
+* 使用`try`、`catch`和`finally`来处理代码中使用`await`导致的错误。
+
+### Future
+
+通常异步函数返回的对象就是一个`Future`。当一个`future`完成执行后，`future`中的值就已经可以使用了。
+
+#### 构造函数
+##### Future()
+
+```dart
+Future<T>(
+  FutureOr<T> computation()
+)
+```
+
+```dart
+Function funcA(num var1,num var2) => (){ return var1 + var2;};
+Future futureA(num var1,num var2){
+  // Future<dynamic> Future(FutureOr<dynamic> Function() computation)
+  // 可以看到 Future()构造函数的参数是一个Function，闭包或者说block
+  return new Future(funcA(var1,var2));
+}
+
+void main() {
+  futureA(1,2).then((value) => print(value)); // 3
+}
+```
+
+其中`Function funcA(num var1,num var2) => (){ return var1 + var2;};`是一种简化写法，完整的：
+
+```dart
+Function funcA(num var1,num var2) {
+  Function fun = (){
+    return var1 + var2;
+  };
+  return fun;
+}
+```
+
+或者直接在构造函数中写闭包：
+
+```dart
+Future futureB(num var1,num var2){
+  return new Future(() => var1 + var2);
+}
+void main() {
+  futureA(1,2).then((value) => print(value)); // 3
+}
+```
+
+#### 静态方法
+
+```dart
+Future<List<T>> wait <T>(
+  Iterable<Future<T>> futures, {
+  bool eagerError: false,
+  void cleanUp(
+    T successValue
+  )
+})
+
+var future = Future.wait([
+  Future.delayed(new Duration(seconds:1),() => print("Hellow Sync1")),
+  Future.delayed(new Duration(seconds:2),() => print("Hellow Sync2"))
+]);
+print(future); // _Future<List<void>>
+
+// Instance of '_Future<List<void>>'
+// Hellow Sync1
+// Hellow Sync2
+
+
+void main() {
+  var future = Future.wait([
+    Future.delayed(new Duration(seconds:1),() => 1),
+    Future.delayed(new Duration(seconds:2),() => 2)
+  ]);
+  print(future);//_Future<List<void>>
+  
+  future.then((List values){
+    values.forEach((value) => print(value));
+  });
+  
+  future.catchError((e) => print(e));
+  future.whenComplete(() => print("Sync finished!"));
+}
+
+// Instance of '_Future<List<int>>'
+// 1
+// 2
+// Sync finished!
+
+// 优化
+void main() {
+  Future.wait([
+    Future.delayed(new Duration(seconds:1),() => 1),
+    Future.delayed(new Duration(seconds:2),() => 2)
+  ]).then((List values){
+    values.forEach((value) => print(value));
+  }).catchError((e) => print(e)).whenComplete(() => print("Sync finished!"));
+}  
+```
+
+* 构造函数：
+  * `Future.then()` : 任务执行完成会进入这里，能够获得返回的执行结果。
+  * `Future.catchError()` : 有任务执行失败，可以在这里捕获异常。
+  * `Future.whenComplete()` : 当任务停止时，最后会执行这里。
+  * `Future.wait()` : 可以等待多个异步任务执行完成后，再调用`then()`。
+  * `Future.delayed()` : 延迟执行一个延时任务。
+
+```dart
+// Future、FutureOr
+```
+
+#### 使用 wait
+使用`wait`来代替`Future API`可以使代码更易理解些。 
+
+我们使用`Future`的`then()`执行三个异步函数，顺序执行：`findEntryPoint()` -> `runExecutable()` -> `flushThenExit()`
+
+```dart
+Future<num> findEntryPoint() => new Future(() => 1);
+Future<num> runExecutable(entryPoint)=> new Future(() => 1 + entryPoint);
+flushThenExit(exitCode){
+  print('exitCode:$exitCode');
+}
+
+runUsingFuture(){
+  findEntryPoint().then((entryPoint) {
+    print(entryPoint);// 1
+    return runExecutable(entryPoint);
+  }).then(flushThenExit);
+}
+
+void main() {
+  runUsingFuture();
+}
+```
+
+现在使用`wait`表达式对代码进行重构：
+
+```dart
+runUsingAsyncAwait() async {
+  var entryPoint = await findEntryPoint();
+  var exitCode = await runExecutable(entryPoint);
+  await flushThenExit(exitCode);
+}
+void main() {
+  var ret = runUsingAsyncAwait();
+  print(ret); // Instance of '_Future<dynamic>'
+}
+```
+
+> `async`函数返回为`Future`对象。
+
+完善下代码，添加一下异常捕捉:
+
+```dart
+runUsingAsyncAwait() async {
+  try{
+    var entryPoint = await findEntryPoint();
+  var exitCode = await runExecutable(entryPoint);
+  await flushThenExit(exitCode);
+  }catch(e){
+  }
+}
+```
 
 ## 参考资料
 
 * [Dart 编程语言概览](https://www.dartcn.com/guides/language/language-tour)
 * [DartPad](https://dartpad.cn)
-
 
 
 
