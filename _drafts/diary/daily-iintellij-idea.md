@@ -16,16 +16,28 @@ categories:
 |Recent File|Command+E|
 |Navigation Bar|Command+UP|
 |Go to symbol|⌥⌘O|
+|Go to declaration|⌘B|
+
+Use the ⌥⇧⌘U keyboard shortcut to open a UML class diagram in a new editor.
 
 * [管理插件](https://www.jetbrains.com/help/idea/managing-plugins.html)
-
 * 可以在`Settings-Plugins`中安装、启用或禁用插件。
-
 * Configure
 	* Plugins:插件管理，可以重新禁用或启用插件。
 	* Import Settings:导入旧的配置文件，配置文件是 jar 格式。
 	* Export Settings:导出配置文件，定期导出配置文件会减少很多不必要的麻烦。
 
+
+## 创建最简单的界面
+
+* [JAVA PROJECT](https://how2j.cn/k/idea/idea-java-project/1351.html#step5711)
+* [创建Maven项目](https://how2j.cn/k/idea/idea-maven-config/1353.html)
+* [创建父子项目](https://how2j.cn/k/idea/idea-parent-child/2051.html#step9285)
+* [IntelliJ IDEA使用教程](http://www.phperz.com/special/83.html)
+
+## IntelliJ IDEA 构建maven多模块项目
+
+其中groupId是公司域名的反写，而artifactId是模块名，version就是该模块所对应的版本号
 
 ## 快捷键
 ```

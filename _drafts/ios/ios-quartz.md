@@ -832,7 +832,113 @@ void CGContextClipToMask(CGContextRef c, CGRect rect,CGImageRef mask);
 
 ## Color and Color Spaces
 
-## Transforms[$]
+### 色彩空间的值
+
+|值|色彩空间|组件|
+|---|---|---|
+|240 degrees, 100%, 100%|HSB|Hue, saturation, brightness|
+|0, 0, 1|RGB|Red, green, blue|
+|1, 1, 0, 0|CMYK|Cyan, magenta, yellow, black|
+|1, 0, 0|BGR|Blue, green, red|
+
+### 透明度(Alpha)
+
+不同的`Alpha`值展示的控件样式：
+
+<img src="/assets/images/coretext/37.gif"/>
+
+通过在绘制之前在图形上下文中设置全局的`Alpha`值，使的页面上的对象和页面本身透明。
+
+<img src="/assets/images/coretext/38.gif"/>
+
+```objc
+// 设置全局的Alpha
+void CGContextSetAlpha(CGContextRef c, CGFloat alpha);
+// 通过清除图形上下文中的Alpha值来达到页面本身透明。
+void CGContextClearRect(CGContextRef c, CGRect rect);
+```
+
+### 创建色彩空间
+设备（显示器，打印机，扫描仪，照相机）的颜色处理方式不同。每种都有其自己的颜色范围。色彩空间用于管理这些不同设备的颜色。
+
+```objc
+// 创建色彩空间
+CGColorSpaceRef CGColorSpaceCreateWithName(CFStringRef name);
+// 通过传入色彩空间来创建CGColor对象。数组中的最后一个组件指定alpha值
+CGColorRef CGColorCreate(CGColorSpaceRef space,const CGFloat * components);
+```
+
+```objc
+CGFloat components[] = {
+    255.F/255.F, //R
+    255.F/255.F, //G
+    255.F/255.F, //B
+    1.0 // Alpha
+};
+CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+CGColorRef color = CGColorCreate(space, components);
+```
+
+色彩空间的值：
+
+* 备无关的色彩空间:
+    * `CGColorSpaceCreateLab` : 
+    * `CGColorSpaceCreateICCBased` : 
+    * `CGColorSpaceCreateCalibratedRGB` : 
+    * `CGColorSpaceCreateCalibratedGray` : 
+* 通用色彩空间:
+    * `kCGColorSpaceGenericGray` :通用灰色，是一种单色空间，允许从绝对黑(0.0)到绝对白(1.0)的单值。
+    * `kCGColorSpaceGenericRGB` : 通用RGB，由三部分组成的色彩空间(Red, green, blue)。
+    * `kCGColorSpaceGenericCMYK` : 通用CMYK，组成的色彩空间(Cyan, magenta, yellow, black)，模拟打印机墨水的堆积方式。
+* 设备色彩空间:
+    * `CGColorSpaceCreateDeviceGray` : 
+    * `CGColorSpaceCreateDeviceRGB` : 
+    * `CGColorSpaceCreateDeviceCMYK` : 
+* 索引和图案颜色空间:
+    * `CGColorSpaceCreateIndexed` : 
+    * `CGColorSpaceCreatePattern` :
+
+### 设置和创建颜色
+* Quartz提供了一组用于设置填充(Fill)颜色，描边(Stroke)颜色，颜色空间和Alpha的功能。
+* 颜色必须关联到色彩空间，不然Quartz不知道如何解释颜色值。
+
+设置颜色:
+
+```objc
+//设备RGB
+void CGContextSetRGBStrokeColor(CGContextRef c,CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
+void CGContextSetRGBFillColor(CGContextRef c, CGFloat red,CGFloat green, CGFloat blue, CGFloat alpha);
+
+// 设备CMYK
+void CGContextSetCMYKStrokeColor(CGContextRef c,CGFloat cyan, CGFloat magenta, CGFloat yellow, CGFloat black, CGFloat alpha);
+void CGContextSetCMYKFillColor(CGContextRef c,CGFloat cyan, CGFloat magenta, CGFloat yellow, CGFloat black, CGFloat alpha);
+
+// 设备灰色
+void CGContextSetGrayStrokeColor(CGContextRef c,CGFloat gray, CGFloat alpha);
+void CGContextSetGrayFillColor(CGContextRef c,CGFloat gray, CGFloat alpha);
+
+// 任何色彩空间
+void CGContextSetStrokeColorWithColor(CGContextRef c,CGColorRef color);
+void CGContextSetFillColorWithColor(CGContextRef c,CGColorRef color);
+
+// 当前的色彩空间。不建议
+void CGContextSetStrokeColor(CGContextRef c,const CGFloat * components);
+void CGContextSetFillColor(CGContextRef c,const CGFloat * components);
+```
+
+### 设置渲染
+
+```objc
+// kCGRenderingIntentDefault,
+// kCGRenderingIntentAbsoluteColorimetric,
+// kCGRenderingIntentRelativeColorimetric,
+// kCGRenderingIntentPerceptual,
+// kCGRenderingIntentSaturation
+void CGContextSetRenderingIntent(CGContextRef c,CGColorRenderingIntent intent);
+```
+
+## Transforms
+
 ## Patterns[$]
 ## Shadows[$]
 ## Gradients[$$]

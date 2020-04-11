@@ -47,6 +47,7 @@ categories:
 @interface OperationFactory : NSObject
 @end
 @implementation OperationFactory
+// 通过多态返回父类的方式来实现。
 +(Operation*)createFactory:(NSString*)operation{
     Operation *oper;
     // 这里推荐用switch，不过objc的switch只支持整数。

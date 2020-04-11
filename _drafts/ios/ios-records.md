@@ -1,15 +1,15 @@
 ---
-title: iOS面试 building...
-description: building...
+title: iOS 知识碎片记录
 layout: post
-date: 2019-12-21 05:20:00
 categories:
  - ios
 ---
 
-## UIButton
+## UIKit
 
-### 修改`UIButton`中`imageView`的图片颜色
+### UIButton
+
+#### 修改`UIButton`中`imageView`的图片颜色
 
 ```objc
 UIImage *image = [UIImage imageNamed:@"back"];
@@ -20,9 +20,17 @@ UIButton *_goBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
 _goBackButton.tintColor = [UIColor redColor];
 ```
 
-## UIImageView
+#### 设置`UIButton`图片居上
 
-### 修改`imageView`的图片颜色
+```objc
+btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+[btn setTitleEdgeInsets:UIEdgeInsetsMake(btn.imageView.frame.size.height ,-btn.imageView.frame.size.width, 0.0,0.0)];
+[btn setImageEdgeInsets:UIEdgeInsetsMake(-btn.imageView.frame.size.height, 0.0,0.0, -btn.titleLabel.bounds.size.width)];
+```
+
+### UIImageView
+
+#### 修改`imageView`的图片颜色
 
 ```objc
 UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"back"]];
@@ -30,13 +38,9 @@ imgView.image = [imgView.image imageWithRenderingMode:(UIImageRenderingModeAlway
 imgView.tintColor = [UIColor whiteColor];
 ```
 
-### [iOS NSError HTTP错误码大全](https://www.cnblogs.com/yang-shuai/p/6830142.html)
-
 ## Foundation
 
-### 字典(NSDictionary)和JSON字符串(NSString)之间互转
-
-### NSNotificationCenter
+#### NSNotificationCenter
 
 ```objc
 // 在 ViewControllerA 中定义了通知
@@ -55,3 +59,6 @@ imgView.tintColor = [UIColor whiteColor];
 [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NSNotificationName" object:nil userInfo:@{}]];
 ```
 
+#### [iOS NSError HTTP错误码大全](https://www.cnblogs.com/yang-shuai/p/6830142.html)
+
+#### 字典(NSDictionary)和JSON字符串(NSString)之间互转

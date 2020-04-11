@@ -293,25 +293,13 @@ button.onClick.listen((e) => window.alert('Confirmed!'));
 * `assert`: 如果`assert`语句中的布尔条件为`false`， 那么正常的程序执行流程会被中断。 
 
 ```dart
+// if 条件
 if (isRaining()) {
 } else if (isSnowing()) {
 } else {
 }
 
-for (var i = 0; i < 5; i++) {
-}
-
-while (boolValue) {
-}
-
-do {
-} while (boolValue);
-
-while (true) {
-  if (shutDownRequested()) break;
-  processIncomingRequests();
-}
-
+// switch 条件
 switch (command) {
   case 'CLOSED':
     executeClosed();
@@ -321,6 +309,20 @@ switch (command) {
     break;
   default:
     executeUnknown();
+}
+
+// for 循环
+for (var i = 0; i < 5; i++) {
+}
+
+// do while 循环
+do {
+} while (boolValue);
+
+// while 循环
+while (true) {
+  if (shutDownRequested()) break; // 跳出循环
+  processIncomingRequests();
 }
 ```
 
@@ -504,6 +506,238 @@ class Point{
 #### 工厂构造函数
 
 > 工厂构造函数无法使用`this`。
+
+### 方法
+
+#### 实例方法
+
+对象的实例方法可以访问`this`和实例变量。
+
+```dart
+void main() {
+  var p = Point(1,2);
+  print(p.funcDemo(3,4));
+}
+
+class Point{
+  num x,y;
+  Point(this.x, this.y);
+  num funcDemo(num a, num b){
+    return a + b + x + y;
+  }
+}
+```
+
+#### Getter 和 Setter
+`Getter`和`Setter`是用于对象属性读和写的特殊方法，每个实例变量都有一个隐式`Getter`，通常情况下还会有一个`Setter`。使用`get`和`set`关键字实现`Getter`和`Setter`，能够为实例创建额外的属性。
+
+```dart
+class Point{
+  num x,y;
+  Point(this.x, this.y);
+  num funcDemo(num a, num b){
+    return a + b + x + y;
+  }
+  // 定义新属性 z
+  num get z => x + y;
+  set z(num value) => y = value + x;
+}
+```
+
+### 抽象类、抽象方法
+* 抽象类 : 使用`abstract`修饰符来定义的类。抽象类通常用来定义接口，以及部分实现。抽象类不能被实例话。
+* 抽象方法 : 只定义接口不进行实现，抽象方法只存在于`抽象类`中。
+
+```dart
+abstract class AbsClass{ // 抽象类
+  void absFunc();// 抽象方法
+}
+
+class ExtClass extends AbsClass {
+  // 实现抽象方法
+  void absFunc() {
+    
+  }
+}
+```
+
+### 隐式接口
+* 每个类都隐式的定义了一个接口，接口包含了该类所有的实例成员及其实现的接口。
+* 一个类可以通过`implements`关键字来实现一个或者多个接口， 并实现每个接口要求的 API。
+
+```dart
+class ClassA{
+  String funcA(String name) => 'name is $name';// 包含在接口里
+}
+
+class ClassB{
+  String funcB(String name) => 'name is $name';// 包含在接口里
+}
+
+class ClassC implements ClassA,ClassB{
+  String funcA(String name) => 'name is $name，Hello';// 实现接口内容
+  String funcB(String name) => 'name is $name，Hello';// 实现接口内容
+}
+```
+
+### 扩展类（继承）
+* 使用`extends`关键字来创建子类， 使用`super`关键字来引用父类
+* 可以使用`@override`注解指出想要重写的成员。
+* 不支持多继承。
+
+```dart
+class ClassA{
+  String funcA(String name) => 'name is $name';// 包含在接口里
+  String funcAA(String name) => 'name is $name';// 包含在接口里
+}
+
+class ClassC extends ClassA{
+  // 继承类方法
+  String funcA(String name) {
+    var tmp = super.funcA(name);
+    return 'son class $tmp';
+  }
+  //重写实例方法
+  @override
+  String funcAA(String name) {
+    return 'override';
+  }
+}
+```
+
+### 枚举类型
+* 使用`enum`关键字定义一个枚举类型。
+
+```dart
+enum Color { red, green, blue }
+
+// 枚举中的每个值都有一个 index getter 方法， 该方法返回值所在枚举类型定义中的位置（从 0 开始）。
+assert(Color.red.index == 0);
+```
+
+### 类变量(静态变量)和方法
+* 使用`static`关键字实现类范围的变量和方法。
+* 类变量(静态变量)对于类级别的状态是非常有用。它们被使用的时候才会初始化。
+* 静态方法（类方法）不能在实例上使用，因此它们不能访问`this`。
+
+```dart
+void main() {
+  ClassA.funcStatic();
+}
+
+class ClassA{
+  // 静态变量
+  static const initialCapacity = 16;
+  // 静态方法
+  static void funcStatic(){
+    print('static func');
+  }
+}
+```
+
+## 泛型
+
+> 数组类型`List<E>`：`<…>`符号将`List`标记为`泛型 (或 参数化)`类型。通常情况下，使用一个字母来代表类型参数， 例如 E, T, S, K, 和 V 等。
+
+### 使用场景
+
+```dart
+// 在没有范型之前，有两种类型的缓存。除了类型不一样外其他都不变。
+
+// 这是Object类型的缓存类
+abstract class ObjectCache {
+  Object getByKey(String key);
+  void setByKey(String key, Object value);
+}
+// 这是String类型的缓存类
+abstract class StringCache {
+  String getByKey(String key);
+  void setByKey(String key, String value);
+}
+
+// 可以使用范型把重复的代码整合在一起
+abstract class Cache<T> { // T 是一个备用类型。 这是一个类型占位符，在开发者调用该接口的时候会指定具体类型。
+  T getByKey(String key);
+  void setByKey(String key, T value);
+}
+```
+
+从上面可以看出使用范型：<br>
+* 正确指定泛型类型可以提高代码质量。
+* 使用泛型可以减少重复的代码。
+
+### 使用集合字面量
+
+```dart
+// List
+var names = <String>['Seth', 'Kathy', 'Lars'];
+// Set
+var uniqueNames = <String>{'Seth', 'Kathy', 'Lars'};
+// Map
+var pages = <String, String>{
+  'index.html': 'Homepage',
+  'robots.txt': 'Hints for web robots',
+  'humans.txt': 'We are people, not machines'
+};
+```
+
+### 使用泛型类型的构造函数
+
+```dart
+// 通过构造函数 Set.from() 创建类型为String的Set对象
+var nameSet = Set<String>.from(names);
+// 创建了一个 key 为 integer， value 为 View 的Map对象
+var views = Map<int, View>();
+```
+
+### 运行时中的泛型集合
+Dart 中泛型类型是`固化的`，在创建时就已经固定，在运行时可以通过方法检测范型的类型。
+
+```dart
+var names = List<String>();
+print(names is List<String>); // true
+```
+
+### 限制泛型类型
+* 使用`extends`来限制范型的类型。
+
+```dart
+class ClassDemoOne{
+  // Implementation...
+}
+class ClassDemoSonOne extends ClassDemoOne{
+  // Implementation...
+}
+// Last<T>中，可以把 ClassDemoOne 类或其子类(ClassDemoSonOne...)作为其通用参数，也可以不指定参数
+class Last<T extends ClassDemoOne> {
+  // Implementation...
+}
+void main() {
+  var obj1 = Last<ClassDemoOne>();
+  var obj2 = Last<ClassDemoSonOne>();
+  var obj3 = Last();
+
+  var obj3 = Last<Object>();// 报错
+}
+```
+
+### 使用泛型函数
+
+* 范型可以使用在`类`、`方法`、`函数`上。
+
+#### 在方法中使用范型
+
+```dart
+class Last<T> {
+  T funcDemo<T> (List<T> list) {
+    T ret = list[0];
+    return ret;
+  }
+}
+```
+#### 在函数中使用范型(不想写)
+
+## 库和可见性
 
 ## 参考资料
 
