@@ -948,92 +948,34 @@ runUsingAsyncAwait() async {
 }
 ```
 
+## TODO
+
+```dart
+const final 熟练
+
+======
+
+const DefaultTextStyle({
+    Key key,
+    @required this.style,
+    this.textAlign,
+    this.softWrap = true,
+    this.overflow = TextOverflow.clip,
+    this.maxLines,
+    this.textWidthBasis = TextWidthBasis.parent,
+    @required Widget child,
+  }) : assert(style != null),
+       assert(softWrap != null),
+       assert(overflow != null),
+       assert(maxLines == null || maxLines > 0),
+       assert(child != null),
+       assert(textWidthBasis != null),
+       super(key: key, child: child);
+
+构造函数彻底巩固       
+```
+
 ## 参考资料
 
 * [Dart 编程语言概览](https://www.dartcn.com/guides/language/language-tour)
 * [DartPad](https://dartpad.cn)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
