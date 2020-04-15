@@ -1692,7 +1692,389 @@ class MyApp extends StatelessWidget {
 |onSubmitted|||
 |enabled|||
 
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+// MyApp 不做状态处理，所以继承 StatelessWidget
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // 添加文本编辑器，监听文本输入内容变化
+    final TextEditingController controller = TextEditingController();
+    controller.addListener(() {
+      print('输入的内容为：${controller.text}');
+    });
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('Title'),
+        ),
+        body: new Center(
+          child: TextField(
+            controller: controller,
+            maxLength: 30,// 最大长度
+            maxLines: 1,//最大行数
+            autocorrect: true, //是否自动更正
+            autofocus: true,//是否自动对焦
+            obscureText: false,//是否加密
+            textAlign: TextAlign.center,//文本对齐方式
+            style: TextStyle(
+              fontSize: 26.0,color: Colors.green
+            ),
+            onChanged: (text){ // 文本改变时的回调
+            },
+            onSubmitted: (text){ // 内容提交时的回调
+            },
+            enabled: true, //是否禁用
+            decoration: InputDecoration(
+              fillColor: Colors.grey.shade200,
+              filled: true,
+              helperText: '用户名',
+              prefixIcon: Icon(Icons.person),
+              suffixText: '用户名'
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/26.png" width = "25%" height = "25%"/>
+
 #### Card(卡片组件)
+Card(卡片组件)内容可以由大多数类型的`Widget`构成，但通常与`ListTitle`搭配使用。`Card`有一个`child`属性，可以支持多个`child`的列、行、列表、网格或者其他小部件。默认情况下`Card`将其大小缩放为`0`像素。你可以使用`SizeBox`组件来限制`Card`的大小。
+
+| 属性|类型|说明|
+| --- | --- | --- |
+|child|Widget||
+|margin|||
+|shape|ShapeBorder||
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var card = new SizedBox(
+      height: 250.0,
+      child: new Card(
+        child: new Column(
+          children: <Widget>[
+            new ListTile(
+              title: Text('data1'),
+              subtitle: Text('2020动画《真人快打传奇：蝎子的复仇》1080p.HD中英双字[04-14]2019动画《红鞋子和七个小矮人》1080p.HD中英双字'),
+              leading: Icon(Icons.home),
+            ),
+            new Divider(),
+            new ListTile(
+              title: Text('data2'),
+              subtitle: Text('2020动画《真人快打传奇：蝎子的复仇》1080p.HD中英双字[04-14]2019动画《红鞋子和七个小矮人》1080p.HD中英双字'),
+              leading: Icon(Icons.school),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('Title'),
+        ),
+        body: new Center(
+          child: card,
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/27.png"/>
+
+## 页面布局
+
+| 组件名称 | 中文名称 | 描述 |
+| --- | --- | --- |
+| Align | 对齐布局 | 指定child的对齐方式 |
+| AspectRatio |调整宽高比|根据设置的宽高比调整child|
+|Baseline|基准线布局|所有child底部所在的同一条水平线|
+|Center|居中布局|child处于水平和垂直向的中间位置|
+|Column|垂直布局|对child在垂直方向进行排列|
+|ConstrainedBox|限定宽高|限定child的最大值|
+|Container|容器布局|容器布局是一个组合的Widget,包含定位和尺寸|
+|FittedBox|缩放布局|缩放以及位置调整|
+|FrationallySizedBox|百分比布局|根据现有空间按照百分比调整child的尺寸|
+|Gridview|网格布局|对多行多列同时进行操作|
+|IndexedStack|栈索引布局|Indexedstack继承自Stack,显示第index个child,其他child都是不可见的|
+|LimitedBox|限定宽高布局|对最大宽高进行限制|
+|ListView|列表布局|用列表方式进行布局,比如多项数据的场景|
+|Offstage|开关布局|控制是否显示组件|
+|OverflowBox|溢出父容器显示|允许child超出父容器的范围显示|
+| Padding | 填充布局 | 处理容器与其child之间的间距 |
+| Row | 水平布局 | 对chid在水平方向进行排列 |
+| SizedBox | 设置具体尺寸 | 一个特定大小的盒子来限定child宽度和高度 |
+| Stack/Alignment | Alignment 栈布局 | 根据Alignment组件的属性将child定位在Stack组件上 |
+| Stack/Positioned | Positioned 栈布局 | 根据Positioned组件的属性将child定位在Stack组件上 |
+| Table |表格布局 | 使用表格的行和列进行布局 |
+| Transform | 矩阵转换 | 做矩阵变换,对child做平移、旋转、缩放等操作。|
+| Wrap | 按宽高自动换行 | 按宽度或者高度,让child自动换行布局 |
+
+### 基础布局
+
+#### Container(基础布局)
+Container(基础布局)是一个组合的Widget，具体的属性可以参考前面章节**常用组件-容器组件**。
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Widget container = new Container(
+      // 添加装饰效果
+      decoration: new BoxDecoration(
+        color: Colors.grey,
+      ),
+      // 子元素指定为一个垂直水平嵌套布局的组件
+      child: new Column(
+        children: <Widget>[
+          // 第一行
+          new Row(
+            children: <Widget>[
+              new Expanded(
+                child: new Container(
+                width: 150.0,
+                height: 150.0,
+                // 添加边框样式
+                decoration: new BoxDecoration(
+                    border: new Border.all(
+                      width: 10.0,
+                      color: Colors.blueGrey,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(8.0),
+                    )),
+                margin: const EdgeInsets.all(4.0),
+                child: new Image.asset('icons/code.png'),
+              )),
+              new Expanded(
+                child: new Container(
+                width: 150.0,
+                height: 150.0,
+                decoration: new BoxDecoration(
+                    border: new Border.all(
+                      width: 10.0,
+                      color: Colors.blueGrey,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(8.0),
+                    )),
+                margin: const EdgeInsets.all(4.0),
+                child: new Image.asset('icons/code.png'),
+              )),
+            ],
+          ),
+          // 第二行
+          new Row(
+            children: <Widget>[
+              new Expanded(
+                  child: new Container(
+                width: 150.0,
+                height: 150.0,
+                decoration: new BoxDecoration(
+                    border: new Border.all(
+                      width: 10.0,
+                      color: Colors.blueGrey,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(8.0),
+                    )),
+                margin: const EdgeInsets.all(4.0),
+                child: new Image.asset('icons/code.png'),
+              )),
+              new Expanded(
+                  child: new Container(
+                width: 150.0,
+                height: 150.0,
+                decoration: new BoxDecoration(
+                    border: new Border.all(
+                      width: 10.0,
+                      color: Colors.blueGrey,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(8.0),
+                    )),
+                margin: const EdgeInsets.all(4.0),
+                child: new Image.asset('icons/code.png'),
+              )),
+            ],
+          )
+        ],
+      ),
+    );
+
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('Title'),
+        ),
+        body: container,
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/28.png"/>
+
+#### Center(居中布局)
+Center(居中布局)： 子元素处于水平和垂直方向的中间位置。
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('Title'),
+        ),
+        body: new Center(
+          child: new Text('Center Layout'),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/29.png" width = "25%" height = "25%"/>
+
+#### Padding(填充布局)
+Padding(填充布局)： 用于处理容器与其子元素之间的间距，与`padding`对应的属性是 `margin` 属性，`margin`是处理容器与其他组件之间的间距。
+
+| 属性|类型|说明|
+| --- | --- | --- |
+|padding|EdgeInsetsGeometry|填充的值可以用`EdgeInsets`方法，例如：`EdgeInsets.all(6.0)`将容器的上下左右填充设置为6.0|
+
+##### 构造函数
+
+```dart
+const EdgeInsets.all(double value)
+const EdgeInsets.only({double left: 0.0,double top: 0.0,double right: 0.0,double bottom: 0.0})
+const EdgeInsets.symmetric({double vertical: 0.0,double horizontal: 0.0})
+```
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: PaddingDemo(),
+    );
+  }
+}
+
+class PaddingDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: Text('Padding Demo'),
+      ),
+      body: new Center(
+        child: new Container(
+          width: 300.0,
+          height: 300.0,
+          // 容器的上下左右填充设置为60.0
+          padding: new EdgeInsets.all(30.0),
+          decoration: new BoxDecoration(
+            color: Colors.red,
+            border: new Border.all(
+              color: Colors.green,
+              width: 8.0,
+            ),
+          ),
+          child: new Container(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/30.png" /> <!-- width = "25%" height = "25%" -->
+
+#### Align(对齐布局)
+Align(对齐布局)： 将子组件按照指定的方式对齐，并且根据子组件的大小调整自己的大小。
+
+|属性|值|描述|
+| --- | --- | --- | --- |
+|bottomCenter|(0.5,1.0)|底部中心|
+|bottomLeft|(0.0,1.0)|左下角|
+|bottomRight|(1.0,1.0)|右下角|
+|center|(0.5,0.5)|水平垂直居中|
+|centerLeft|(0.0,0.5)|坐边缘中心|
+|centerRight|(1.0,0.5)|右边缘中心|
+|topCenter|(0.5,0.0)|顶部中心|
+|topLeft|(0.0,0.0)|左上角|
+|topRight|(1.0,0.0)|右上角|
+
+#### Row(水平布局)
+#### Column(垂直布局)
+#### FittedBox(缩放布局)
+#### Stack/Alignment
+#### Stack/Positioned
+#### IndexedStack
+#### OverflowBox 溢出父容器显示
+
+### 宽高尺寸处理
+
+#### SizedBox(设置具体尺寸)
+#### ConstrainedBox(限定最大最小宽度布局)
+#### LimitedBox(限定最大宽度布局)
+#### AspectRatio(调整宽高比)
+#### FractionallySizedBox(百分比布局)
+
+### 列表及表格处理
+
+#### ListView
+#### GridView
+#### Table
+
+### 其他布局处理
+
+#### Transform(矩阵转换)
+#### Baseline(基准线布局)
+#### Offstage(控制是否显示组件)
+#### Wrap(按宽高自动换行布局)
+
+### 布局综合示例
 
 ## 参考资料
 * [Flutter 中文社区](https://flutter.cn/)

@@ -142,6 +142,13 @@ void CGContextSetAllowsAntialiasing(CGContextRef c,bool allowsAntialiasing);
 ```
 <img src="/assets/images/coretext/08.jpg" width = "50%" height = "50%"/>
 
+### 保存、重新保定图形上下文状态
+
+```objc
+void CGContextSaveGState(CGContextRef c);
+void CGContextRestoreGState(CGContextRef c);
+```
+
 ## [路径(Paths)](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_paths/dq_paths.html#//apple_ref/doc/uid/TP30001066-CH211-TPXREF101)
 
 ### 点
@@ -938,6 +945,64 @@ void CGContextSetRenderingIntent(CGContextRef c,CGColorRenderingIntent intent);
 ```
 
 ## Transforms
+### 修改CTM(Current Transformation Matrix)
+可以对CTM进行平移，旋转，缩放和连接。在转换前需要保存图形上下文的状态，以便在绘制后恢复。
+
+```objc
+// 平移
+void CGContextTranslateCTM(CGContextRef c,CGFloat tx, CGFloat ty);
+// 旋转
+void CGContextRotateCTM(CGContextRef c, CGFloat angle);
+// 缩放；sx sy 缩放因子
+void CGContextScaleCTM(CGContextRef c,CGFloat sx, CGFloat sy);
+
+// 旋转角度的工具方法
+#include <math.h>
+static inline double radians (double degrees) {return degrees * M_PI/180;}
+```
+
+```objc
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(c);// 在绘制CTM之前先保存图形上下文状态，为了不影响网格 gridWithContext() 的绘制
+    
+    //CGContextTranslateCTM(c, 100, 100);
+    //CGContextRotateCTM(c, radians(-45.));
+    //CGContextScaleCTM(c, 1.5, .75);
+    
+    UIImage *loadImage = [UIImage imageNamed:@"chiken"];
+    [loadImage drawInRect:CGRectMake(0, 0, loadImage.size.width, loadImage.size.height)];
+    
+    CGContextRestoreGState(c);// 重新保存图形上下文状态，绘制网格
+    [self gridWithContext:c];
+}
+```
+
+<img src="/assets/images/coretext/39.png"/> <!-- width = "25%" height = "25%" -->
+16-4-19 
+17-4-19 5
+18-4-19 6
+19-4-19 7
+20-4-19 8
+
+2019 已用：6天
+
+### 创建CTM
+
+```objc
+// t' = [ 1 0 0 1 tx ty ]
+CGAffineTransform CGAffineTransformMakeTranslation(CGFloat tx,CGFloat ty);
+// t' = [ 1 0 0 1 tx ty ] * t
+CGAffineTransform CGAffineTransformTranslate(CGAffineTransform t,CGFloat tx, CGFloat ty);
+// t' = [ cos(angle) sin(angle) -sin(angle) cos(angle) 0 0 ]
+CGAffineTransform CGAffineTransformMakeRotation(CGFloat angle);
+// t' =  [ cos(angle) sin(angle) -sin(angle) cos(angle) 0 0 ] * t
+CGAffineTransform CGAffineTransformRotate(CGAffineTransform t,CGFloat angle);
+// t' = [ sx 0 0 sy 0 0 ]
+CGAffineTransform CGAffineTransformMakeScale(CGFloat sx, CGFloat sy);
+//t' = [ sx 0 0 sy 0 0 ] * t
+CGAffineTransform CGAffineTransformScale(CGAffineTransform t,CGFloat sx, CGFloat sy);
+```
 
 ## Patterns[$]
 ## Shadows[$]
