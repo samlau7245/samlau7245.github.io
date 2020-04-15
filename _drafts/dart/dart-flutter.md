@@ -2045,17 +2045,493 @@ Align(对齐布局)： 将子组件按照指定的方式对齐，并且根据子
 |topLeft|(0.0,0.0)|左上角|
 |topRight|(1.0,0.0)|右上角|
 
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: PaddingDemo(),
+    );
+  }
+}
+
+class PaddingDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: Text('Align Demo'),
+      ),
+      body: new Stack(
+        children: <Widget>[
+          // 左上角
+          new Align(
+            alignment: new FractionalOffset(0.0, 0.0),
+            child: new Image.asset('icons/code.png',width: 128.0,height: 128.0,),
+          ),
+          // 右上角
+          new Align(
+            alignment: FractionalOffset(1.0, 0.0),
+            child: new Image.asset('icons/code.png',width: 128.0,height: 128.0,),
+          ),
+          // 水平垂直居中
+          new Align(
+            alignment: FractionalOffset.center,
+            child: new Image.asset('icons/code.png',width: 128.0,height: 128.0,),
+          ),
+          // 左下角
+          new Align(
+            alignment: FractionalOffset.bottomLeft,
+            child: new Image.asset('icons/code.png',width: 128.0,height: 128.0,),
+          ),
+          // 右下角
+          new Align(
+            alignment: FractionalOffset.bottomRight,
+            child: new Image.asset('icons/code.png',width: 128.0,height: 128.0,),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/31.png" width = "25%" height = "25%"/>
+
 #### Row(水平布局)
+Row(水平布局) 用来完成子组件在水平方向的排列。
+
+|属性|值|描述|
+| --- | --- | --- | --- |
+|mainAxisAlignment|MainAxisAlignment|主轴的排列方式|
+|crossAxisAlignment|CrossAxisAlignment|次轴的排列方式|
+|mainAxisSize|MainAxisSize|主轴应该占据多少空间。取值max为最大，min为最小。|
+|children|`List<Widget>`||
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: PaddingDemo(),
+    );
+  }
+}
+
+class PaddingDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: Text('Align Demo'),
+      ),
+      body: Row(
+        children: <Widget>[
+          new Expanded(
+            child: new Text('data', textAlign: TextAlign.center,),
+          ),
+          new Expanded(
+            child: new Text('data', textAlign: TextAlign.center,),
+          ),
+          new Expanded(
+            child: new FittedBox(
+              fit: BoxFit.contain,
+              child: const FlutterLogo(),
+            )
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/32.png" width = "25%" height = "25%"/>
+
 #### Column(垂直布局)
+Column(垂直布局) 用来完成对子组件纵向的排列。主轴是垂直方向，次轴是水平方向。
+
+|属性|值|描述|
+| --- | --- | --- | --- |
+|mainAxisAlignment|MainAxisAlignment|主轴的排列方式|
+|crossAxisAlignment|CrossAxisAlignment|次轴的排列方式|
+|mainAxisSize|MainAxisSize|主轴应该占据多少空间。取值max为最大，min为最小。|
+|children|`List<Widget>`||
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: PaddingDemo(),
+    );
+  }
+}
+
+class PaddingDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: Text('Align Demo'),
+      ),
+      body: new Column(
+        children: <Widget>[
+          new Expanded(
+            child: new Text('data', textAlign: TextAlign.center,),
+          ),
+          new Expanded(
+            child: new Text('data', textAlign: TextAlign.center,),
+          ),
+          new Expanded(
+            child: new FittedBox(
+              fit: BoxFit.contain,
+              child: const FlutterLogo(),
+            )
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/33.png" width = "25%" height = "25%"/>
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: PaddingDemo(),
+    );
+  }
+}
+
+class PaddingDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: Text('Align Demo'),
+      ),
+      body: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,// 水平方向靠左对齐
+        mainAxisSize: MainAxisSize.min, //主轴方向最小化处理
+        children: <Widget>[
+          new Text('度权重查询 SEO概况查询 友情链接查询 Google PR查询 Whois信息查询 域名备案查询'),
+          new Text('度权重查询 SEO概况查询 友情链接查询 Google PR查询 Whois信息查询 域名备案查询'),
+          new Text('度权重查询 SEO概况查询 友情链接查询 Google PR查询 Whois信息查询 域名备案查询'),
+          new Text('data1'),
+          new Text('度权重查询 SEO概况查询 友情链接查询 Google PR查询 Whois信息查询 域名备案查询'),
+          new Text('度权重查询 SEO概况查询 友情链接查询 Google PR查询 Whois信息查询 域名备案查询度权重查询 SEO概况查询 友情链接查询 Google PR查询 Whois信息查询 域名备案查询'),
+        ],
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/34.png" width = "25%" height = "25%"/>
+
 #### FittedBox(缩放布局)
+
+* [FittedBox-官方视频教程](https://youtu.be/T4Uehk3_wlY)
+* [FittedBox-官方文档](https://api.flutter.dev/flutter/widgets/FittedBox-class.html)
+
+FittedBox(缩放布局) 组件主要做两件事，`缩放(Scale)`和`位置调整(Position)`。
+
+FittedBox会在自己的尺寸范围内缩放并且调整child的位置。使child适合其尺寸。有点像`ImageView`组件，`ImageView`会将图片在其范围内按照规则进行缩放位置调整。
+
+布局行为分为两种情况:
+
+* 如果外部有约束的话，按照外部约束调整自身尺寸，然后缩放调整child，按照指定的条件进行布局。
+* 如果没有外部约束条件，则跟着child尺寸一致，指定的缩放以及位置属性将不起作用。
+
+属性`alignment`：设置对齐方式，默认是`Alignment.center`，居中展示child。
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(title: Text('data'),),
+        body: new Container(
+          color: Colors.red,
+          width: 200.0,
+          height: 200.0,
+          child: new FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.topLeft,
+            child: new Container(
+              color: Colors.green,
+              child: new Text('Test'),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/35.png" width = "25%" height = "25%"/>
+
+|`fit`缩放属性|图解|描述|
+| --- | --- | --- |
+|contain|<img src="/assets/images/flutter/36.png"/>|`child`在`FittedBox`范围内尽可能大，但是不能超出其尺寸。【`contain`是在保持着`child`宽高比不变的大前提下尽可能的填满，一般是宽度或者高度达到最大值时就会停止缩放。】|
+|cover|<img src="/assets/images/flutter/37.png"/>|按照原始尺寸填充整个容器，内容可能会超过容器范围|
+|fill|<img src="/assets/images/flutter/38.png"/>|不按照宽高比填充，直接填满但是不会超过容器范围|
+|fitHeight|<img src="/assets/images/flutter/39.png"/>|按照高度填充整个容器|
+|fitWidth|<img src="/assets/images/flutter/40.png"/>|按照宽度填充整个容器|
+|none|<img src="/assets/images/flutter/41.png"/>|没有任何填充|
+|scaleDown|<img src="/assets/images/flutter/42.png"/>|根据情况缩小范围，内容不会超过容器范围，有时和`contain`一样有时和`none`一样|
+
 #### Stack/Alignment
+
+`Stack`组件的每个子组件要么定位，要么不定位。定位的子组件用`Positioned`组件包裹。`Stack`组件本身包含所有不定位的子组件，子组件根据`alignment`属性进行定位(默认为左上角)。然后根据定位的子组件的`top`、`right`、`bottom`和`left`属性将它们位置在`Stack`组件上。
+
+|属性|类型|默认值|描述|
+| --- | --- | --- | --- |
+|alignment|AlignmentGeometry|Alignment.topLeft|定位位置有以下几种：<br>`bottomCenter` : 底部中心 <br>`bottomLeft` : 左下角 <br>`bottomRight` : 右下角 <br>`center` : 水平垂直居中 <br>`centerLeft` : 坐边缘中心 <br>`centerRight` : 右边缘中心 <br>`topCenter` : 顶部中心 <br>`topLeft` : 左上角 <br>`topRight` : 右上角|
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var stack = new Stack(
+      alignment: Alignment.topLeft,
+      children: <Widget>[
+        new CircleAvatar(
+          backgroundImage: new AssetImage('icons/code.png'),
+          radius: 100.0,
+        ),
+        new Container(
+          decoration: new BoxDecoration(
+            color: Colors.blue,
+          ),
+          child: new Text(
+            'TestTes',
+            style: new TextStyle(
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        )
+      ],
+    );
+
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(title: Text('data'),),
+        body: new Center(
+          child: stack,
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/43.png"/>
+<!-- width = "25%" height = "25%" -->
+
 #### Stack/Positioned
+`Positioned`组件是用来定位的。`Stack`组件里需要包裹一个定位组件。
+
+|属性|类型|描述|
+| --- | --- | --- |
+|top|double|子元素相对顶部边界距离|
+|bottom|double|子元素相对底部边界距离|
+|left|double|子元素相对坐侧边界距离|
+|right|double|子元素相对右侧边界距离|
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var stack = new Stack(
+      alignment: Alignment.topLeft,
+      children: <Widget>[
+        new CircleAvatar(
+          backgroundImage: new AssetImage('icons/code.png'),
+          radius: 100.0,
+        ),
+        new Positioned(
+            bottom: 50.0,
+            right: 50.0,
+            child: new Text('data',
+                style: new TextStyle(
+                    fontSize: 36.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red))),
+      ],
+    );
+
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: new Center(
+          child: stack,
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/44.png"/>
+
 #### IndexedStack
+
+`IndexedStack`继承了`Stack`，它的作用就是显示第`index`个`child`，其他的`child`不可见。所以`IndexStack`的尺寸永远是和最大的子节点尺寸一致的。
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var stack = new IndexedStack(
+      index: 1,
+      alignment: Alignment.topLeft,
+      children: <Widget>[
+        new CircleAvatar(
+          backgroundImage: new AssetImage('icons/code.png'),
+          radius: 100.0,
+        ),
+        new Positioned(
+            bottom: 50.0,
+            right: 50.0,
+            child: new Text('data',
+                style: new TextStyle(
+                    fontSize: 36.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red))),
+      ],
+    );
+
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: new Center(
+          child: stack,
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/45.png" width = "25%" height = "25%"/>
+
 #### OverflowBox 溢出父容器显示
+`OverflowBox` 组件运行子元素`child`超出父容器的显示范围。
+
+* 当`OverflowBox`的最大尺寸大于`child`的时候，`child`可以完整显示。
+* 当`OverflowBox`的最大尺寸小于`child`的时候，则以最大尺寸为基准，当然这个尺寸是可以突破父节点的。
+
+|属性|类型|描述|
+| --- | --- | --- |
+|alignment|AlignmentGeometry||
+|minWidth|double|允许 child 的最小宽度。如果 child 宽度小于这个值，则按照最小宽度进行显示|
+|maxWidth|double|允许 child 的最大宽度。如果 child 宽度大于这个值，则按照最大宽度进行显示|
+|minHeight|double|允许 child 的最小高度。如果 child 宽度小于这个值，则按照最小高度进行显示|
+|maxHeight|double|允许 child 的最小高度。如果 child 宽度小于这个值，则按照最小高度进行显示|
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: new Container(
+          color: Colors.red,
+          width: 200.0,
+          height: 200.0,
+          padding: const EdgeInsets.all(10.0),
+          child: OverflowBox(
+            alignment: Alignment.topLeft,
+            maxWidth: 300.0,
+            maxHeight: 500.0,
+            child: Container(
+              color: Colors.green,
+              width: 400.0,
+              height: 400.0,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/46.png" width = "25%" height = "25%"/>
 
 ### 宽高尺寸处理
 
 #### SizedBox(设置具体尺寸)
+
+`SizedBox`组件是一个特定大小的盒子，这个组件强制他的child有特定的宽度和高度。
+
+|属性|类型|描述|
+| --- | --- | --- |
+|width|AlignmentGeomtry|如果具体设置了宽度，则强制child宽度为此值；<br> 如果没有设置，则根据child宽度调整自身宽度|
+|height|double|如果具体设置了高度，则强制child高度为此值；<br> 如果没有设置，则根据child高度调整自身宽度|
+
 #### ConstrainedBox(限定最大最小宽度布局)
 #### LimitedBox(限定最大宽度布局)
 #### AspectRatio(调整宽高比)
