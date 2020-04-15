@@ -2529,13 +2529,180 @@ class MyApp extends StatelessWidget {
 
 |属性|类型|描述|
 | --- | --- | --- |
-|width|AlignmentGeomtry|如果具体设置了宽度，则强制child宽度为此值；<br> 如果没有设置，则根据child宽度调整自身宽度|
-|height|double|如果具体设置了高度，则强制child高度为此值；<br> 如果没有设置，则根据child高度调整自身宽度|
+|width|AlignmentGeomtry|如果具体设置了宽度，则强制child宽度为此值； 如果没有设置，则根据child宽度调整自身宽度|
+|height|double|如果具体设置了高度，则强制child高度为此值； 如果没有设置，则根据child高度调整自身宽度|
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: SizedBox(
+          width: 200.0,
+          height: 300.0,
+          child: const Card(
+            child: Text(
+              'data',
+              style: TextStyle(fontSize: 36.0),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/47.png" width = "25%" height = "25%"/>
 
 #### ConstrainedBox(限定最大最小宽度布局)
+`ConstrainedBox`的作用就是限定子元素child的最大宽度、最大高度、最小宽度和最小高度。
+
+| --- | --- | --- |
+|constraints|BoxConstraints|添加到child上的额外限制条件，BoxConstraints的作用就是限制各种最大最小宽高|
+|child|||
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+// 宽度300的Container上添加一个约束最大最小宽高的ConstrainedBox。
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: new ConstrainedBox(
+          constraints: const BoxConstraints(
+            minWidth: 150.0,
+            minHeight: 150.0,
+            maxWidth: 220.0,
+            maxHeight: 220.0,
+          ),
+          child: new Container(
+            width: 300.0,
+            height: 300.0,
+            color: Colors.red,
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/48.png" width = "25%" height = "25%"/>
+
 #### LimitedBox(限定最大宽度布局)
+
+`LimitedBox`和`ConstrainedBox`组件类似。只不过`LimitedBox`没有最小宽高限制。
+
+|属性|类型|描述|
+| --- | --- | --- |
+|maxWidth|||
+|maxHeight|||
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+// 宽度300的Container上添加一个约束最大最小宽高的ConstrainedBox。
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: Row(
+          children: <Widget>[
+            Container(
+              color: Colors.red,
+              width: 100.0,
+            ),
+            LimitedBox(
+              maxWidth: 100.0,
+              child: Container(
+                color: Colors.blue,
+                width: 250.0,// 虽然设置了25.0 但是父容器限制了最大宽度
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/49.png" width = "25%" height = "25%"/>
+
 #### AspectRatio(调整宽高比)
+
+`AspectRatio` 作用是根据设置调整子元素child的宽高比，适合用于需要固定宽高比的场景。
+
+使用`AspectRatio`进行布局的情况：
+
+* `AspectRatio` 会在布局条件允许的范围内尽可能的扩展。Widget的高度是由宽度和比率决定的，类似于`BoxFit.contain`，按照固定比率去尽可能的沾满区域。
+* 如果在满足所欲呕限制条件后依然无法找到可行的尺寸，`AspectRatio`会优先适应布局限制条件，而忽略所设置的比率。
+
+|属性|类型|描述|
+| --- | --- | --- |
+|aspectRatio|double|宽高比|
+|child|Widget||
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+// 宽度300的Container上添加一个约束最大最小宽高的ConstrainedBox。
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: new Container(
+          height: 200.0,
+          child: new AspectRatio(
+            aspectRatio: 1.5,// 比率是1.5 => W = H * 1.5,所以AspectRatio组件的尺寸为(300,200)
+            child: new Container(
+              color: Colors.green,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/46.png" width = "25%" height = "25%"/>
+
 #### FractionallySizedBox(百分比布局)
+
+`FractionallySizedBox` 组件会根据现有空间来调整child的尺寸，所以就算为child设置了尺寸数值，也不起作用。
 
 ### 列表及表格处理
 
