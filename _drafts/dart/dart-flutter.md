@@ -26,6 +26,7 @@ export PATH=/Users/shanliu/flutter/bin:$PATH # 直接指定 flutter 的 bin
 5.查看环境依赖：
 
 ```sh
+source $HOME/.bash_profile
 flutter doctor
 ```
 
@@ -520,7 +521,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/05.png" width = "25%" height = "25%"/>
 
-#### 水平列表组件
+#### 水平列表组件(ListView)
 就是把`ListView`的`scrollDirection`属性改为`Axis.horizontal`。
 
 ```dart
@@ -556,7 +557,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/06.png" width = "25%" height = "25%"/>
 
-#### 长列表组件
+#### 长列表组件(ListView)
 当数据非常多的时候，需要用到长列表。用法：以`ListView`为基础组建，再为列表添加`itemBuilder`构造器。
 
 ```dart
@@ -634,6 +635,49 @@ class MyApp extends StatelessWidget {
 ```
 
 <img src="/assets/images/flutter/08.png" width = "25%" height = "25%"/>
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    List<Container> _buildGridTitleList(int count) {
+      return new List<Container>.generate(count, (int index) {
+        return new Container(
+          child: new Image.asset('icons/code.png',),
+        );
+      });
+    }
+
+    Widget buildGrid() {
+      return new GridView.extent(
+        maxCrossAxisExtent: 150.0, // 次轴最大宽度
+        padding: const EdgeInsets.all(4.0),
+        mainAxisSpacing: 4.0, // 主轴间隙
+        crossAxisSpacing: 4.0, // 次轴间隙
+        children: _buildGridTitleList(9),
+      );
+    }
+
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: new Center(
+          child: buildGrid(),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/53.png" width = "25%" height = "25%"/>
 
 ### 表单组件()
 
@@ -2698,26 +2742,387 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-<img src="/assets/images/flutter/46.png" width = "25%" height = "25%"/>
+<img src="/assets/images/flutter/50.png" width = "25%" height = "25%"/>
 
 #### FractionallySizedBox(百分比布局)
 
 `FractionallySizedBox` 组件会根据现有空间来调整child的尺寸，所以就算为child设置了尺寸数值，也不起作用。
 
+* 设置了具体的宽高因子，`具体的宽高=现有的空间宽高X因子`。
+* 没有设置宽高因子，则填满可用区域。
+
+|属性|类型|描述|
+| --- | --- | --- |
+|alignment|AlignmentGeometry|对齐方式，不能为null|
+|widthFactor|double|宽度因子|
+|heightFactor|double|高度因子|
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: new Container(
+          color: Colors.red,
+          height: 200.0,
+          width: 200.0,
+          child: new FractionallySizedBox(
+            alignment: Alignment.topCenter,
+            widthFactor: 0.5, //宽度因子
+            heightFactor: 1.5, //高度因子
+            child: new Container(
+              color: Colors.blue,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/51.png" width = "25%" height = "25%"/>
+
 ### 列表及表格处理
 
 #### ListView
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  final List<Widget> list = <Widget>[
+    new ListTile(
+      title: Text('titletitletitletitletitletitletitletitletitletitletitletitletitletitle',style: new TextStyle(fontWeight: FontWeight.w400,fontSize: 18.0),),
+      subtitle: Text('Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test '),
+      leading: Icon(Icons.fastfood,color: Colors.blue,),
+    ),
+    new ListTile(
+      title: Text('data',style: new TextStyle(fontWeight: FontWeight.w400,fontSize: 18.0),),
+      subtitle: Text('data'),
+      leading: Icon(Icons.fastfood,color: Colors.blue,),
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('data'),
+        ),
+        body: new Center(
+          child: new ListView(
+            children: list,
+          )
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/52.png" width = "25%" height = "25%"/>
+
 #### GridView
+代码参考**常用组件**
+
 #### Table
 
 ### 其他布局处理
 
 #### Transform(矩阵转换)
+
+`Transform` 主要作用就是做矩阵转换。对组件进行平移、旋转和缩放的等操作。
+
+|属性|类型|描述|
+| --- | --- | --- |
+|transform|Matrix4|一个4x4的矩阵。|
+|origin|Offset|旋转点，相对于左上角顶点的偏移。默认旋转点是在左上角顶点|
+|alignment|AlignmentGeometry|对齐方式|
+|transformHitTests|bool|点击区域石佛业做相应的改变|
+
 #### Baseline(基准线布局)
+
+`Baseline` 将左右元素底部放到同一条水平线上。
+
+<img src="/assets/images/flutter/54.png"/>
+
+|属性|类型|描述|
+| --- | --- | --- |
+|baseline|double||
+|baselineType|TextBaseLine|baseline类型：<br> `alphabetic`：对齐字符底部的水平线。<br> `ideographic`：对齐表意字符串的水平线。|
+
 #### Offstage(控制是否显示组件)
+
+`Offstage` 通过参数来控制child是否显示。
+
+|属性|类型|默认值|描述|
+| --- | --- | --- |--- |
+|offstage|bool|true|true：不显示|
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final appTitle = "Offstage 控制是否展示组件示例";
+    return new MaterialApp(
+      title: 'Demo',
+      home: new MyHomePage(title: appTitle,),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  final String title;
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  @override
+  _MyHomePage createState() => _MyHomePage();
+}
+
+class _MyHomePage extends State<MyHomePage> {
+  bool offstage = true;
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text(widget.title),
+      ),
+      body: new Center(
+        child: new Offstage(
+          offstage: offstage,
+          child: new Text(
+            'Show Stage',
+            style: TextStyle(fontSize: 36.0),
+          ),
+        ),
+      ),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            offstage = !offstage;
+          });
+        },
+        child: new Icon(Icons.flip),
+      ),
+    );
+  }
+}
+```
+<img src="/assets/images/flutter/55.gif"/>
+
 #### Wrap(按宽高自动换行布局)
 
+`Wrap` 使用了`Flex`中的一些概念，某种意义上和`Row`、`Column`更加相似。单行的`Wrap`和`Row`表现几乎一致，单列的`Wrap`和`Column`表现几乎一致。`Wrap`是在主轴上空间不足时，则向次轴上去扩展显示。
+
+|属性|类型|默认值|描述|
+| --- | --- | --- | --- |
+|direction|Axis|Axis.horizontal|主轴(mainAxis)的方向,默认为水平|
+|alignment|WrapAlignment||主轴方向上的对齐方式,默认为start|
+|spacing|double|0.0|主轴方向上的间距|
+|runAlignment| WrapAlignment| wrapAlignment.start|run的对齐方式。run可以理解为新的行或者列,如果是水平方向布局的话,run可以理解为新的一行|
+|runSpacing|double|0.0|run的间距|
+|crossAxisAlignment| WrapCrossAlignment wrapCrossAlignment.start|主轴(crossAxis)方向上的对齐方式|
+|textDirecfion|TextDirection||文本方向|
+|verticalDirection| VerticalDirection|定义了children摆放顺序,默认是down|
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Demo'),
+        ),
+        body: Wrap(
+          spacing: 8.0, //主轴间距
+          runSpacing: 4.0, // 行间距【默认水平排序】
+          children: <Widget>[
+            Chip(
+              label: new Text('data'),
+              avatar: CircleAvatar(
+                backgroundColor: Colors.lightGreen.shade800,
+                child: new Text(
+                  'data',
+                  style: new TextStyle(fontSize: 10.0),
+                ),
+              ),
+            ),
+            Chip(
+              label: new Text('datadata'),
+              avatar: CircleAvatar(
+                backgroundColor: Colors.lightGreen.shade800,
+                child: new Text(
+                  'datadata',
+                  style: new TextStyle(fontSize: 10.0),
+                ),
+              ),
+            ),
+            Chip(
+              label: new Text('datadatadatadata'),
+              avatar: CircleAvatar(
+                backgroundColor: Colors.lightGreen.shade800,
+                child: new Text(
+                  'datadatadatadata',
+                  style: new TextStyle(fontSize: 10.0),
+                ),
+              ),
+            ),
+            Chip(
+              label: new Text('datadatadatadataadatadata'),
+              avatar: CircleAvatar(
+                backgroundColor: Colors.lightGreen.shade800,
+                child: new Text(
+                  'datadatadatadataadatadata',
+                  style: new TextStyle(fontSize: 10.0),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/56.png" width = "50%" height = "50%"/>
+
 ### 布局综合示例
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // 风景区地址部分
+    Widget addressContainer = Container(
+      padding: EdgeInsets.all(32.0), //容器四周的间距
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start, // 默认居中，设置 start 让 children 居左
+              children: <Widget>[
+                Container(
+                  child: Text('风景区地址'),
+                  padding: const EdgeInsets.only(bottom: 8.0), // 与下面文本间隔8.0
+                ),
+                Text('地址地址地址地址地址地址地址地址')
+              ],
+            ),
+          ),
+          Icon(
+            Icons.star,
+            color: Colors.red,
+          ),
+          Text('66'),
+        ],
+      ),
+    );
+
+    // 按钮部分
+    // 构建单个按钮
+    Column buildButtonCloumn(IconData icon, String label) {
+      return Column(
+        mainAxisSize: MainAxisSize.min, // 垂直方向大小最小化
+        mainAxisAlignment: MainAxisAlignment.center, // 垂直方向居中对齐
+        children: <Widget>[
+          Icon(
+            icon,
+            color: Colors.lightGreen[600],
+          ),
+          Container(
+            child: Text(
+              label,
+              style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.lightGreen[600]),
+            ),
+            margin: const EdgeInsets.only(top: 8.0),
+          ),
+        ],
+      );
+    }
+
+    // 按钮数组
+    Widget buttonsContainer = Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 水平方向居云排列每个元素
+        children: <Widget>[
+          buildButtonCloumn(Icons.call, '电话'),
+          buildButtonCloumn(Icons.near_me, '导航'),
+          buildButtonCloumn(Icons.share, '分享'),
+        ],
+      ),
+    );
+
+    // 风景区介绍文字部分
+    Widget textContainer = Container(
+      padding: const EdgeInsets.all(32.0),
+      child: Text(
+        '''
+        各位好：
+        积分商城首页、兑换记录、积分、兑换公告、商品详情页、兑换确认页、配送地址、
+        新增收货地址等积分商城相关页面的暗黑模式高保真已输出并上传至蓝湖，请前往查看，如有问题随时沟通，谢谢！
+        另外，邀请邻居页面颜色特殊，在高亮模式和暗黑模式下颜色保持一致，故没输出高保真。
+        ''',
+        softWrap: true,
+      ),
+    );
+
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(),
+        body: ListView(
+          children: <Widget>[
+            Image.asset(
+              'icons/code.png',
+              width: 600.0,
+              height: 240.0,
+              fit: BoxFit.cover,
+            ),
+            addressContainer,
+            buttonsContainer,
+            textContainer
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/57.png"/>
 
 ## 参考资料
 * [Flutter 中文社区](https://flutter.cn/)
