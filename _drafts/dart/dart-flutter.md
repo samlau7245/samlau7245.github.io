@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
 
 ### 使用包资源
 
-示例：现在需要使用包`pubspec.yaml`：
+示例：现在需要使用包`url_launcher`：
 
 1.打开[https://pub.dev](https://pub.dev)搜索`url_launcher`，找到需要依赖的版本号:
 
@@ -2022,9 +2022,14 @@ Padding(填充布局)： 用于处理容器与其子元素之间的间距，与`
 ##### 构造函数
 
 ```dart
+// 所有方向
 const EdgeInsets.all(double value)
+// 分别定义各个方向的边框
 const EdgeInsets.only({double left: 0.0,double top: 0.0,double right: 0.0,double bottom: 0.0})
+// 自定义垂直、水平方向
 const EdgeInsets.symmetric({double vertical: 0.0,double horizontal: 0.0})
+// 根据机型屏幕尺寸定义
+EdgeInsets.fromWindowPadding(ui.WindowPadding padding, double devicePixelRatio)
 ```
 
 ```dart
@@ -3124,39 +3129,1026 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/57.png"/>
 
+## 手势
+
+Flutter中的手势系统分为两层：
+
+* `PointerDownEvent` : 用户与屏幕接触产生了联系。
+* `PointerMoveEvent` : 手指已经从屏幕上的一个位置移动到另外一个位置。
+* `PointerUpEvent` : 用户已经停止接触屏幕。
+* `PointerCancelEvent` : 不再指向此应用程序。
+
+### 用GestureDetector进行手势检测
+
+|事件名|描述|
+| --- | --- |
+|onTapDown||
+|onTapUp||
+|onTap||
+|onTapCancel|此次点击事件结束,onTapDown不会在产生点击事件|
+|onDoubleTap|用户快速连两次在同一位置点击屏幕|
+|onLongTap|长时间保持与相同位置的屏幕接触|
+|onVerticalDragStart|与屏幕接触,可能会开始垂直移动|
+|onVerticalDragUpdate|与屏幕接触并垂直移动的指针在垂直方向上移动
+|onVerticalDragEnd|之前与屏幕接触并垂直移动的指针不再与屏幕接触,并且在停止接触屏幕时以特定速度移动垂直拖动|
+|onHorizontalDragStart|与屏幕接触,可能开始水平移动|
+|onHorizontalDragUpdate|与屏接触并水平移动的指针在水平方向上移动|
+|onHorizontalDragEnd|先前与屏幕接触并且水平移动的指针不再与屏幕接触,并且当它停止接触屏幕时以特定速度移动水平抱动|
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+// 宽度300的Container上添加一个约束最大最小宽高的ConstrainedBox。
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+          appBar: new AppBar(
+            title: Text('data'),
+          ),
+          body: new Center(
+            child: new MyButton(),
+          )),
+    );
+  }
+}
+
+class MyButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // 一定要把被触摸的组件放到GestureDetector里
+    return new GestureDetector(
+      onTap: () {
+        final snackBar = new SnackBar(content: new Text('data'));
+        Scaffold.of(context).showSnackBar(snackBar);
+      },
+      child: new Container(
+        padding: new EdgeInsets.all(12.0),
+        decoration: new BoxDecoration(
+          color: Theme.of(context).buttonColor,
+          borderRadius: new BorderRadius.circular(10.0),
+        ),
+        child: new Text('测试按钮'),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/58.png" width = "25%" height = "25%"/>
+
+
+### 用Dismissible实现滑动删除
+
+滑动删除，就是cell侧滑删除功能。
+
+|属性|类型|描述|
+| --- | --- | --- |
+|onDimissed|DismissDirectionCallback|当包裹的组件消失后回调的函数|
+|movementDurantion|Duration|定义组件消息的时长|
+|onResize|voidCallback|组件大小改变时回调的函数|
+|resizeDuration|Duration|组件大小改变时长|
+|child|Widget|组件包裹的子元素，即被隐藏的对象|
+
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+// 宽度300的Container上添加一个约束最大最小宽高的ConstrainedBox。
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    List<String> items = new List<String>.generate(30, (i) => "列表项 ${i + 1}");
+
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: Text('滑动删除示例'),
+        ),
+        body: new ListView.builder(
+            itemCount: items.length, //列表长度
+            itemBuilder: (context, index) {
+              final item = items[index]; // 提取出被删除项
+              return new Dismissible(
+                  key: new Key(item),
+                  // 删除回调函数
+                  onDismissed: (DismissDirection direction) {
+                    items.removeAt(index);
+                    final snackbar = new SnackBar(content: new Text('data'));
+                    Scaffold.of(context).showSnackBar(snackbar);
+                  },
+                  child: new ListTile(
+                    title: new Text('$item'),
+                  ));
+            }),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/59.png" width = "25%" height = "25%"/>
+
+## 资源和图片
+
+### 添加资源和图片
+
+#### 指定 assets
+
+```
+.
+├── android
+├── build
+├── icons
+│   ├── config.json
+│   ├── 1.png
+│   └── code.png
+├── ios
+├── lib
+│   └── main.dart
+├── pubspec.lock
+└── pubspec.yaml
+```
+
+应用依赖于`icons`包中的资源，如果要加载图片需要修改`pubspec.yaml`文件：
+
+```yaml
+flutter:
+  assets:
+   - icons/config.json
+   - icons/1.png
+   - icons/code.png
+```
+
+#### 加载 assets
+
+##### 加载文本配置文件
+
+每个Flutter程序都有一个`rootBundle`对象，可以轻松访问主资源包。可以直接用`package:flutter/services.dart`中全局静态的`rootBundle`对象来加载资源。
+
+```dart
+import 'package:flutter/services.dart' show rootBundle;
+
+Future<String> loadAsset() async {
+  return await rootBundle.loadString('icons/config.json');
+}
+```
+
+##### 加载图片
+
+```dart
+new AssetImage('icons/1.png');
+new Image.asset('icons/code.png');
+```
+
+##### 依赖包中国呢的资源图片
+
+要加载依赖包中的图像，必须给`AssetImage`提供`package`参数。
+
+
+```
+包(resource)中的目录结构
+.
+├── android
+├── build
+├── assets
+│   ├── wifi.json
+│   └── add.png
+├── ios
+├── lib
+│   └── main.dart
+├── pubspec.lock
+└── pubspec.yaml
+```
+
+```dart
+new AssetImage('assets/wifi.png',package: 'resource');
+```
+
+#### 平台 assets
+
+##### 更新应用图标
+##### 更新启动页
+
+安卓在`/android/app/src/main/res/drawable/launch_background.xml`文件中，自定义`drawable`来实现自定义启动界面:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modify this file to customize your launch splash screen -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@android:color/white" />
+
+    <!-- You can insert your own image assets here -->
+    <!-- <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/launch_image" />
+    </item> -->
+</layer-list>
+```
+
+ios在`/ios/Runner/Assets.xcassets/LaunchImage.imageset`文件夹中，拖入三个命名为`LaunchImage.png`、`LaunchImage@2x.png`、`LaunchImage@3x.png`的启动图片。
+
+### 自定义字体
+
+要在应用程序中实现自定义字体的需求：
+
+* 在项目的根目录下创建`fonts`文件夹，并且存放一种字体文件`xindexingcao57.ttf`。
+* 设置配置文件：`pubspec.yaml`。
+
+```yaml
+flutter:
+  fonts:
+    - family: xindexingcao57
+    - fonts:
+      - asset: fonts/xindexingcao57.ttf
+```
+
+```dart
+var font = new Text(
+  'data',
+  style: new TextStyle(
+    fontFamily: 'xindexingcao57',
+    fontSize: 36.0,
+  ),
+);
+```
+
+整体的项目目录：
+
+```
+.
+├── README.md
+├── android
+├── build
+├── flutter_demo_01.iml
+├── fonts
+│   └── xindexingcao57.ttf
+├── icons
+│   └── config.json
+├── ios
+├── lib
+├── pubspec.lock
+└── pubspec.yaml
+```
+
+## 路由及导航
+
+### 页面跳转基本使用
+
+移动应用通常通过`屏幕`或者`页面`的全屏元素显示其内容，在Flutter中，这些元素被称为**路由**。他们由导航器`Navigator`组件管理。`Navigator`管理一组路由`Route`对象，并且提供了管理堆栈的方法。
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new FirstScreen(),
+    );
+  }
+}
+
+class FirstScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('导航页面示例'),
+      ),
+      body: new Center(
+        child: new RaisedButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new SecondScreen()));
+          },
+          child: new Text('查看商品详情页'),
+        ),
+      ),
+    );
+  }
+}
+
+class SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('导航页面示例'),
+      ),
+      body: new Center(
+        child: new RaisedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: new Text('返回页面'),
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 页面跳转发送数据
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new ProductList(
+        products: new List<Product>.generate(
+            20, (i) => new Product('商品 $i', '商品详情 $i')),
+      ),
+    );
+  }
+}
+
+class Product {
+  final String title;
+  final String description;
+  Product(this.title, this.description);
+}
+
+class ProductList extends StatelessWidget {
+  final List<Product> products;
+  ProductList({Key key, @required this.products}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('商品列表'),
+      ),
+      body: new ListView.builder(itemBuilder: (context, index) {
+        return new ListTile(
+          title: new Text(products[index].title),
+          onTap: () {
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new ProductDetail(
+                          product: products[index],
+                        )));
+          },
+        );
+      }),
+    );
+  }
+}
+
+class ProductDetail extends StatelessWidget {
+  final Product product;
+  ProductDetail({Key key, @required this.product}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('${product.title}'),
+      ),
+      body: new Center(
+        child: new Text('${product.description}'),
+      ),
+    );
+  }
+}
+```
+
+### 页面跳转返回数据
+
+## 组件装饰和视觉效果
+
+### Opacity(透明度处理)
+
+`Opacity`组件里油一个`opacity`属性，用来调整组件的不透明度，使子控件部分透明。
+
+|属性|类型|描述|
+| --- | --- | --- |
+|opacity|double||
+|child|Widget||
+
+### DecoratedBox(装饰盒子)
+
+`DecoratedBox`组件可以从多方面进行装饰处理。比如颜色、形状、阴影、渐变以及背景图片等等。主要属性为`decoration`，类型为`BoxDecoration`。
+
+|属性|类型|默认值|描述|
+| --- | --- | --- | --- |
+|shape|BoxShape|BoxShape.rectangle|形状取值|
+|corlor|Corlor||用来渲染容器的背影色|
+|boxShadow|`List<BoxShadow>`||阴影效果|
+|gradient|Gradient||渐色取值有:线性渐变、环形渐变|
+|image|DecoralionImage||背景图片
+|border| BoxBorder||边框样式|
+|borderRadius|BorderRadiusGeometry||边框的弧度|
+
+#### 背景图效果
+
+```dart
+decoration: new BoxDecoration(
+    image: new DecorationImage(image: ExactAssetImage(''),fit: BoxFit.cover,),
+),
+```
+
+#### 边框圆角处理
+
+```dart
+decoration: new BoxDecoration(
+  border: Border.all(
+    color: Colors.red,
+    width: 4.0,
+  ),
+  borderRadius: BorderRadius.circular(36.0),
+),
+```
+
+#### 边框阴影处理
+
+`BoxShadow`几个属性：
+
+* `color` : 阴影颜色
+* `blurRadius` : 模糊值
+* `spreadRadius` : 扩展阴影半径
+* `offset` : x、y 方向偏移量
+
+```dart
+decoration: new BoxDecoration(
+  boxShadow: <BoxShadow>[
+    new BoxShadow(
+      color: Colors.red,
+      blurRadius: 8.0,
+      offset: Offset(-1.0, 1.0),
+      spreadRadius: 8.0,
+    ),
+  ],
+),
+```
+
+#### 渐变处理
+
+渐变`gradient`有两种形式：
+
+* `LinearGradient`：线性渐变
+  * `begin`: 起始偏移量
+  * `end`: 终止偏移量
+  * `colors`: 渐变颜色数据集
+* `RadialGradient`：环形渐变
+  * `center`: 中心点偏移量，即x、y方向偏移量
+  * `radius`: 圆形半径
+  * `colors`: 渐变颜色数据集
+
+```dart
+gradient: new LinearGradient(
+  begin: const FractionalOffset(0.5, 0.6),
+  end: const FractionalOffset(1.0, 1.0),
+  colors: <Color>[
+    Colors.red,
+    Colors.green,
+  ],
+),
+```
+
+### RotatedBox(旋转盒子)
+
+`RotatedBox` 组件即为旋转组件，可以使`child`发生旋转。旋转的度数是90度的整数倍。每次旋转只能是90度。当`quarterTurns`属性为3时，表示旋转了270度。`RotatedBox`通常用于图片的旋转，比如在相册里，用户想把照片横着看或者竖着看，那么`RotatedBox`使得使用起来就非常方便。
+
+```dart
+child: new RotatedBox(quarterTurns: 3,),
+```
+
+### Clip(剪裁处理)
+
+`Clip`作用把一个组件剪掉一部分。
+
+* `ClipOval`: 圆角剪裁
+* `ClipRRect`: 圆角矩形剪裁
+* `ClipRect`: 矩形剪裁
+* `ClipPath`: 路径剪裁
+
+|属性|类型|描述|
+| --- | --- | --- |
+|clipper|`CustomClipper<Path>`|剪裁路径，比如椭圆，矩形等等|
+|clipBehavior|Clip|裁剪方式|
+
+### ClipOval
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Title'),
+        ),
+        body: new Center(
+          child: new ClipOval(
+            child: new SizedBox(
+              width: 200.0,
+              height: 200.0,
+              child: new Image.asset('icons/test.png'),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/60.png" width = "25%" height = "25%"/>
+
+### ClipRRect
+
+`ClipRRect` 组件的属性`borderRadius`参数来控制圆角的位置大小。
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Title'),
+        ),
+        body: new Center(
+          child: new ClipRRect(
+            borderRadius: new BorderRadius.all(
+              new Radius.circular(30.0),
+            ),
+            child: new SizedBox(
+              width: 200.0,
+              height: 200.0,
+              child: new Image.asset(
+                'icons/test.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/61.png" width = "25%" height = "25%"/>
+
+### ClipRect
+
+`ClipRect`这个组件需要自定义`clipper`属性才能使用，否则没有效果。自定义`clipper`需要继承`CustomClipper`类。并且需要重写`getClip`和`shouldReclip`两个方法。
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Title'),
+        ),
+        body: new Center(
+          child: new ClipRect(
+            clipper: new RectClipper(),//自定义 clipper 
+            child: new SizedBox(
+              width: 300.0,
+              height: 300.0,
+              child: new Image.asset(
+                'icons/test.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// 自定义的clipper，集成了 CustomClipper
+class RectClipper extends CustomClipper<Rect> {
+  @override
+  Rect getClip(Size size) { // 获取剪裁范围
+    return new Rect.fromLTRB(100.0, 100.0, size.width - 100.0, size.height - 100.0);
+  }
+  @override
+  bool shouldReclip(CustomClipper<Rect> oldClipper) { //是否重新剪裁
+    return true;
+  }
+}
+```
+
+<img src="/assets/images/flutter/62.png" width = "25%" height = "25%"/>
+
+### ClipPath
+
+`ClipPath` 组件由于采用了矢量路径`path`，所以可以把组件剪裁为任意类型的形状。比如三角形、矩形、星形以及多边形等等。
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Title'),
+        ),
+        body: new Center(
+          child: new ClipPath(
+            clipper: new RectClipper(), //自定义 clipper
+            child: new SizedBox(
+              width: 300.0,
+              height: 300.0,
+              child: new Image.asset(
+                'icons/test.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// 自定义的clipper，集成了 CustomClipper，类型为 Path
+class RectClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = new Path();
+    path.moveTo(50.0, 50.0); //起始点
+    path.lineTo(50.0, 10.0); //点(50.0, 50.0)到(50.0, 10.0)，两点划条直线。
+    path.lineTo(100.0, 50.0); //点(50.0, 10.0)到(100.0, 50.0)，两点划条直线。
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+```
+
+<img src="/assets/images/flutter/63.png" width = "25%" height = "25%"/>
+
+## 动画
+
+### AnimatedOpacity 实现渐变效果
+
+|属性|类型|描述|
+| --- | --- | --- |
+|opacity|double|透明度|
+|child|Widget||
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Demo',
+      home: new MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePage createState() => new _MyHomePage();
+}
+
+class _MyHomePage extends State<MyHomePage> {
+  bool _visible = true;
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('data'),
+      ),
+      body: new AnimatedOpacity(
+        opacity: _visible ? 1.0 : 0.0,
+        duration: new Duration(
+          milliseconds: 1000,
+        ),
+        child: new Container(
+          width: 300.0,
+          height: 300.0,
+          color: Colors.red,
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _visible = !_visible;
+          });
+        },
+        child: new Icon(Icons.flip),
+      ),
+    );
+  }
+}
+```
+
+### 用Hero实现页面切换动画
+
+如果页面切换时有时需要增加点动画，这样可以增加应用的体验。在页面元素中添加`Hero`组件，就会自带一种过渡的动画效果。
+
+## Packages和插件
+
+通过`Packages`可以创建共享的的模块化代码。
+
+* `flutter create`
+  * `--template=<type>` : `[app]`、`[module]`、`[package]`、`[plugin]`
+  * `--ios-language` : `[objc]`、`[swift](default)`
+  * `--android-language` : `[java]`、`[kotlin](default)`
+
+### 开发Dart包
+
+```sh
+flutter create --template=package hello
+```
+
+项目结构：
+
+```
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+├── hello.iml
+├── lib
+│   └── hello.dart ==》 包代码
+├── pubspec.lock
+├── pubspec.yaml
+└── test
+    └── hello_test.dart ==> 用于 单元测试
+```
+
+### 插件开发
+
+`Flutter`插件就是一种`Flutter`的库。这是这个库相对特殊，可以和原生程序打交道。比如调用蓝牙，启动Wi-Fi，打开手电筒等等。`Flutter`的上层Dart语言是无法完成底层操作的，它只能做一些UI相关的事情。所以插件就尤为重要。
+
+插件开发需要涉及两大移动平台的知识，例如：
+
+* iOS：Objective-C和swift语言。
+* Android：Java和Kotlin语言。
+
+
+#### 新建插件
+
+```sh
+flutter create --org com.example --template=plugin --ios-language=objc hello
+```
+
+* `lib/hello.dart` : 插件包的Dart API。
+* `android/src/main/kotlin/com/example/hello/HelloPlugin.kt` : 插件包API的Android实现。
+* `ios/Classes/HelloPlugin.m` : 插件包API的iOS实现。
+* `example/` : 依赖于插件的Flutter应用程序。
+
+##### 添加iOS平台代码
+
+在iOS的目录结构：
+
+```
+ios
+├── Assets
+├── Classes
+│   ├── HelloPlugin.h
+│   └── HelloPlugin.m
+└── hello.podspec ==> podspec文件
+```
+
+构建代码：
+
+```sh
+cd hello/example
+flutter build ios --no-codesign
+```
+
+执行后的代码结构：
+
+```
+.
+├── Flutter
+│   ├── App.framework
+│   ├── AppFrameworkInfo.plist
+│   ├── Debug.xcconfig
+│   ├── Flutter.framework
+│   ├── Flutter.podspec
+│   ├── Generated.xcconfig
+│   ├── Release.xcconfig
+│   └── flutter_export_environment.sh
+├── Podfile
+├── Podfile.lock
+├── Pods
+├── Runner
+│   ├── AppDelegate.h
+│   ├── AppDelegate.m
+│   ├── Assets.xcassets
+│   ├── Base.lproj
+│   ├── GeneratedPluginRegistrant.h
+│   ├── GeneratedPluginRegistrant.m
+│   ├── Info.plist
+│   └── main.m
+├── Runner.xcodeproj
+└── Runner.xcworkspace ==> Xcode执行，打开项目
+```
+
+插件的iOS写的位置：`Pods/DevelopmentPods/hello/Classes/`。
+
+### 文档
+
+* `README.md` : 介绍包的文件
+* `CHANGELOG.md` : 记录每个版本中的更改
+* `LICENSE` : 包含软件包许可条款的文件
+
+### 发布包
+
+完成一个包的开发后可以发布到[pub.dev][https://pub.dev/]中，其他人员可以使用。详细信息可以查看[Pub publishing docs](https://dart.dev/tools/pub/publishing)。
+
+```sh
+# 检查包
+flutter packages pub publish --dry-run
+# 发布
+flutter packages pub publish
+```
+
+### 使用平台通道编写平台特定的代码
+
+`Flutter`允许您调用特定平台的API，无论在Android上的Java或Kotlin代码中，还是iOS上的ObjectiveC或Swift代码中均可用。
+
+Flutter消息传递的方式：
+
+* 应用的Flutter部分通过平台通道（`platform channel`）将消息发送到其应用程序的所在的宿主（iOS或Android）。
+* 宿主监听的平台通道，并接收该消息。然后它会调用特定于该平台的API（使用原生编程语言） - 并将响应发送回客户端，即应用程序的Flutter部分。
+
+<img src="/assets/images/flutter/64.png"/>
+
+消息和响应是异步传递的，以确保用户界面保持响应(不会挂起)。
+
+* 在客户端，[MethodChannel](https://api.flutter.dev/flutter/services/MethodChannel-class.html)可以发送与方法调用相对应的消息。
+* 在宿主平台上，Android 的[MethodChannel](https://api.flutter.dev/javadoc/io/flutter/plugin/common/MethodChannel.html)和 iOS的 [FlutterMethodChannel](https://api.flutter.dev/objcdoc/Classes/FlutterMethodChannel.html)可以接收方法调用并返回结果。这些类允许您用很少的“脚手架”代码开发平台插件。
+* 如果需要，方法调用也可以反向发送，宿主作为客户端调用Dart中实现的API。 这个[quick_actions](https://pub.dev/packages/quick_actions)插件就是一个具体的例子
+
+#### 插件分析
+
+##### 插件部分
+
+`hello.dart` 是插件用来对外提供接口的文件。
+
+```dart
+import 'dart:async';
+import 'package:flutter/services.dart';
+
+class Hello {
+  // 定义通道：
+  // const MethodChannel(name) name参数是一个标识符，通常是一个字符串，这个字符串必须与原生代码保持一致，不然回导致无法正常通信
+  // 我们建议在通道名称前加一个唯一的“域名前缀”，例如samples.flutter.io/battery。
+  // static const platform = const MethodChannel('samples.flutter.io/battery');
+  
+  static const MethodChannel _channel = const MethodChannel('hello');
+
+  static Future<String> get platformVersion async {
+    // 调用原生程序获取系统版本号
+    final String version = await _channel.invokeMethod('getPlatformVersion');
+    return version;
+  }
+}
+```
+
+##### iOS部分
+
+```objc
+#import "HelloPlugin.h"
+
+@implementation HelloPlugin
+// 插件注册
++ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
+    // 定义与上层代码通信的通道，@"hello" 必须与上层的名字统一
+    FlutterMethodChannel* channel = [FlutterMethodChannel methodChannelWithName:@"hello" binaryMessenger:[registrar messenger]];
+    HelloPlugin* instance = [[HelloPlugin alloc] init];
+    [registrar addMethodCallDelegate:instance channel:channel];
+}
+
+- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
+  // 调用系统方法
+  if ([@"getPlatformVersion" isEqualToString:call.method]) {
+    result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+  } else {
+    result(FlutterMethodNotImplemented);
+  }
+}
+@end
+```
+
+##### 测试部分
+
+测试插件分析：
+
+打开`example/pubspec.yaml`文件，添加插件：`hello`标识是放在`dev_dependencies`标签下的。如果路径配置错误会导致插件引用失败。
+
+```yaml
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  hello:
+    path: ../
+```
+
+<img src="/assets/images/flutter/65.png"/>
+
+#### 平台类型支持
+
+平台支持的通道类型：[StandardMessageCodec](https://api.flutter.dev/flutter/services/StandardMessageCodec-class.html)
+
+|Dart|  Android |iOS|
+| --- | --- | --- |
+|null|  null | nil (NSNull when nested)|
+|bool|  java.lang.Boolean |NSNumber numberWithBool:|
+|int| java.lang.Integer |NSNumber numberWithInt:|
+|int|, if 32 bits not enough  java.lang.Long  |NSNumber numberWithLong:|
+|int|, if 64 bits not enough  java.math.BigInteger  |FlutterStandardBigInteger|
+|double|  java.lang.Double  |NSNumber numberWithDouble:|
+|String|  java.lang.String  |NSString|
+|Uint8List| byte[]  |FlutterStandardTypedData typedDataWithBytes:|
+|Int32List| int[] ||FlutterStandardTypedData typedDataWithInt32:|
+|Int64List| long[]  FlutterStandardTypedData typedDataWithInt64:|
+|Float64List| double[]  |FlutterStandardTypedData typedDataWithFloat64:|
+|List|  java.util.ArrayList |NSArray|
+|Map| java.util.HashMap |NSDictionary|
+
+## 测试
+
+|类目|单元测试|组件测试|集成测试|
+| --- | --- | --- | --- |
+|维护成本|低|高|很高|
+|依赖|少|多|很多|
+|执行速度|快|慢|非常慢|
+
 ## 参考资料
 * [Flutter 中文社区](https://flutter.cn/)
 * [Dart 编程语言概览](https://www.dartcn.com/guides/language/language-tour)
 * [Materail Design 指导](https://material.io)
 * [Flutter widget 目录](https://flutterchina.club/widgets/)
+* [Dart DevTools](http://s0dart0dev.icopy.site/tools/dart-devtools)
+
+
+* `flutter_webview_plugin`: 移动端浏览网页的插件
+* `date_formate` ： 日期格式化插件
+
+### 项目搭建
+
+[iconfont](https://www.iconfont.cn)
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```sh
+PUB_HOSTED_URL ===== https://pub.flutter-io.cn
+FLUTTER_STORAGE_BASE_URL ===== https://storage.flutter-io.cn
+```
 
 
 
