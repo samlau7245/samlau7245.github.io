@@ -4117,6 +4117,108 @@ dev_dependencies:
 |List|  java.util.ArrayList |NSArray|
 |Map| java.util.HashMap |NSDictionary|
 
+## 将 Flutter 集成到现有应用
+
+Flutter 可以作为一个库或模块，集成进现有的应用当中。模块引入到 Android 或 iOS 应用中，以使用 Flutter 来渲染一部分的 UI，或者仅运行多平台共享的 Dart 代码逻辑。
+
+### 集成到 iOS 应用
+
+* 支持 Objective-C 和 Swift 为宿主的应用程序。
+* Flutter 模块可以通过使用 Flutter plugins 与平台进行交互。
+* 支持通过从 IDE 或命令行中使用 `flutter attach` 来实现 Flutter 调试与有状态的热重载。
+
+#### 环境搭建
+
+```sh
+cd /Users/shanliu/Documents/Dart/moduleDemo
+# 创建模版
+flutter create --template module my_flutter
+cd my_flutter
+# 拉取依赖
+flutter pub get
+# 运行调试
+flutter run --debug
+# 打开`.ios/`目录下的项目，这样Xcode和flutter run 跑出的界面就是一样的。
+```
+
+在`my_flutter`模块，代码的目录结构：
+
+```
+my_flutter/ 
+├── .ios/ ==> 用于单独运行 Flutter module，用于调试的iOS空壳项目
+│   ├── Runner.xcworkspace
+│   └── Flutter/podhelper.rb
+├── lib/ ==> Dart代码存放到这里
+│   └── main.dart
+├── test/
+└── pubspec.yaml ==> 用于添加Flutter依赖(Flutter packages、plugins等等)
+```
+
+> 注意：iOS 代码要添加到**`既有应用`**或者**`Flutter plugin`**中，而不是 `Flutter module` 的 `.ios/` 目录下。`.ios/` 目录下的代码只是用于调试的空壳项目。
+
+#### 使用 CocoaPods 和 Flutter SDK 集成
+
+先把代码的目录结构展示一下：
+
+```
+├── my_flutter/ ==> flutter 模块
+│   └── .ios/
+│       └── Flutter/
+│         └── podhelper.rb ==> podhelper.rb脚本会把 Flutter plugins， Flutter.framework，和 App.framework 集成到项目中。
+└── FlutterDemo/ ==> iOS项目
+    └── Podfile
+```
+
+在`FlutterDemo`的`Podfile`中添加代码：
+
+```rb
+platform :ios, '9.0'
+
+flutter_application_path = '../my_flutter'
+load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
+
+target 'FlutterDemo' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for FlutterDemo
+  install_all_flutter_pods(flutter_application_path)
+end
+```
+
+然后运行`pod install`。
+
+### 在 iOS 应用中添加 Flutter 页面
+
+
+### 资料
+
+* [将 Flutter 集成到现有应用](https://flutter.cn/docs/development/add-to-app)
+* [add-to-app GitHub 示例仓库](https://github.com/flutter/samples/tree/master/add_to_app)
+
+## Flutter API
+
+[Flutter API](https://api.flutter-io.cn/objcdoc/index.html)
+
+```
+.
+├── Flutter.h
+├── FlutterAppDelegate.h
+├── FlutterBinaryMessenger.h
+├── FlutterCallbackCache.h
+├── FlutterChannels.h
+├── FlutterCodecs.h
+├── FlutterDartProject.h
+├── FlutterEngine.h ==> 用于启动并持续地为挂载 FlutterViewController 以提供独立的 Flutter 环境
+├── FlutterHeadlessDartRunner.h
+├── FlutterMacros.h
+├── FlutterPlatformViews.h
+├── FlutterPlugin.h
+├── FlutterPluginAppLifeCycleDelegate.h
+├── FlutterTexture.h
+└── FlutterViewController.h
+```
+ 
 ## 测试
 
 |类目|单元测试|组件测试|集成测试|
@@ -4131,7 +4233,9 @@ dev_dependencies:
 * [Materail Design 指导](https://material.io)
 * [Flutter widget 目录](https://flutterchina.club/widgets/)
 * [Dart DevTools](http://s0dart0dev.icopy.site/tools/dart-devtools)
-
+* [Flutter CookBook](https://flutter.cn/docs/cookbook)
+* [Flutter Codelabs](https://flutter.cn/docs/codelabs)
+* [App Brewery在线课程-Google账号](https://www.appbrewery.co/courses/enrolled/851555)
 
 * `flutter_webview_plugin`: 移动端浏览网页的插件
 * `date_formate` ： 日期格式化插件
@@ -4141,38 +4245,7 @@ dev_dependencies:
 [iconfont](https://www.iconfont.cn)
 
 
-
-
-
-
 ```sh
-PUB_HOSTED_URL ===== https://pub.flutter-io.cn
-FLUTTER_STORAGE_BASE_URL ===== https://storage.flutter-io.cn
+PUB_HOSTED_URL=https://pub.flutter-io.cn
+FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
