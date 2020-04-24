@@ -4117,6 +4117,26 @@ dev_dependencies:
 |List|  java.util.ArrayList |NSArray|
 |Map| java.util.HashMap |NSDictionary|
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 将 Flutter 集成到现有应用
 
 Flutter 可以作为一个库或模块，集成进现有的应用当中。模块引入到 Android 或 iOS 应用中，以使用 Flutter 来渲染一部分的 UI，或者仅运行多平台共享的 Dart 代码逻辑。
@@ -4190,11 +4210,20 @@ end
 
 ### 在 iOS 应用中添加 Flutter 页面
 
+要想在iOS中添加Flutter页面，需要先启动`FlutterEngine`和`FlutterViewController`。
 
-### 资料
 
-* [将 Flutter 集成到现有应用](https://flutter.cn/docs/development/add-to-app)
-* [add-to-app GitHub 示例仓库](https://github.com/flutter/samples/tree/master/add_to_app)
+
+
+
+
+
+
+
+
+
+
+
 
 ## Flutter API
 
@@ -4219,6 +4248,31 @@ end
 └── FlutterViewController.h
 ```
  
+
+
+
+
+
+
+### 资料
+
+* [将 Flutter 集成到现有应用](https://flutter.cn/docs/development/add-to-app)
+* [add-to-app GitHub 示例仓库](https://github.com/flutter/samples/tree/master/add_to_app)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 测试
 
 |类目|单元测试|组件测试|集成测试|
@@ -4249,3 +4303,131 @@ end
 PUB_HOSTED_URL=https://pub.flutter-io.cn
 FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Flutter 插件
+
+* [youtube](https://www.youtube.com/results?search_query=flutter+plugin+development)
+
+```sh
+# --org com.example bundleId
+# -t plugin 是简写，可以写成 --template=plugin
+# iOS语言选择：默认 swift ， 换成OC: -i objc
+flutter create --org com.example -t plugin hello
+```
+
+项目的结构和作用：
+
+* `hello/lib/hello.dart` : 插件包的Dart API。
+* `hello/android/src/main/kotlin/com/example/hello/HelloPlugin.kt` : 插件包API的Android实现。
+* `hello/ios/Classes/HelloPlugin.m` : 插件包API的iOS实现。
+* `hello/example/` : 依赖于插件的Flutter示例应用程序。
+
+### Flutter与Native通信机制
+
+<img src="/assets/images/flutter/64.png"/>
+
+Flutter与Native的通信是通过Channel来完成的。Flutter定义了三种不同类型的Channel:
+
+* `FlutterBasicMessageChannel` : 用于传递字符串和半结构化的信息，持续通信，收到消息后可以回复此次消息。例如：Native将遍历到的文件信息陆续传递到Dart；Flutter将服务端获取的数据交给Native加工，Native处理完之后返回。
+* `FlutterMethodChannel` : 用于传递方法调用，一次性通信。
+* `FlutterEventChannel` : 用于数据流的通信，持续通信，收到消息后无法回复此次消息，通常用于Native向Dart的通信。例如：手机电量变化，网络连接变化，陀螺仪，传感器等。
+
+### FlutterBasicMessageChannel
+### FlutterMethodChannel
+### FlutterEventChannel
+
+### iOS 插件
+
+```
+插件项目根目录 hello/
+├── android
+├── example
+├── hello.iml
+├── ios
+├── lib
+│   └── hello.dart
+├── pubspec.lock
+├── pubspec.yaml
+└── test
+
+iOS插件开发目录 hello/ios/
+├── Assets
+├── Classes
+│   ├── HelloPlugin.h
+│   └── HelloPlugin.m
+└── hello.podspec
+
+iOS插件测试项目目录 hello/example/ios
+├── Flutter
+├── Podfile
+├── Runner
+│   ├── AppDelegate.h
+│   ├── AppDelegate.m
+│   ├── Assets.xcassets
+│   ├── GeneratedPluginRegistrant.h
+│   ├── GeneratedPluginRegistrant.m
+│   ├── Info.plist
+│   └── main.m
+├── Runner.xcodeproj
+└── Runner.xcworkspace
+```
+
+运行iOS插件示例：
+
+```sh
+cd hello/example
+flutter build ios --no-codesign
+```
+
+## Flutter.framework
+
+### Classes
+
+#### FlutterMethodChannel
+
+```objc
+@interface FlutterMethodChannel : NSObject
++ (instancetype)methodChannelWithName:(NSString*)name binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;
+/*+ (instancetype)methodChannelWithName:(NSString*)name binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger codec:(NSObject<FlutterMethodCodec>*)codec;
+- (instancetype)initWithName:(NSString*)name binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger codec:(NSObject<FlutterMethodCodec>*)codec;
+- (void)invokeMethod:(NSString*)method arguments:(id _Nullable)arguments;
+- (void)invokeMethod:(NSString*)method arguments:(id _Nullable)arguments result:(FlutterResult _Nullable)callback;
+- (void)setMethodCallHandler:(FlutterMethodCallHandler _Nullable)handler;
+- (void)resizeChannelBuffer:(NSInteger)newSize;*/
+@end
+```
+
+### Protocols
+
+#### FlutterPlugin
+
+```objc
+typedef void (*FlutterPluginRegistrantCallback)(NSObject<FlutterPluginRegistry>* registry);
+
+@protocol FlutterPlugin <NSObject, FlutterApplicationLifeCycleDelegate>
+@required
++ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar;
+
+@optional
++ (void)setPluginRegistrantCallback:(FlutterPluginRegistrantCallback)callback;
+- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result;
+@end
+```
+
+
+

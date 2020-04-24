@@ -8,7 +8,27 @@ categories:
 ## NSAttributedString
 
 ```objc
-NSAttributedStringKey const NSFontAttributeName;
+NSFontAttributeName               //设置字体属性，默认值：字体：Helvetica(Neue) 字号：12
+NSForegroundColorAttributeNam     //设置字体颜色，取值为 UIColor对象，默认值为黑色
+NSBackgroundColorAttributeName    //设置字体所在区域背景颜色，取值为 UIColor对象，默认值为nil, 透明色
+NSLigatureAttributeName           //设置连体属性，取值为NSNumber 对象(整数)，0 表示没有连体字符，1 表示使用默认的连体字符
+NSKernAttributeName               //设定字符间距，取值为 NSNumber 对象（整数），正值间距加宽，负值间距变窄
+NSStrikethroughStyleAttributeName //设置删除线，取值为 NSNumber 对象（整数）
+NSStrikethroughColorAttributeName //设置删除线颜色，取值为 UIColor 对象，默认值为黑色
+NSUnderlineStyleAttributeName     //设置下划线，取值为 NSNumber 对象（整数），枚举常量 NSUnderlineStyle中的值，与删除线类似
+NSUnderlineColorAttributeName     //设置下划线颜色，取值为 UIColor 对象，默认值为黑色
+NSStrokeWidthAttributeName        //设置笔画宽度，取值为 NSNumber 对象（整数），负值填充效果，正值中空效果
+NSStrokeColorAttributeName        //填充部分颜色，不是字体颜色，取值为 UIColor 对象
+NSShadowAttributeName             //设置阴影属性，取值为 NSShadow 对象
+NSTextEffectAttributeName         //设置文本特殊效果，取值为 NSString 对象，目前只有图版印刷效果可用：
+NSBaselineOffsetAttributeName     //设置基线偏移值，取值为 NSNumber （float）,正值上偏，负值下偏
+NSObliquenessAttributeName        //设置字形倾斜度，取值为 NSNumber （float）,正值右倾，负值左倾
+NSExpansionAttributeName          //设置文本横向拉伸属性，取值为 NSNumber （float）,正值横向拉伸文本，负值横向压缩文本
+NSWritingDirectionAttributeName   //设置文字书写方向，从左向右书写或者从右向左书写
+NSVerticalGlyphFormAttributeName  //设置文字排版方向，取值为 NSNumber 对象(整数)，0 表示横排文本，1 表示竖排文本
+NSLinkAttributeName               //设置链接属性，点击后调用浏览器打开指定URL地址
+NSAttachmentAttributeName         //设置文本附件,取值为NSTextAttachment对象,常用于文字图片混排
+NSParagraphStyleAttributeName     //设置文本段落排版格式，取值为 NSParagraphStyle 对象
 ```
 
 ## NSParagraphStyle 段落设置
@@ -82,58 +102,70 @@ typedef NS_ENUM(NSInteger, NSWritingDirection) {
 + (NSAttributedString *)attributedStringWithAttachment:(NSTextAttachment *)attachment;
 ```
 
-Protocol NSTextAttachmentContainer
+### NSTextAttachmentContainer
+
+如果想要自己控制图片尺寸，可以自定义 NSTextAttachment ，然后实现 NSTextAttachmentContainer 协议的方法
 
 ```objc
 - (nullable UIImage *)imageForBounds:(CGRect)imageBounds textContainer:(nullable NSTextContainer *)textContainer characterIndex:(NSUInteger)charIndex
 - (CGRect)attachmentBoundsForTextContainer:(nullable NSTextContainer *)textContainer proposedLineFragment:(CGRect)lineFrag glyphPosition:(CGPoint)position characterIndex:(NSUInteger)charIndex
 ```
 
-## NSTextContainer
+```objc
+@interface SamTextAttachment01 : NSTextAttachment
+@end
 
-NSAttributedStringKey const NSFontAttributeName;// UIFont, default Helvetica(Neue) 12
-NSAttributedStringKey const NSParagraphStyleAttributeName; // 段落样式 NSParagraphStyle, default defaultParagraphStyle
-NSAttributedStringKey const NSForegroundColorAttributeName; // 文字颜色 UIColor, default blackColor
-NSAttributedStringKey const NSBackgroundColorAttributeName; // 背景色 UIColor, default nil: no background
-NSAttributedStringKey const NSLigatureAttributeName; // 连体字符，iOS只能设置1.
-NSAttributedStringKey const NSKernAttributeName; // 设置字符间距 0 禁用，>0 间距变大[hello -> h e l l o] <0 间距变小
-NSAttributedStringKey const NSStrikethroughStyleAttributeName; //删除线
-NSAttributedStringKey const NSUnderlineStyleAttributeName; //下划线 NSNumber
-NSAttributedStringKey const NSStrokeColorAttributeName; // 字符描边色UIColor
-NSAttributedStringKey const NSStrokeWidthAttributeName; // 字符描边宽度 NSNumber
-NSAttributedStringKey const NSShadowAttributeName; // 阴影 NSShadow
-NSAttributedStringKey const NSTextEffectAttributeName; // 文本特殊效果，取值为 NSString 对象，目前只有图版印刷效果可用
+@implementation SamTextAttachment01
+-(CGRect)attachmentBoundsForTextContainer:(NSTextContainer *)textContainer proposedLineFragment:(CGRect)lineFrag glyphPosition:(CGPoint)position characterIndex:(NSUInteger)charIndex{
+    return CGRectMake(0 ,0 ,lineFrag.size.height,lineFrag.size.height);
+}
+-(UIImage *)imageForBounds:(CGRect)imageBounds textContainer:(NSTextContainer *)textContainer characterIndex:(NSUInteger)charIndex{
+    return self.image;
+}
+@end
+```
 
-NSAttributedStringKey const NSAttachmentAttributeName; // 获取文字附件，常用于图文混排 NSTextAttachment, default nil
-NSAttributedStringKey const NSLinkAttributeName;                // NSURL (preferred) or NSString
-NSAttributedStringKey const NSBaselineOffsetAttributeName;      // NSNumber containing floating point value, in points; offset from baseline, default 0
-NSAttributedStringKey const NSUnderlineColorAttributeName;      // UIColor, default nil: same as foreground color
-NSAttributedStringKey const NSStrikethroughColorAttributeName;  // UIColor, default nil: same as foreground color
-NSAttributedStringKey const NSObliquenessAttributeName;         // NSNumber containing floating point value; skew to be applied to glyphs, default 0: no skew
-NSAttributedStringKey const NSExpansionAttributeName;           // NSNumber containing floating point value; log of expansion factor to be applied to glyphs, default 0: no expansion
+## NSTextContainer(暂定)
 
-NSAttributedStringKey const NSWritingDirectionAttributeName;    
-NSAttributedStringKey const NSVerticalGlyphFormAttributeName;  
+* `NSTextContainer` 只要保证其原子访问，就可以用多线程环境。
+* `NSTextContainer` 所做的所有工作都是在为 `NSLayoutManager` 提供布局信息或者说是布局建议。`NSTextContainer` 所做的仅仅是指明文本显示的区域，并且不接受任何超出区域的文本。
+
+```objc
+/*=== Creating a Text Container ===*/
+- (instancetype)initWithSize:(CGSize)size;
+- (instancetype)initWithCoder:(NSCoder *)coder;
+
+/*=== Managing Text Components ===*/ 
+@property (nullable, assign, NS_NONATOMIC_IOSONLY) NSLayoutManager *layoutManager;
+- (void)replaceLayoutManager:(NSLayoutManager *)newLayoutManager;
+
+/*=== Defining the Container Shape ===*/
+// Default: CGSizeZero,Defines the maximum size for the layout area
+@property (NS_NONATOMIC_IOSONLY) CGSize size;
+// Default: empty array, 代表文本不可渲染的区域的集合。
+@property (copy, NS_NONATOMIC_IOSONLY) NSArray<UIBezierPath *> *exclusionPaths;
+@property (NS_NONATOMIC_IOSONLY) NSLineBreakMode lineBreakMode;
+@property (NS_NONATOMIC_IOSONLY) BOOL widthTracksTextView;
+@property (NS_NONATOMIC_IOSONLY) BOOL heightTracksTextView;
+
+/*=== Constraining Text Layout ===*/ 
+// 最大行数
+@property (NS_NONATOMIC_IOSONLY) NSUInteger maximumNumberOfLines;
+// 行片段内边距
+@property (NS_NONATOMIC_IOSONLY) CGFloat lineFragmentPadding;
+- (CGRect)lineFragmentRectForProposedRect:(CGRect)proposedRect atIndex:(NSUInteger)characterIndex writingDirection:(NSWritingDirection)baseWritingDirection remainingRect:(nullable CGRect *)remainingRect;
+@property (getter=isSimpleRectangularTextContainer, readonly, NS_NONATOMIC_IOSONLY) BOOL simpleRectangularTextContainer;
+```
+## NSStringDrawing
+
+```objc
+@interface NSString (NSExtendedStringDrawing)
+- (void)drawWithRect:(CGRect)rect options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary<NSAttributedStringKey, id> *)attributes context:(nullable NSStringDrawingContext *)context;
+- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary<NSAttributedStringKey, id> *)attributes context:(nullable NSStringDrawingContext *)context;
+@end
+```
 
 
-
-NSFontAttributeName; //字体，value是UIFont对象
-NSParagraphStyleAttributeName;//绘图的风格（居中，换行模式，间距等诸多风格），value是NSParagraphStyle对象
-NSForegroundColorAttributeName;// 文字颜色，value是UIFont对象
-NSBackgroundColorAttributeName;// 背景色，value是UIFont
-NSLigatureAttributeName; //  字符连体，value是NSNumber
-NSKernAttributeName; // 字符间隔
-NSStrikethroughStyleAttributeName;//删除线，value是NSNumber
-NSUnderlineStyleAttributeName;//下划线，value是NSNumber
-NSStrokeColorAttributeName; //描绘边颜色，value是UIColor
-NSStrokeWidthAttributeName; //描边宽度，value是NSNumber
-NSShadowAttributeName; //阴影，value是NSShadow对象
-NSTextEffectAttributeName; //文字效果，value是NSString
-NSAttachmentAttributeName;//附属，value是NSTextAttachment 对象
-NSLinkAttributeName;//链接，value是NSURL or NSString
-NSBaselineOffsetAttributeName;//基础偏移量，value是NSNumber对象
-NSUnderlineColorAttributeName;//下划线颜色，value是UIColor对象
-NSStrikethroughColorAttributeName;//删除线颜色，value是UIColor
-NSObliquenessAttributeName; //字体倾斜
-NSExpansionAttributeName; //字体扁平化
-NSVerticalGlyphFormAttributeName;//垂直或者水平，value是 NSNumber，0表示水平，1垂直
+## NSTextStorage(暂定)
+### NSTextStorageDelegate(暂定)
+## NSLayoutManager(暂定)

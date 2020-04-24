@@ -1041,3 +1041,131 @@ CGColorSpaceRef CGColorSpaceCreatePattern(CGColorSpaceRef baseSpace);
 void CGContextSetFillColorSpace(CGContextRef c,CGColorSpaceRef space);
 void CGContextSetStrokeColorSpace(CGContextRef c,CGColorSpaceRef space);
 ```
+
+
+
+
+
+
+
+
+
+## Shadows(阴影)
+
+阴影具有三个特征：
+
+* `x偏移量(x-offset)` : 它指定阴影在水平方向上从图像偏移的距离，x>0 在图像右侧。
+* `y偏移量(y-offset)` : 用于指定阴影在垂直方向上从图像偏移的距离。
+    * 如果创建 PDF 图形上下文或者 Bitmap 图形上下文，y>0 在图像上方。
+    * 通过`UIGraphicsBeginImageContextWithOptions`函数创建的图形上下文，正y偏移表示向下位移。
+* `模糊值(blur)`  : 指定图像是硬边缘，还是漫射边缘。
+
+<img src="/assets/images/coretext/44.gif"/>
+
+### 使用阴影
+
+```objc
+void CGContextSetShadowWithColor(CGContextRef c,CGSize offset, CGFloat blur, CGColorRef color);
+// 以黑色绘制阴影,具有1/3 alpha值=> {0, 0, 0, 1.0/3.0}
+void CGContextSetShadow(CGContextRef c, CGSize offset,CGFloat blur);
+```
+
+```objc
+void MyDrawWithShadows (CGContextRef c,CGFloat wd, CGFloat ht){
+    CGSize myShadowOffset = CGSizeMake (-15,  20);
+    CGColorRef myColor;
+    CGColorSpaceRef myColorSpace;
+    CGFloat myColorValues[] = {1, 0, 0, .6};
+    
+    CGContextSaveGState(c);
+    //CGContextSetShadow (c, myShadowOffset, 5);
+    
+    myColorSpace = CGColorSpaceCreateDeviceRGB ();// 9
+    myColor = CGColorCreate (myColorSpace, myColorValues);// 10
+    CGContextSetShadowWithColor (c, myShadowOffset, 5, myColor);
+    // 绘制代码
+    CGContextAddRect(c, CGRectMake(0, 0, wd, ht));
+    
+    CGContextSetRGBFillColor (c, 0, 1, 0, 1);//设置绘制填充色
+    CGContextFillRect (c, CGRectMake (wd/3 + 75, ht/2 , wd/4, ht/4));//fill
+    
+    CGContextRestoreGState(c);
+}
+```
+
+<img src="/assets/images/coretext/45.png" width = "25%" height = "25%"/>
+
+## Gradients(渐变色)
+
+* 经向渐变(Radial) :
+
+### 轴向、线性渐变(Axial)
+
+* 轴向、线性渐变(Axial) : 沿着A点和B点划线，垂直于AB连线方向的所有的点都具有相同的颜色。
+
+<img src="/assets/images/coretext/46.png" width = "50%" height = "50%"/>
+
+### 经向渐变(Radial)
+
+<img src="/assets/images/coretext/47.png" width = "50%" height = "50%"/>
+
+### CGGradient
+
+#### 使用
+
+* 创建`CGGradient`对象。
+* 通过调用`CGContextDrawLinearGradient`、`CGContextDrawRadialGradient`来绘制渐变。
+* 不再需要时，释放`CGGradient`对象。
+
+```objc
+CGGradientRef CGGradientCreateWithColorComponents(CGColorSpaceRef space, const CGFloat * components,const CGFloat * locations, size_t count);
+CGGradientRef CGGradientCreateWithColors(CGColorSpaceRef space, CFArrayRef colors,const CGFloat * locations);
+
+void CGContextDrawLinearGradient(CGContextRef c,CGGradientRef gradient, CGPoint startPoint, CGPoint endPoint,CGGradientDrawingOptions options);
+void CGContextDrawRadialGradient(CGContextRef c,CGGradientRef gradient, CGPoint startCenter, CGFloat startRadius,CGPoint endCenter, CGFloat endRadius, CGGradientDrawingOptions options);
+```
+
+### CGShading
+
+* Axial(轴向) and Radial(经向) Gradient Examples 示例
+* A Comparison of CGShading and CGGradient Objects 对比
+* Extending Color Beyond the End of a Gradient
+* Using a CGGradient Object
+* Using a CGShading Object
+    * Painting an Axial Gradient Using a CGShading Object
+    * Painting a Radial Gradient Using a CGShading Object
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
