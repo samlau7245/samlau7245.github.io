@@ -23,10 +23,13 @@ categories:
 |`ListView.builder()`||当需要展示大量的数据的时候使用|[示例](https://codepen.io/samlau7245/pen/XWmaBoo)|
 |`ListView.separated()`||给列表添加分割线|[示例](https://codepen.io/samlau7245/pen/NWGvBmw)|
 
+### ListTile
 
+<img src="/assets/images/flutter/71.gif"/>
 
-
-
+### [SafeArea](https://www.youtube.com/watch?v=lkF0TQJO0bA&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=2)
+### [Expanded](https://www.youtube.com/watch?v=_rnZaagadyo&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=3)
+### [Wrap](https://www.youtube.com/watch?v=z5iw2SeFx2M&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG&index=4)
 
 
 
