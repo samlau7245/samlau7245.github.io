@@ -54,6 +54,27 @@ flutter run
 * 检查：查看 -> 命令面板 -> 输入`doctor` -> 选择`Flutter: Run Flutter Doctor`。
 * 创建应用：查看 -> 命令面板 -> 输入`flutter` -> 选择`Flutter: New Project`。
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------------------------- chapter -------------------------------------------------------------->
 ## 开发基础
 
 ### 无状态组件、有状态组件
@@ -102,6 +123,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 ```
+
+#### State(状态管理)
+
+生命周期：`initState` -> `build` -> `setState` -> `didUpdateWidget` -> `build` --->`移除`
+
+<img src="/assets/images/flutter/66.png" width = "25%" height = "25%"/>
 
 ### 使用包资源
 
@@ -189,6 +216,28 @@ _requestClient() async {
 }
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------------------------- chapter -------------------------------------------------------------->
 ## 常用组件
 Flutter 中一种非常重要的概念：一切皆组件，Flutter 中所有的元素都是有组件组成。
 
@@ -785,7 +834,35 @@ class _LoginPageState extends State<LoginPage> {
 
 <img src="/assets/images/flutter/09.png" width = "25%" height = "25%"/>
 
-## Material Design 风格组件
+### IgnorePointer
+组件内部的子组件都不可以响应用户点击。
+
+<img src="/assets/images/flutter/69.png" width = "25%" height = "25%"/>
+
+### Divider(分割线)
+
+<img src="/assets/images/flutter/70.gif"/>
+
+* DividerThemeData
+* `ListView.separated`
+* `ListTile.divideTiles(tiles: null)`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------------------------- chapter -------------------------------------------------------------->
+## [Material Design 风格组件](https://api.flutter.dev/flutter/material/MaterialApp-class.html)
+
 `Material Design` 是由Google推出的全新设计语言。
 
 ### App结构和导航组件
@@ -795,7 +872,7 @@ class _LoginPageState extends State<LoginPage> {
 |属性|类型|说明|
 | --- | --- | --- |
 |title|String|应用程序的标题：iOS->程序切换管理器中，Android->任务管理器的程序快照上|
-|theme|ThemeData|应用使用的主题色，可以全局也可以局部设置|
+|theme|[ThemeData](https://api.flutter.dev/flutter/material/ThemeData-class.html)|应用使用的主题色，可以全局也可以局部设置|
 |color|Color|应用的主题色：`primary color`|
 |home|Widget|Widget对象，用来定义当前应用打开时所显示的界面|
 |routes|Map<String,WidgetBuilder>|应用中页面跳转规则|
@@ -956,6 +1033,12 @@ class MyApp extends StatelessWidget {
 ```
 
 <img src="/assets/images/flutter/12.png" width = "25%" height = "25%"/>
+
+#### ThemeData(主题)
+
+|属性|类型|说明|
+| --- | --- | --- |
+|primaryColor|Color|主题色|
 
 #### Scaffold(脚手架组件)
 `Scaffold`：实现了基本的`Materail Design`布局。
@@ -2362,7 +2445,9 @@ class MyApp extends StatelessWidget {
 |none|<img src="/assets/images/flutter/41.png"/>|没有任何填充|
 |scaleDown|<img src="/assets/images/flutter/42.png"/>|根据情况缩小范围，内容不会超过容器范围，有时和`contain`一样有时和`none`一样|
 
-#### Stack/Alignment
+#### Stack
+
+##### Alignment
 
 `Stack`组件的每个子组件要么定位，要么不定位。定位的子组件用`Positioned`组件包裹。`Stack`组件本身包含所有不定位的子组件，子组件根据`alignment`属性进行定位(默认为左上角)。然后根据定位的子组件的`top`、`right`、`bottom`和`left`属性将它们位置在`Stack`组件上。
 
@@ -2417,7 +2502,19 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/43.png"/>
 <!-- width = "25%" height = "25%" -->
 
-#### Stack/Positioned
+##### Overflow
+
+```dart
+enum Overflow {
+  visible,/// Overflowing children will be visible.
+  clip,/// Overflowing children will be clipped to the bounds of their parent.
+}
+```
+
+<img src="/assets/images/flutter/67.gif"/>
+
+##### Positioned
+
 `Positioned`组件是用来定位的。`Stack`组件里需要包裹一个定位组件。
 
 |属性|类型|描述|
@@ -2470,7 +2567,9 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/44.png"/>
 
-#### IndexedStack
+#### [IndexedStack](https://www.youtube.com/watch?v=_O0PPD1Xfbk)
+
+<img src="/assets/images/flutter/68.gif"/>
 
 `IndexedStack`继承了`Stack`，它的作用就是显示第`index`个`child`，其他的`child`不可见。所以`IndexStack`的尺寸永远是和最大的子节点尺寸一致的。
 
@@ -3403,7 +3502,17 @@ var font = new Text(
 
 ### 页面跳转基本使用
 
-移动应用通常通过`屏幕`或者`页面`的全屏元素显示其内容，在Flutter中，这些元素被称为**路由**。他们由导航器`Navigator`组件管理。`Navigator`管理一组路由`Route`对象，并且提供了管理堆栈的方法。
+移动应用通常通过`屏幕`或者`页面`的全屏元素显示其内容，在Flutter中，这些元素被称为**路由**。他们由导航器[Navigator](https://api.flutter.dev/flutter/widgets/Navigator-class.html)组件管理。`Navigator`管理一组路由`Route`对象，并且提供了管理堆栈的方法。
+
+* `push(BuildContext context, Route<T> route)`
+* `pop(BuildContext context, [ T result ])`
+
+```
+pushReplacementNamed(BuildContext context,String routeName, {TO result,Object arguments,}));
+
+page1 -push-> page2 -push-> page3 如果这样push的话，栈结构就是: page1-page2-page3
+page1 -push-> page2 -pushReplacementNamed-> page3 如果把第二个push换成pushReplacementNamed，那么栈结构就是：page1-page3, page2 将会被销毁。
+```
 
 ```dart
 import 'package:flutter/material.dart';
@@ -3633,7 +3742,7 @@ gradient: new LinearGradient(
 child: new RotatedBox(quarterTurns: 3,),
 ```
 
-### Clip(剪裁处理)
+### [Clip(剪裁处理)](https://www.youtube.com/watch?v=vzWWDO6whIM&t=28s)
 
 `Clip`作用把一个组件剪掉一部分。
 
@@ -3647,7 +3756,7 @@ child: new RotatedBox(quarterTurns: 3,),
 |clipper|`CustomClipper<Path>`|剪裁路径，比如椭圆，矩形等等|
 |clipBehavior|Clip|裁剪方式|
 
-### ClipOval
+#### ClipOval
 
 ```dart
 import 'package:flutter/material.dart';
@@ -3680,7 +3789,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/60.png" width = "25%" height = "25%"/>
 
-### ClipRRect
+#### ClipRRect
 
 `ClipRRect` 组件的属性`borderRadius`参数来控制圆角的位置大小。
 
@@ -3721,7 +3830,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/61.png" width = "25%" height = "25%"/>
 
-### ClipRect
+#### ClipRect
 
 `ClipRect`这个组件需要自定义`clipper`属性才能使用，否则没有效果。自定义`clipper`需要继承`CustomClipper`类。并且需要重写`getClip`和`shouldReclip`两个方法。
 
@@ -3760,7 +3869,7 @@ class MyApp extends StatelessWidget {
 // 自定义的clipper，集成了 CustomClipper
 class RectClipper extends CustomClipper<Rect> {
   @override
-  Rect getClip(Size size) { // 获取剪裁范围
+  Rect getClip(Size size) { // 获取剪裁范围,100.0, 100.0, 裁剪child的坐标，width、height 裁剪的宽高
     return new Rect.fromLTRB(100.0, 100.0, size.width - 100.0, size.height - 100.0);
   }
   @override
@@ -3772,7 +3881,7 @@ class RectClipper extends CustomClipper<Rect> {
 
 <img src="/assets/images/flutter/62.png" width = "25%" height = "25%"/>
 
-### ClipPath
+#### ClipPath
 
 `ClipPath` 组件由于采用了矢量路径`path`，所以可以把组件剪裁为任意类型的形状。比如三角形、矩形、星形以及多边形等等。
 
@@ -4316,6 +4425,7 @@ FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 <!-- ========================================================================================================================== -->
 ## Flutter 插件
 
+* [开发Packages和插件](https://flutterchina.club/developing-packages/)
 * [youtube](https://www.youtube.com/results?search_query=flutter+plugin+development)
 
 ```sh
@@ -4426,3 +4536,154 @@ typedef void (*FlutterPluginRegistrantCallback)(NSObject<FlutterPluginRegistry>*
 
 
 
+
+
+### 通过 MethodChannel 进行通讯
+
+
+
+
+MethodChannel API：
+
+```dart
+Future<T> invokeMethod<T>(String method, [ dynamic arguments ]);
+
+// 返回特殊类型
+Future<List<T>> invokeListMethod<T>(String method, [ dynamic arguments ]);
+Future<Map<K, V>> invokeMapMethod<K, V>(String method, [ dynamic arguments ])
+
+void setMethodCallHandler(Future<dynamic> handler(MethodCall call));
+```
+
+iOS FlutterMethodCall API:
+
+```objc
++ (instancetype)methodCallWithMethodName:(NSString*)method arguments:(id _Nullable)arguments;
+@property(readonly, nonatomic) NSString* method;
+@property(readonly, nonatomic, nullable) id arguments;
+```
+
+Flutter端：
+
+```dart
+class Music {
+  static const MethodChannel _channel = MethodChannel('music');
+
+  static Future<bool> isLicensed() async {
+    return _channel.invokeMethod('isLicensed');
+  }
+
+  static Future<List<Song>> songs() async {
+    final List<dynamic> songs = await _channel.invokeMethod('getSongs');
+    return songs.map(Song.fromJson).toList();
+  }
+  // 带参数
+  static Future<void> play(Song song, double volume) async {
+    try {
+      return _channel.invokeMethod('play', <String, dynamic>{ 'song': song.id, 'volume': volume, });
+    } on PlatformException catch (e) {
+      throw 'Unable to play ${song.title}: ${e.message}';
+    }
+  }
+  static void func2(){
+    _channel.setMethodCallHandler(handler);
+  }
+}
+
+Future<dynamic> handler(MethodCall call) async{
+  switch (call.method) {
+    case 'func_name_1':
+      return call.arguments;
+    default:
+  }
+  return call.arguments;
+}
+
+class Song {
+  Song(this.id, this.title, this.artist);
+
+  final String id;
+  final String title;
+  final String artist;
+
+  static Song fromJson(dynamic json) {
+    return Song(json['id'], json['title'], json['artist']);
+  }
+}
+```
+
+iOS端：
+
+```objectivec
+@interface MusicPlugin : NSObject<FlutterPlugin>
+@end
+@implementation MusicPlugin
++ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
+    FlutterMethodChannel* channel = [FlutterMethodChannel methodChannelWithName:@"music" binaryMessenger:[registrar messenger]];
+    FlutterPlugin* instance = [[FlutterPlugin alloc] init];
+    [registrar addMethodCallDelegate:instance channel:channel];
+
+    /* 这里的作用和 `handleMethodCall:result:` 作用一样。
+    [channel setMethodCallHandler:^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) {
+        if ([@"getPlatformVersion" isEqualToString:call.method]) {
+            result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+        } else if([@"func1" isEqualToString:call.method]){
+            NSLog(@"%@",call.arguments);
+            result (@"----sss");
+        } else {
+            result(FlutterMethodNotImplemented);
+        }
+    }];
+     */
+}
+
+- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
+  // isLicensed
+  if ([@"isLicensed" isEqualToString:call.method]) {
+    result([NSNumber numberWithBool:[BWPlayApi isLicensed]]);
+  } 
+  // getSongs
+  else if ([@"getSongs" isEqualToString:call.method]) {
+    NSArray* items = [BWPlayApi items];
+    NSMutableArray* json = [NSMutableArray arrayWithCapacity:items.count];
+    for (BWPlayItem* item in items) {
+      [json addObject:@{@"id":item.itemId, @"title":item.name, @"artist":item.artist}];
+    }
+    result(json);
+  } 
+  // play
+  else if ([@"play" isEqualToString:call.method]) {
+    NSString* itemId = call.arguments[@"song"];
+    NSNumber* volume = call.arguments[@"volume"];
+    NSError* error = nil;
+    BOOL success = [BWPlayApi playItem:itemId volume:volume.doubleValue error:&error];
+    if (success) {
+      result(nil);
+    } else {
+      result([FlutterError errorWithCode:[NSString stringWithFormat:@"Error %ld", error.code]
+                                 message:error.domain
+                                 details:error.localizedDescription]);
+    }
+  } else {
+    result(FlutterMethodNotImplemented);
+  }
+}
+@end
+```
+
+涉及的API：
+
+```objc
+// Protocol FlutterPlugin
++ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar;
+- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result;
+
+//Interface FlutterMethodChannel
++ (instancetype)methodChannelWithName:(NSString*)name binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;
+- (void)setMethodCallHandler:(FlutterMethodCallHandler _Nullable)handler;
+
+// Protocol FlutterPluginRegistrar
+- (void)addMethodCallDelegate:(NSObject<FlutterPlugin>*)delegate channel:(FlutterMethodChannel*)channel;
+```
+
+* [深入理解Flutter Platform Channel](https://juejin.im/post/5b84ff6a6fb9a019f47d1cc9)
