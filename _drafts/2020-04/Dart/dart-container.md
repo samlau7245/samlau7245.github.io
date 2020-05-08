@@ -31,24 +31,27 @@ categories:
 | Transform | 矩阵转换 | 做矩阵变换,对child做平移、旋转、缩放等操作。|
 | Wrap | 按宽高自动换行 | 按宽度或者高度,让child自动换行布局 |
 
-## 基础布局
+## Container(基础布局)
 
-### Container(基础布局)
-Container(基础布局)是一个组合的Widget。
+Container(基础布局)是一个组合的 Widget 。类似于HTML中的`<span>`标签，用于组合其他的 Widget 。
+
+* [Container (Flutter Widget of the Week)](https://www.youtube.com/watch?v=c1xLMaTUWCY)
+* [CodePen-ContainerExample,搭配视频讲解看](https://codepen.io/samlau7245/pen/xxwYMwN)
+* [Container class](https://api.flutter.dev/flutter/widgets/Container-class.html)
 
 | 属性 | 类型 | 说明 |
 | --- | --- | --- |
 |key | Key|Container 唯一标识符，用于查找更新|
 |alignment | AlignmentGeometry|控制 child 的对齐方式，如果 Container或者 Container父节点尺寸大于 child 的尺寸，这个属性设置会起作用，有很多种对齐方式|
-|padding | EdgelnsetsGeometry|Decoration内部的空白区域，如果有 child的话，child位于padding 内部|
+|padding | EdgelnsetsGeometry|填充， Decoration **内部**的空白区域，如果有 child的话，child位于padding 内部|
+|margin  | EdgelnsetsGeometry |边距属性，围绕在 Decoration 和 child 之外的空白区域，不属于内容区域|
 |color | Color|用来设置 Container背景色，如果 foregroundDecoration设置的话，可能会遮盖 color效果|
-|decoration | Decoration|绘制在 child后丽的装饰，设置了 Decoration 的话，就不能设置 color属性，否则会报错，此时应该在 Decoration 中进行颜色的设置|
+|decoration | Decoration|给Container添加一些装饰，比如形状、颜色...，设置了 Decoration 的话，就不能设置 color属性，否则会报错，此时应该在 Decoration 中进行颜色的设置|
 |foregroundDecoration | Decoration |绘制在 child前面的装饰|
 |width | double|Container 的宽度，设置为 double.infinity可以强制在宽度上撑满，不设置，撑满则根据 child 和父节点两者一起布局|
 |height | double|Container的高度，设置为 double.infinity即可以 强制在高度上撑满|
-|constraints | BoxConstraints |添加到 child上额外的约束条件|
-|margin  | EdgelnsetsGeometry |围绕在 Decoration 和 child 之外的空白区域，不属于内容区域|
-|transform  | Matrix4|设置 Container 的变换矩阵，类型为 Matrix4|
+|constraints | [BoxConstraints](https://api.flutter.dev/flutter/widgets/Container-class.html) |添加到 child上额外的约束条件|
+|transform  | [Matrix4](https://api.flutter.dev/flutter/vector_math_64/Matrix4-class.html)|设置 Container 的变换矩阵，类型为 Matrix4|
 |child | Widget|Container 中的内容 Widget|
 
 ```dart
@@ -190,7 +193,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/28.png"/>
 
-### Center(居中布局)
+## Center(居中布局)
 Center(居中布局)： 子元素处于水平和垂直方向的中间位置。
 
 ```dart
@@ -218,14 +221,16 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/29.png" width = "25%" height = "25%"/>
 
-### Padding(填充布局)
+## Padding(填充布局)
 Padding(填充布局)： 用于处理容器与其子元素之间的间距，与`padding`对应的属性是 `margin` 属性，`margin`是处理容器与其他组件之间的间距。
+
+<img src="/assets/images/flutter/72.png" width = "25%" height = "25%"/>
 
 | 属性|类型|说明|
 | --- | --- | --- |
 |padding|EdgeInsetsGeometry|填充的值可以用`EdgeInsets`方法，例如：`EdgeInsets.all(6.0)`将容器的上下左右填充设置为6.0|
 
-#### 构造函数
+### 构造函数
 
 ```dart
 // 所有方向
@@ -285,8 +290,10 @@ class PaddingDemo extends StatelessWidget {
 
 <img src="/assets/images/flutter/30.png" /> <!-- width = "25%" height = "25%" -->
 
-### Align(对齐布局)
+## Align(对齐布局)
 Align(对齐布局)： 将子组件按照指定的方式对齐，并且根据子组件的大小调整自己的大小。
+
+* [Align (Flutter Widget of the Week)](https://www.youtube.com/watch?v=g2E7yl3MwMk)
 
 |属性|值|描述|
 | --- | --- | --- | --- |
@@ -358,7 +365,7 @@ class PaddingDemo extends StatelessWidget {
 
 <img src="/assets/images/flutter/31.png" width = "25%" height = "25%"/>
 
-### Row(水平布局)
+## Row(水平布局)
 Row(水平布局) 用来完成子组件在水平方向的排列。
 
 |属性|值|描述|
@@ -413,7 +420,7 @@ class PaddingDemo extends StatelessWidget {
 
 <img src="/assets/images/flutter/32.png" width = "25%" height = "25%"/>
 
-### Column(垂直布局)
+## Column(垂直布局)
 Column(垂直布局) 用来完成对子组件纵向的排列。主轴是垂直方向，次轴是水平方向。
 
 |属性|值|描述|
@@ -509,7 +516,134 @@ class PaddingDemo extends StatelessWidget {
 
 <img src="/assets/images/flutter/34.png" width = "25%" height = "25%"/>
 
-### FittedBox(缩放布局)
+## Expanded(填充布局)
+
+* [Expanded (Flutter Widget of the Week)](https://www.youtube.com/watch?v=_rnZaagadyo)
+* [Expanded Class](https://api.flutter.dev/flutter/widgets/Expanded-class.html)
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      home: new Scaffold(
+        appBar: AppBar(
+          title: Text('Flutter Demo'),
+        ),
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Container(
+                    color: Colors.blue,
+                    width: 100.0,
+                    height: 100.0,
+                    margin: EdgeInsets.all(2.0),
+                    child: Center(
+                      child: Text('Container'),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.blue,
+                    width: 100.0,
+                    height: 100.0,
+                    margin: EdgeInsets.all(2.0),
+                    child: Center(
+                      child: Text('Container'),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    color: Colors.blue,
+                    width: 100.0,
+                    height: 100.0,
+                    margin: EdgeInsets.all(2.0),
+                    child: Center(
+                      child: Text('Container'),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: Colors.amber,
+                      height: 100.0,
+                      child: Center(
+                        child: Text('Expanded'),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.blue,
+                    width: 100.0,
+                    height: 100.0,
+                    margin: EdgeInsets.all(2.0),
+                    child: Center(
+                      child: Text('Container'),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      color: Colors.amber,
+                      height: 100.0,
+                      child: Center(
+                        child: Text(
+                          'Expanded \nflex: 2',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.blue,
+                    width: 100.0,
+                    height: 100.0,
+                    margin: EdgeInsets.all(2.0),
+                    child: Center(
+                      child: Text('Container'),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      color: Colors.amber,
+                      height: 100.0,
+                      child: Center(
+                        child: Text(
+                          'Expanded \nflex: 1',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="/assets/images/flutter/73.png" width = "25%" height = "25%"/>
+
+## FittedBox(缩放布局)
 
 * [FittedBox-官方视频教程](https://youtu.be/T4Uehk3_wlY)
 * [FittedBox-官方文档](https://api.flutter.dev/flutter/widgets/FittedBox-class.html)
@@ -568,9 +702,9 @@ class MyApp extends StatelessWidget {
 |none|<img src="/assets/images/flutter/41.png"/>|没有任何填充|
 |scaleDown|<img src="/assets/images/flutter/42.png"/>|根据情况缩小范围，内容不会超过容器范围，有时和`contain`一样有时和`none`一样|
 
-### Stack
+## Stack
 
-#### Alignment
+### Alignment
 
 `Stack`组件的每个子组件要么定位，要么不定位。定位的子组件用`Positioned`组件包裹。`Stack`组件本身包含所有不定位的子组件，子组件根据`alignment`属性进行定位(默认为左上角)。然后根据定位的子组件的`top`、`right`、`bottom`和`left`属性将它们位置在`Stack`组件上。
 
@@ -625,7 +759,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/43.png"/>
 <!-- width = "25%" height = "25%" -->
 
-#### Overflow
+### Overflow
 
 ```dart
 enum Overflow {
@@ -636,7 +770,7 @@ enum Overflow {
 
 <img src="/assets/images/flutter/67.gif"/>
 
-#### Positioned
+### Positioned
 
 `Positioned`组件是用来定位的。`Stack`组件里需要包裹一个定位组件。
 
@@ -690,7 +824,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/44.png"/>
 
-### [IndexedStack](https://www.youtube.com/watch?v=_O0PPD1Xfbk)
+## [IndexedStack](https://www.youtube.com/watch?v=_O0PPD1Xfbk)
 
 <img src="/assets/images/flutter/68.gif"/>
 
@@ -740,7 +874,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/45.png" width = "25%" height = "25%"/>
 
-### OverflowBox 溢出父容器显示
+## OverflowBox 溢出父容器显示
 `OverflowBox` 组件运行子元素`child`超出父容器的显示范围。
 
 * 当`OverflowBox`的最大尺寸大于`child`的时候，`child`可以完整显示。
@@ -792,9 +926,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/46.png" width = "25%" height = "25%"/>
 
-## 宽高尺寸处理
-
-### SizedBox(设置具体尺寸)
+## SizedBox(设置具体尺寸)
 
 `SizedBox`组件是一个特定大小的盒子，这个组件强制他的child有特定的宽度和高度。
 
@@ -835,8 +967,12 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/47.png" width = "25%" height = "25%"/>
 
-### ConstrainedBox(限定最大最小宽度布局)
-`ConstrainedBox`的作用就是限定子元素child的最大宽度、最大高度、最小宽度和最小高度。
+## ConstrainedBox(限定最大最小宽度布局)
+`ConstrainedBox`的作用就是限定子元素child的最大宽度、最大高度、最小宽度和最小高度。例如：通过`ConstrainedBox`来限制文本 Widget 的最大宽度，使其跨越多行。
+
+* [ConstrainedBox (Flutter Widget of the Week)](https://www.youtube.com/watch?v=o2KveVr7adg)
+* [CodePen-ConstrainedBox,搭配视频讲解看](https://codepen.io/samlau7245/pen/pojaGdO)
+* [ConstrainedBox class](https://api.flutter.dev/flutter/widgets/ConstrainedBox-class.html)
 
 | --- | --- | --- |
 |constraints|BoxConstraints|添加到child上的额外限制条件，BoxConstraints的作用就是限制各种最大最小宽高|
@@ -878,7 +1014,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/48.png" width = "25%" height = "25%"/>
 
-### LimitedBox(限定最大宽度布局)
+## LimitedBox(限定最大宽度布局)
 
 `LimitedBox`和`ConstrainedBox`组件类似。只不过`LimitedBox`没有最小宽高限制。
 
@@ -925,7 +1061,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/49.png" width = "25%" height = "25%"/>
 
-### AspectRatio(调整宽高比)
+## AspectRatio(调整宽高比)
 
 `AspectRatio` 作用是根据设置调整子元素child的宽高比，适合用于需要固定宽高比的场景。
 
@@ -971,7 +1107,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/50.png" width = "25%" height = "25%"/>
 
-### FractionallySizedBox(百分比布局)
+## FractionallySizedBox(百分比布局)
 
 `FractionallySizedBox` 组件会根据现有空间来调整child的尺寸，所以就算为child设置了尺寸数值，也不起作用。
 
@@ -1019,9 +1155,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/51.png" width = "25%" height = "25%"/>
 
-## 列表及表格处理
-
-### ListView
+## ListView
 
 ```dart
 import 'package:flutter/material.dart';
@@ -1063,14 +1197,12 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/52.png" width = "25%" height = "25%"/>
 
-### GridView
+## GridView
 代码参考**常用组件**
 
-### Table
+## Table
 
-## 其他布局处理
-
-### Transform(矩阵转换)
+## Transform(矩阵转换)
 
 `Transform` 主要作用就是做矩阵转换。对组件进行平移、旋转和缩放的等操作。
 
@@ -1081,7 +1213,7 @@ class MyApp extends StatelessWidget {
 |alignment|AlignmentGeometry|对齐方式|
 |transformHitTests|bool|点击区域石佛业做相应的改变|
 
-### Baseline(基准线布局)
+## Baseline(基准线布局)
 
 `Baseline` 将左右元素底部放到同一条水平线上。
 
@@ -1092,7 +1224,7 @@ class MyApp extends StatelessWidget {
 |baseline|double||
 |baselineType|TextBaseLine|baseline类型：<br> `alphabetic`：对齐字符底部的水平线。<br> `ideographic`：对齐表意字符串的水平线。|
 
-### Offstage(控制是否显示组件)
+## Offstage(控制是否显示组件)
 
 `Offstage` 通过参数来控制child是否显示。
 
@@ -1155,7 +1287,7 @@ class _MyHomePage extends State<MyHomePage> {
 ```
 <img src="/assets/images/flutter/55.gif"/>
 
-### Wrap(按宽高自动换行布局)
+## Wrap(按宽高自动换行布局)
 
 `Wrap` 使用了`Flex`中的一些概念，某种意义上和`Row`、`Column`更加相似。单行的`Wrap`和`Row`表现几乎一致，单列的`Wrap`和`Column`表现几乎一致。`Wrap`是在主轴上空间不足时，则向次轴上去扩展显示。
 

@@ -2590,6 +2590,58 @@ class RectClipper extends CustomClipper<Path> {
 <img src="/assets/images/flutter/63.png" width = "25%" height = "25%"/>
 
 ## 动画
+### AnimatedPadding
+
+* [AnimatedPadding (Flutter Widget of the Week)](https://www.youtube.com/watch?v=PY2m0fhGNz4)
+* [CodePen-AnimatedPadding,搭配视频讲解看](https://codepen.io/samlau7245/pen/oNjEmPL)
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: MyWidget(),
+    ),
+  );
+}
+class MyWidget extends StatefulWidget {
+  @override
+  _MyWidget createState() => new _MyWidget();
+}
+
+class _MyWidget extends State<MyWidget> {
+  double paddingValue = 0; // 当值改变时，触发动画
+  _updatePadding(double value) {
+    setState(() {
+      paddingValue = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body: Center(
+        child: AnimatedPadding(
+          padding: EdgeInsets.all(paddingValue),
+          child: Container(
+            color: Colors.blue,
+            height: 200.0,
+          ),
+          duration: const Duration(seconds: 1), // 设置动画持续时间
+          curve: Curves.easeInOut, // 指定动画的曲线，以实现不同的动画效果
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: Text('更新'),
+          onPressed: () {
+            double tmp = paddingValue == 100.0 ? 0.0 : 100.0;
+            _updatePadding(tmp);
+          }),
+    );
+  }
+}
+```
 
 ### AnimatedOpacity 实现渐变效果
 
