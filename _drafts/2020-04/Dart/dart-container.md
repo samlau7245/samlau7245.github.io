@@ -224,13 +224,15 @@ class MyApp extends StatelessWidget {
 ## Padding(填充布局)
 Padding(填充布局)： 用于处理容器与其子元素之间的间距，与`padding`对应的属性是 `margin` 属性，`margin`是处理容器与其他组件之间的间距。
 
+* [Padding (Flutter Widget of the Week)](https://www.youtube.com/watch?v=oD5RtLhhubg)
+* [Padding Class](https://api.flutter.dev/flutter/widgets/Padding-class.html)
+* [Padding Demo](https://dartpad.dartlang.org/8f4870b99659769303f31d3036fea79a)
+
 <img src="/assets/images/flutter/72.png" width = "25%" height = "25%"/>
 
 | 属性|类型|说明|
 | --- | --- | --- |
 |padding|EdgeInsetsGeometry|填充的值可以用`EdgeInsets`方法，例如：`EdgeInsets.all(6.0)`将容器的上下左右填充设置为6.0|
-
-### 构造函数
 
 ```dart
 // 所有方向
@@ -645,7 +647,7 @@ class MyApp extends StatelessWidget {
 
 ## FittedBox(缩放布局)
 
-* [FittedBox-官方视频教程](https://youtu.be/T4Uehk3_wlY)
+* [FittedBox (Flutter Widget of the Week)](https://youtu.be/T4Uehk3_wlY)
 * [FittedBox-官方文档](https://api.flutter.dev/flutter/widgets/FittedBox-class.html)
 
 FittedBox(缩放布局) 组件主要做两件事，`缩放(Scale)`和`位置调整(Position)`。
@@ -657,7 +659,20 @@ FittedBox会在自己的尺寸范围内缩放并且调整child的位置。使chi
 * 如果外部有约束的话，按照外部约束调整自身尺寸，然后缩放调整child，按照指定的条件进行布局。
 * 如果没有外部约束条件，则跟着child尺寸一致，指定的缩放以及位置属性将不起作用。
 
-属性`alignment`：设置对齐方式，默认是`Alignment.center`，居中展示child。
+属性：
+
+* 属性`alignment`：设置对齐方式，默认是`Alignment.center`，居中展示child。
+* 属性`fit`：缩放方式。
+
+|`fit`缩放属性|图解|描述|
+| --- | --- | --- |
+|contain|<img src="/assets/images/flutter/36.png"/>|`child`在`FittedBox`范围内尽可能大，但是不能超出其尺寸。【`contain`是在保持着`child`宽高比不变的大前提下尽可能的填满，一般是宽度或者高度达到最大值时就会停止缩放。】|
+|cover|<img src="/assets/images/flutter/37.png"/>|按照原始尺寸填充整个容器，内容可能会超过容器范围|
+|fill|<img src="/assets/images/flutter/38.png"/>|不按照宽高比填充，直接填满但是不会超过容器范围|
+|fitHeight|<img src="/assets/images/flutter/39.png"/>|按照高度填充整个容器|
+|fitWidth|<img src="/assets/images/flutter/40.png"/>|按照宽度填充整个容器|
+|none|<img src="/assets/images/flutter/41.png"/>|没有任何填充|
+|scaleDown|<img src="/assets/images/flutter/42.png"/>|根据情况缩小范围，内容不会超过容器范围，有时和`contain`一样有时和`none`一样|
 
 ```dart
 import 'package:flutter/material.dart';
@@ -691,16 +706,6 @@ class MyApp extends StatelessWidget {
 ```
 
 <img src="/assets/images/flutter/35.png" width = "25%" height = "25%"/>
-
-|`fit`缩放属性|图解|描述|
-| --- | --- | --- |
-|contain|<img src="/assets/images/flutter/36.png"/>|`child`在`FittedBox`范围内尽可能大，但是不能超出其尺寸。【`contain`是在保持着`child`宽高比不变的大前提下尽可能的填满，一般是宽度或者高度达到最大值时就会停止缩放。】|
-|cover|<img src="/assets/images/flutter/37.png"/>|按照原始尺寸填充整个容器，内容可能会超过容器范围|
-|fill|<img src="/assets/images/flutter/38.png"/>|不按照宽高比填充，直接填满但是不会超过容器范围|
-|fitHeight|<img src="/assets/images/flutter/39.png"/>|按照高度填充整个容器|
-|fitWidth|<img src="/assets/images/flutter/40.png"/>|按照宽度填充整个容器|
-|none|<img src="/assets/images/flutter/41.png"/>|没有任何填充|
-|scaleDown|<img src="/assets/images/flutter/42.png"/>|根据情况缩小范围，内容不会超过容器范围，有时和`contain`一样有时和`none`一样|
 
 ## Stack
 
@@ -1014,7 +1019,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/48.png" width = "25%" height = "25%"/>
 
-## LimitedBox(限定最大宽度布局)
+## LimitedBox(限定最大宽高布局)
 
 `LimitedBox`和`ConstrainedBox`组件类似。只不过`LimitedBox`没有最小宽高限制。
 
@@ -1120,6 +1125,9 @@ class MyApp extends StatelessWidget {
 |widthFactor|double|宽度因子|
 |heightFactor|double|高度因子|
 
+* [FractionallySizedBox (Flutter Widget of the Week)](https://www.youtube.com/watch?v=PEsY654EGZ0)
+* [FractionallySizedBox Class](https://api.flutter.dev/flutter/widgets/FractionallySizedBox-class.html)
+
 ```dart
 import 'package:flutter/material.dart';
 
@@ -1153,7 +1161,9 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-<img src="/assets/images/flutter/51.png" width = "25%" height = "25%"/>
+<img src="/assets/images/flutter/51.png" width = "50%" height = "50%"/>
+
+## Flexible
 
 ## ListView
 
