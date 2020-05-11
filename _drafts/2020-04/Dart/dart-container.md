@@ -5,6 +5,8 @@ categories:
  - dart
 ---
 
+Flutter布局组件：[Layout widgets](https://flutter.cn/docs/development/ui/widgets/layout)。
+
 | 组件名称 | 中文名称 | 描述 |
 | --- | --- | --- |
 | Align | 对齐布局 | 指定child的对齐方式 |
@@ -1163,7 +1165,11 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/51.png" width = "50%" height = "50%"/>
 
-## Flexible
+## Flexible(自适应组件)
+
+* [Flexible (Flutter Widget of the Week)](https://www.youtube.com/watch?v=CI7x0mAZiY0)
+* [CodePen-Flexible,搭配视频讲解看](https://codepen.io/samlau7245/pen/RwWyzXQ)
+* [Flexible Class](https://api.flutter.dev/flutter/widgets/Flexible-class.html)
 
 ## ListView
 
@@ -1212,7 +1218,22 @@ class MyApp extends StatelessWidget {
 
 ## Table
 
+* [Table (Flutter Widget of the Week)](https://www.youtube.com/watch?v=_lbE0wsVZSw)
+* [Table Class](https://api.flutter.dev/flutter/widgets/Table-class.html)
+
+### DataTable 
+
+* [DataTable (Flutter Widget of the Week)](https://www.youtube.com/watch?v=ktTajqbhIcY)
+* [CodePen-DataTable,搭配视频讲解看](https://codepen.io/samlau7245/pen/pojVMdj)
+
+### SingleChildScrollView
+* [SingleChildScrollView-DataTable](https://codepen.io/samlau7245/pen/oNjdKqd)
+
+### [PaginatedDataTable]()
+
 ## Transform(矩阵转换)
+
+* [Transform (Flutter Widget of the Week)](https://www.youtube.com/watch?v=9z_YNlRlWfA)
 
 `Transform` 主要作用就是做矩阵转换。对组件进行平移、旋转和缩放的等操作。
 
@@ -1222,6 +1243,10 @@ class MyApp extends StatelessWidget {
 |origin|Offset|旋转点，相对于左上角顶点的偏移。默认旋转点是在左上角顶点|
 |alignment|AlignmentGeometry|对齐方式|
 |transformHitTests|bool|点击区域石佛业做相应的改变|
+
+```dart
+Transform.translate({Key key,@required Offset offset,this.transformHitTests = true,Widget child,});
+```
 
 ## Baseline(基准线布局)
 
