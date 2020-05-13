@@ -30,6 +30,14 @@ source $HOME/.bash_profile
 flutter doctor
 ```
 
+如果终端报错:`zsh: command not found: flutter` :
+
+```sh
+$ vim ~/.zshrc
+$ export PATH=/Users/liushan/flutter/bin:$PATH
+$ source ~/.zshrc
+```
+
 ### 设置iOS开发环境
 1.安装[Xcode](https://itunes.apple.com/us/app/xcode/id497799835) <br>
 2.配置 Xcode command-line tools:<br>
