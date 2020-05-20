@@ -1,5 +1,5 @@
 ---
-title: Flutter 动画
+title: Flutter(2)： 动画
 layout: post
 categories:
  - dart
@@ -19,6 +19,7 @@ categories:
 
 上面三个问题中出现任意一种，推荐使用显示动画。
 
+<!-- 
 
 
 
@@ -28,7 +29,10 @@ categories:
 
 
 
+
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -38,6 +42,8 @@ categories:
 
 
 
+
+ -->
 
 ## 如何选择哪种动画
 
@@ -45,6 +51,7 @@ categories:
 * [How to Choose Which Flutter Animation Widget is Right for You?](https://medium.com/flutter/how-to-choose-which-flutter-animation-widget-is-right-for-you-79ecfb7e72b5)
 
 
+<!-- 
 
 
 
@@ -54,7 +61,10 @@ categories:
 
 
 
+
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -64,6 +74,8 @@ categories:
 
 
 
+
+ -->
 
 ## [隐式动画(Implicit animations)](https://api.flutter.dev/flutter/widgets/ImplicitlyAnimatedWidget-class.html)
 
@@ -87,6 +99,7 @@ categories:
 | [AnimatedSwitcher](https://api.flutter.dev/flutter/widgets/AnimatedSwitcher-class.html) | which fades from one widget to another.|   |
 | [TweenAnimationBuilder](https://api.flutter.dev/flutter/widgets/TweenAnimationBuilder-class.html) | which animates any property expressed by a Tween to a specified target value.|  [示例](https://codepen.io/samlau7245/pen/qBOyREw) |
 
+<!-- 
 
 
 
@@ -96,7 +109,10 @@ categories:
 
 
 
+
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -106,6 +122,8 @@ categories:
 
 
 
+
+ -->
 
 ## 自定义隐式动画(TweenAnimationBuilder)
 
@@ -115,6 +133,7 @@ categories:
 * [示例：TweenAnimationBuilder - ColorFilter](https://codepen.io/samlau7245/pen/oNjMZxB)
 * [示例：TweenAnimationBuilder - IconButton](https://codepen.io/samlau7245/pen/dyYjvNR)
 
+<!-- 
 
 
 
@@ -124,7 +143,10 @@ categories:
 
 
 
+
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -134,6 +156,8 @@ categories:
 
 
 
+
+ -->
 
 ## 显式动画(Explicit animations)
 * [YouTube-Making Your First Directional Animations with Built-in Explicit Animations](https://www.youtube.com/watch?v=CunyH6unILQ&list=PLjxrf2q8roU2v6UqYlt_KPaXlnjbYySua&index=3)
@@ -164,6 +188,7 @@ categories:
 class _AnimatedDemo extends State<AnimatedDemo> with SingleTickerProviderStateMixin {}
 ```
 
+<!-- 
 
 
 
@@ -173,7 +198,10 @@ class _AnimatedDemo extends State<AnimatedDemo> with SingleTickerProviderStateMi
 
 
 
+
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -183,6 +211,8 @@ class _AnimatedDemo extends State<AnimatedDemo> with SingleTickerProviderStateMi
 
 
 
+
+ -->
 
 
 ## 用Hero实现页面切换动画

@@ -1,5 +1,5 @@
 ---
-title: Flutter 布局
+title: Flutter(1)：布局
 layout: post
 categories:
  - dart
@@ -44,6 +44,7 @@ Flutter 布局的核心机制是 widgets。在 Flutter 中，几乎所有东西�
 | Multi  | [Table](https://api.flutter.dev/flutter/widgets/Table-class.html) | 表格布局 | 使用表格的行和列进行布局 | 
 | Multi  | [Wrap](https://api.flutter.dev/flutter/widgets/Wrap-class.html) | 按宽高自动换行 | 按宽度或者高度,让child自动换行布局 | 
 
+<!-- 
 
 
 
@@ -53,7 +54,10 @@ Flutter 布局的核心机制是 widgets。在 Flutter 中，几乎所有东西�
 
 
 
+
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -63,11 +67,14 @@ Flutter 布局的核心机制是 widgets。在 Flutter 中，几乎所有东西�
 
 
 
+
+ -->
 
 ## [理解布局约束](https://flutter.cn/docs/development/ui/layout/constraints)
 
 * [理解布局约束的29个Demo](https://codepen.io/samlau7245/pen/NWGzExa)
 
+<!-- 
 
 
 
@@ -77,7 +84,10 @@ Flutter 布局的核心机制是 widgets。在 Flutter 中，几乎所有东西�
 
 
 
+
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -87,6 +97,8 @@ Flutter 布局的核心机制是 widgets。在 Flutter 中，几乎所有东西�
 
 
 
+
+ -->
 
 ## Align(对齐布局)
 Align(对齐布局)： 将子组件按照指定的方式对齐，并且根据子组件的大小调整自己的大小。
@@ -162,6 +174,7 @@ class PaddingDemo extends StatelessWidget {
 ```
 
 <img src="/assets/images/flutter/31.png" width = "25%" height = "25%"/>
+<!-- 
 
 
 
@@ -172,7 +185,9 @@ class PaddingDemo extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -182,6 +197,8 @@ class PaddingDemo extends StatelessWidget {
 
 
 
+
+ -->
 
 ## AspectRatio(调整宽高比)
 
@@ -230,6 +247,7 @@ class MyApp extends StatelessWidget {
 ```
 
 <img src="/assets/images/flutter/50.png" width = "25%" height = "25%"/>
+<!-- 
 
 
 
@@ -240,7 +258,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -250,6 +270,8 @@ class MyApp extends StatelessWidget {
 
 
 
+
+ -->
 
 ## Baseline(基准线布局)
 
@@ -264,6 +286,7 @@ class MyApp extends StatelessWidget {
 |baseline|double||
 |baselineType|TextBaseLine|baseline类型：<br> `alphabetic`：对齐字符底部的水平线。<br> `ideographic`：对齐表意字符串的水平线。|
 
+<!-- 
 
 
 
@@ -273,7 +296,10 @@ class MyApp extends StatelessWidget {
 
 
 
+
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -283,6 +309,8 @@ class MyApp extends StatelessWidget {
 
 
 
+
+ -->
 
 ## Center(居中布局)
 Center(居中布局)： 子元素处于水平和垂直方向的中间位置。
@@ -311,6 +339,7 @@ class MyApp extends StatelessWidget {
 ```
 
 <img src="/assets/images/flutter/29.png" width = "25%" height = "25%"/>
+<!-- 
 
 
 
@@ -321,7 +350,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -330,6 +361,9 @@ class MyApp extends StatelessWidget {
 
 
 
+
+
+ -->
 
 ## ConstrainedBox(限定最大最小宽度布局)
 `ConstrainedBox`的作用就是限定子元素child的最大宽度、最大高度、最小宽度和最小高度。例如：通过`ConstrainedBox`来限制文本 Widget 的最大宽度，使其跨越多行。
@@ -377,6 +411,7 @@ class MyApp extends StatelessWidget {
 ```
 
 <img src="/assets/images/flutter/48.png" width = "25%" height = "25%"/>
+<!-- 
 
 
 
@@ -387,7 +422,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -397,6 +434,8 @@ class MyApp extends StatelessWidget {
 
 
 
+
+ -->
 
 ## Container(基础布局)
 
@@ -560,6 +599,7 @@ class MyApp extends StatelessWidget {
 
 <img src="/assets/images/flutter/28.png"/>
 
+<!-- 
 
 
 
@@ -570,7 +610,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -581,12 +623,14 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 ## CustomSingleChildLayout
 
 * [CustomSingleChildLayout Class](https://api.flutter.dev/flutter/widgets/CustomSingleChildLayout-class.html)
 
 
+<!-- 
 
 
 
@@ -597,7 +641,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -608,6 +654,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## Expanded(填充布局)
@@ -738,6 +785,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/73.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -748,7 +796,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -759,6 +809,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## FittedBox(缩放布局)
@@ -824,6 +875,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/35.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -834,7 +886,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -845,6 +899,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## FractionallySizedBox(百分比布局)
@@ -899,6 +954,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/51.png" width = "50%" height = "50%"/>
 
 
+<!-- 
 
 
 
@@ -909,7 +965,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -920,6 +978,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## LimitedBox(限定最大宽高布局)
@@ -970,6 +1029,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/49.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -980,7 +1040,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -991,6 +1053,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## Offstage(控制是否显示组件)
@@ -1057,6 +1120,7 @@ class _MyHomePage extends State<MyHomePage> {
 <img src="/assets/images/flutter/55.gif"/>
 
 
+<!-- 
 
 
 
@@ -1067,7 +1131,9 @@ class _MyHomePage extends State<MyHomePage> {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1078,6 +1144,7 @@ class _MyHomePage extends State<MyHomePage> {
 
 
 
+ -->
 
 
 ## OverflowBox 溢出父容器显示
@@ -1133,6 +1200,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/46.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -1143,7 +1211,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1154,6 +1224,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## Padding(填充布局)
@@ -1228,6 +1299,7 @@ class PaddingDemo extends StatelessWidget {
 <img src="/assets/images/flutter/30.png" /> <!-- width = "25%" height = "25%" -->
 
 
+<!-- 
 
 
 
@@ -1238,7 +1310,9 @@ class PaddingDemo extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1249,6 +1323,7 @@ class PaddingDemo extends StatelessWidget {
 
 
 
+ -->
 
 
 ## SizedBox(设置具体尺寸)
@@ -1293,6 +1368,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/47.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -1303,7 +1379,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1314,6 +1392,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## Transform(矩阵转换)
@@ -1334,6 +1413,7 @@ Transform.translate({Key key,@required Offset offset,this.transformHitTests = tr
 ```
 
 
+<!-- 
 
 
 
@@ -1344,7 +1424,9 @@ Transform.translate({Key key,@required Offset offset,this.transformHitTests = tr
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1355,6 +1437,7 @@ Transform.translate({Key key,@required Offset offset,this.transformHitTests = tr
 
 
 
+ -->
 
 
 ## Column(垂直布局)
@@ -1456,6 +1539,7 @@ class PaddingDemo extends StatelessWidget {
 <img src="/assets/images/flutter/34.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -1466,7 +1550,9 @@ class PaddingDemo extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1477,6 +1563,7 @@ class PaddingDemo extends StatelessWidget {
 
 
 
+ -->
 
 
 ## GridView(网格列表布局)
@@ -1571,6 +1658,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/53.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -1581,7 +1669,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1592,6 +1682,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## [IndexedStack](https://www.youtube.com/watch?v=_O0PPD1Xfbk)
@@ -1645,6 +1736,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/45.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -1655,7 +1747,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1666,6 +1760,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## LayoutBuilder(布局构造器)
@@ -1705,6 +1800,7 @@ class MyApp extends StatelessWidget {
 ```
 
 
+<!-- 
 
 
 
@@ -1715,7 +1811,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1726,6 +1824,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## ListView
@@ -1771,6 +1870,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/52.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -1781,7 +1881,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1792,6 +1894,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## Row(水平布局)
@@ -1870,6 +1973,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/32.png" width = "25%" height = "25%"/>
 
 
+<!-- 
 
 
 
@@ -1880,7 +1984,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -1891,6 +1997,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## Stack(栈布局-将Widget覆盖在另一个的上面)
@@ -2016,6 +2123,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/44.png"/>
 
 
+<!-- 
 
 
 
@@ -2026,7 +2134,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -2037,6 +2147,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## Table
@@ -2055,6 +2166,7 @@ class MyApp extends StatelessWidget {
 ### [PaginatedDataTable]()
 
 
+<!-- 
 
 
 
@@ -2065,7 +2177,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -2076,6 +2190,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## Wrap(按宽高自动换行布局)
@@ -2164,6 +2279,7 @@ class MyApp extends StatelessWidget {
 <img src="/assets/images/flutter/56.png" width = "50%" height = "50%"/>
 
 
+<!-- 
 
 
 
@@ -2174,7 +2290,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -2185,6 +2303,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 ## Flexible(自适应组件)
@@ -2194,6 +2313,7 @@ class MyApp extends StatelessWidget {
 * [Flexible Class](https://api.flutter.dev/flutter/widgets/Flexible-class.html)
 
 
+<!-- 
 
 
 
@@ -2204,7 +2324,9 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 <!-- ==================================================================================================== -->
+<!-- 
 
 
 
@@ -2215,6 +2337,7 @@ class MyApp extends StatelessWidget {
 
 
 
+ -->
 
 
 
