@@ -1,5 +1,5 @@
 ---
-title: Flutter(2)： 动画
+title: Flutter： 动画
 layout: post
 categories:
  - dart

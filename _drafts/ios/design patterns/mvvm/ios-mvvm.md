@@ -14,7 +14,6 @@ categories:
 <img src="/assets/images/ios-dev-patterns/02.png" width = "50%" height = "50%"/> 
 
 
-
 `ViewModel`的定位：ViewModel存在目的在于抽离ViewController中展示业务逻辑，而不是替代ViewController，视图的操作业务等还是应该放在ViewController中实现。既然不负责视图操作逻辑，ViewModel中就不应该存在任何View对象，更不应该存在Push/Present等视图跳转逻辑。
 
 ViewModel用于处理视图展示逻辑，ViewModel负责将数据业务层提供的数据转化为界面展示所需的VO。其与View一一对应，**没有View就没有ViewModel**。
