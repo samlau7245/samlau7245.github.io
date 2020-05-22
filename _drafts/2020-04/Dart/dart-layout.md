@@ -1401,6 +1401,17 @@ class MyApp extends StatelessWidget {
 
 `Transform` 主要作用就是做矩阵转换。对组件进行平移、旋转和缩放的等操作。
 
+```dart
+const Transform({
+  Key key,
+  @required this.transform,
+  this.origin,
+  this.alignment,
+  this.transformHitTests = true,
+  Widget child,
+});
+```
+
 |属性|类型|描述|
 | --- | --- | --- |
 |transform|Matrix4|一个4x4的矩阵。|
@@ -1449,6 +1460,20 @@ Column(垂直布局) 用来完成对子组件纵向的排列。主轴是垂直�
 |crossAxisAlignment|CrossAxisAlignment|次轴的排列方式|
 |mainAxisSize|MainAxisSize|主轴应该占据多少空间。取值max为最大，min为最小。|
 |children|`List<Widget>`||
+
+```dart
+Column({
+  Key key,
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+
+  MainAxisSize mainAxisSize = MainAxisSize.max,
+  TextDirection textDirection,
+  VerticalDirection verticalDirection = VerticalDirection.down,
+  TextBaseline textBaseline,
+  List<Widget> children = const <Widget>[],
+})
+```
 
 <img src="/assets/images/flutter/77.png" width = "50%" height = "50%"/>
 

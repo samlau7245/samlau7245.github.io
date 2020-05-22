@@ -54,6 +54,17 @@ flutter run
 * 检查：查看 -> 命令面板 -> 输入`doctor` -> 选择`Flutter: Run Flutter Doctor`。
 * 创建应用：查看 -> 命令面板 -> 输入`flutter` -> 选择`Flutter: New Project`。
 
+### Flutter for MacOS 
+
+```sh
+flutter channel master
+flutter upgrade
+flutter config --enable-macos-desktop # --enable-web --enable-linux-desktop --enable-windows-desktop --enable-android-embedding-v2
+export ENABLE_FLUTTER_DESKTOP=true
+flutter doctor
+flutter devices
+```
+
 
 
 
@@ -2116,3 +2127,113 @@ iOS端：
 ```
 
 * [深入理解Flutter Platform Channel](https://juejin.im/post/5b84ff6a6fb9a019f47d1cc9)
+
+```
+├── actions.dart
+├── animated_cross_fade.dart
+├── animated_list.dart
+├── animated_size.dart
+├── animated_switcher.dart
+├── annotated_region.dart
+├── app.dart
+├── async.dart
+├── autofill.dart
+├── automatic_keep_alive.dart
+├── banner.dart
+├── basic.dart
+├── binding.dart
+├── bottom_navigation_bar_item.dart
+├── color_filter.dart
+├── constants.dart
+├── container.dart
+├── debug.dart
+├── dismissible.dart
+├── disposable_build_context.dart
+├── drag_target.dart
+├── draggable_scrollable_sheet.dart
+├── editable_text.dart
+├── fade_in_image.dart
+├── focus_manager.dart
+├── focus_scope.dart
+├── focus_traversal.dart
+├── form.dart
+├── framework.dart
+├── gesture_detector.dart
+├── grid_paper.dart
+├── heroes.dart
+├── icon.dart
+├── icon_data.dart
+├── icon_theme.dart
+├── icon_theme_data.dart
+├── image.dart
+├── image_filter.dart
+├── image_icon.dart
+├── implicit_animations.dart
+├── inherited_model.dart
+├── inherited_notifier.dart
+├── inherited_theme.dart
+├── layout_builder.dart
+├── list_wheel_scroll_view.dart
+├── localizations.dart
+├── media_query.dart
+├── modal_barrier.dart
+├── navigation_toolbar.dart
+├── navigator.dart
+├── nested_scroll_view.dart
+├── notification_listener.dart
+├── orientation_builder.dart
+├── overlay.dart
+├── overscroll_indicator.dart
+├── page_storage.dart
+├── page_view.dart
+├── pages.dart
+├── performance_overlay.dart
+├── placeholder.dart
+├── platform_view.dart
+├── preferred_size.dart
+├── primary_scroll_controller.dart
+├── raw_keyboard_listener.dart
+├── route_notification_messages.dart
+├── routes.dart
+├── safe_area.dart
+├── scroll_activity.dart
+├── scroll_aware_image_provider.dart
+├── scroll_configuration.dart
+├── scroll_context.dart
+├── scroll_controller.dart
+├── scroll_metrics.dart
+├── scroll_notification.dart
+├── scroll_physics.dart
+├── scroll_position.dart
+├── scroll_position_with_single_context.dart
+├── scroll_simulation.dart
+├── scroll_view.dart
+├── scrollable.dart
+├── scrollbar.dart
+├── semantics_debugger.dart
+├── shortcuts.dart
+├── single_child_scroll_view.dart
+├── size_changed_layout_notifier.dart
+├── sliver.dart
+├── sliver_fill.dart
+├── sliver_layout_builder.dart
+├── sliver_persistent_header.dart
+├── sliver_prototype_extent_list.dart
+├── spacer.dart
+├── status_transitions.dart
+├── table.dart
+├── text.dart
+├── text_selection.dart
+├── texture.dart
+├── ticker_provider.dart
+├── title.dart
+├── transitions.dart
+├── tween_animation_builder.dart
+├── unique_widget.dart
+├── value_listenable_builder.dart
+├── viewport.dart
+├── visibility.dart
+├── widget_inspector.dart
+├── widget_span.dart
+└── will_pop_scope.dart
+```
