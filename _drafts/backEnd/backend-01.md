@@ -25,7 +25,7 @@ categories:
 
 ### 前后端分离
 
-<img src="/assets/images/backend/01.png" width = "25%" height = "25%"/>
+<img src="/assets/images/backend/01.png"/> <!--  width = "25%" height = "25%" -->
 
 ### Maven聚合
 
@@ -196,6 +196,12 @@ foodie-dev-common <- foodie-dev-mapper <- foodie-dev-pojo <- foodie-dev-service
 
 ```
 
+整体项目结构图，右侧是每个模块的依赖关系。
+
 <img src="/assets/images/backend/02.png"/>
+
+执行顶级工程的`install`，来安装每个模块的依赖，这样模块之间就可以使用资源了。
+
+<img src="/assets/images/backend/04.png"/>
 
 ## 基础夯实站
