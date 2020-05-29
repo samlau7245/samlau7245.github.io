@@ -376,6 +376,160 @@ RACReplaySubject 2
 */
 ```
 
+### 冷信号、热信号比较
+
+```objc
+// 冷信号代码
+-(void)test_Signal{
+    // Create an RACReplaySubject signals
+    RACSignal *signal = [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+        // Send Signals
+        [[RACScheduler mainThreadScheduler] afterDelay:1 schedule:^{
+            [subscriber sendNext:@"replaySubject send package 1"];
+        }];
+        // Send Signals
+        [[RACScheduler mainThreadScheduler] afterDelay:2 schedule:^{
+            [subscriber sendNext:@"replaySubject send package 2"];
+        }];
+        return [RACDisposable disposableWithBlock:^{
+            NSLog(@"disposable");
+        }];
+    }];
+    NSLog(@"create Signal");
+    
+    // Subscribe the signal
+    [[RACScheduler mainThreadScheduler] afterDelay:0.1 schedule:^{
+        //Subscriber1
+        [signal subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 1 get a next value: %@ from replay subject", x);
+        }];
+        
+        //Subscriber2
+        [signal subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 2 get a next value: %@ from replay subject", x);
+        }];
+    }];
+    
+    // Subscribe the signal
+    [[RACScheduler mainThreadScheduler] afterDelay:1.1 schedule:^{
+        //Subscriber3
+        [signal subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 3 get a next value: %@ from replay subject", x);
+        }];
+        
+        //Subscriber4
+        [signal subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 4 get a next value: %@ from replay subject", x);
+        }];
+    }];
+}
+// Subject 热信号代码
+-(void)test_RACSubject{
+    // Create a RACSubject signal
+    RACSubject *subject = [RACSubject subject];
+    NSLog(@"create Signal");
+    
+    // Subscribe the signal
+    [[RACScheduler mainThreadScheduler] afterDelay:0.1 schedule:^{
+        //Subscriber1
+        [subject subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 1 get a next value: %@ from subject", x);
+        }];
+        //Subscriber2
+        [subject subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 2 get a next value: %@ from subject", x);
+        }];
+    }];
+    
+    // Send Signals
+    [[RACScheduler mainThreadScheduler] afterDelay:1 schedule:^{
+        [subject sendNext:@"subject send package 1"];
+    }];
+    
+    // Subscribe the signal
+    [[RACScheduler mainThreadScheduler] afterDelay:1.1 schedule:^{
+        //Subscriber3
+        [subject subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 3 get a next value: %@ from subject", x);
+        }];
+        
+        //Subscriber4
+        [subject subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 4 get a next value: %@ from subject", x);
+        }];
+       
+    }];
+    
+    // Send Signals
+    [[RACScheduler mainThreadScheduler] afterDelay:2 schedule:^{
+        [subject sendNext:@"subject send package 2"];
+    }];
+}
+// ReplaySubject 热信号代码
+-(void)test_RACReplaySubject{
+    // Create an RACReplaySubject signals
+    RACSubject *replaySubject = [RACReplaySubject subject];
+    NSLog(@"create Signal");
+    
+    // Subscribe the signal
+    [[RACScheduler mainThreadScheduler] afterDelay:0.1 schedule:^{
+        //Subscriber1
+        [replaySubject subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 1 get a next value: %@ from replay subject", x);
+        }];
+        
+        //Subscriber2
+        [replaySubject subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 2 get a next value: %@ from replay subject", x);
+        }];
+    }];
+    
+    // Send Signals
+    [[RACScheduler mainThreadScheduler] afterDelay:1 schedule:^{
+        [replaySubject sendNext:@"replaySubject send package 1"];
+    }];
+    
+    // Subscribe the signal
+    [[RACScheduler mainThreadScheduler] afterDelay:1.1 schedule:^{
+        //Subscriber3
+        [replaySubject subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 3 get a next value: %@ from replay subject", x);
+        }];
+        
+        //Subscriber4
+        [replaySubject subscribeNext:^(id  _Nullable x) {
+            NSLog(@"Subscriber 4 get a next value: %@ from replay subject", x);
+        }];
+    }];
+    
+    // Send Signals
+    [[RACScheduler mainThreadScheduler] afterDelay:2 schedule:^{
+        [replaySubject sendNext:@"replaySubject send package 2"];
+    }];
+}
+```
+
+`RACSignal`和热信号`RACSubject`时间比较：
+
+* `RACSubject`中，4个订阅者共享`subject`,在`subject`发送信号的时候，所有的订阅者都能收到信号数据；因为`subscriber3`、`subscriber4`订阅的时间稍后，错过了`subject`发送的信号数据。
+* 对比发现: `subject`类似<mark>直播，错过了就不再处理</mark>。而`signal`类似<mark>点播，每次订阅都会从头开始</mark>。所以我们有理由认定`subject`天然就是热信号。
+
+<img src="/assets/images/iOS/rac/07.png"/>
+
+冷信号`RACSignal`和热信号`ReplayRACSubject`时间比较：
+
+<img src="/assets/images/iOS/rac/08.png"/>
+
+热信号`RACSubject`和热信号`ReplayRACSubject`时间比较：
+
+* `ReplayRACSubject`中，`Subscriber 3`与`Subscriber 4`在订阅后马上接收到了“历史值”。对于`Subscriber 3`和`Subscriber 4`来说，它们只关心“历史的值”而不关心“历史的时间线”。·
+
+<img src="/assets/images/iOS/rac/09.png"/>
+
+热信号和冷信号类：
+
+<img src="/assets/images/iOS/rac/10.png"/>
+
 <!-- 
 
 
@@ -708,58 +862,219 @@ combineLatest、reduce示例:
 
 ### RACCommand
 
-> RACCommand：处理事件的操作.(主线程中执行)
+> RACCommand：处理事件的操作,和UI关联.(主线程中执行)
 
 ```objc
--(void)testRACCommandItxueyuan{
-    RACCommand * command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
-        // input 即是执行 execute:(id)input; 传进来的值   (3)
-        NSLog(@"init RACCommand block 被执行 initWithSignalBlock input = %@ , thread = %@",input,[NSThread currentThread]);
-        
-        return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
-            // (6)
-            NSLog(@"内部创建的信号block 被执行 createSignal , thread = %@",[NSThread currentThread]);
-            
-            // 发送信号
-            [subscriber sendNext:@"create Signal for somthing %@"];
-            [subscriber sendCompleted];
-            
-            return [RACDisposable disposableWithBlock:^{
-                // 当 [subscriber sendCompleted] 调用时就会执行释放功能的 block (8)
-                NSLog(@"内部信号被释放 disposableWithBlock , thread = %@",[NSThread currentThread]);
-            }];
-            
-        }];
+- (instancetype)initWithSignalBlock:(RACSignal<ValueType> * (^)(InputType _Nullable input))signalBlock;
+- (instancetype)initWithEnabled:(nullable RACSignal<NSNumber *> *)enabledSignal signalBlock:(RACSignal<ValueType> * (^)(InputType _Nullable input))signalBlock;
+- (RACSignal<ValueType> *)execute:(nullable InputType)input;
+```
+
+#### 示例1
+
+```objc
+/*==================================VM层======================================*/ 
+@interface RACAndMVVMViewModel01 : NSObject
+// KVO TextField输入值
+@property (strong, nonatomic) NSString *searchText;
+//创建一个绑定View的指令.RACCommand是ReactiveCocoa中呈现UI动作的组件.它包含一个来表示UI动作结果、当前状态、标明动作是否被执行的信号量.
+@property (strong, nonatomic) RACCommand *executeSearch;
+@end
+@implementation RACAndMVVMViewModel01
+- (instancetype)init {
+    if (self == [super init]) {
+        [self checkSearchText];
+    }
+    return self;
+}
+// 这个方法中将执行一些业务逻辑作为执行命令的结果,并会通过信号异步地返回结果.
+// 目前只完成了一个虚拟的执行情况;空信号立即完成.延迟操作增加了完成事件返回后的两秒延迟.用来使代码看起来更加真实.
+- (RACSignal *)executeSearchSignal {
+    return [[[[RACSignal empty] logAll] delay:2.0] logAll];
+}
+// 检查 searchText 输入的合法性
+-(void)checkSearchText{
+    /*[[RACObserve(self, searchText) map:^id _Nullable(NSString*  _Nullable value) {
+     return @(value.length > 3);
+     }] subscribeNext:^(id  _Nullable x) {
+     NSLog(@"search text is valid %@", x);
+     }];*/
+    
+    // distinctUntilChanged 只有输入合法才能进行打印
+    RACSignal *validSearchSignal = [[RACObserve(self, searchText) map:^id _Nullable(NSString*  _Nullable value) {
+        return @(value.length > 3);
+    }]distinctUntilChanged];
+    [validSearchSignal subscribeNext:^(id  _Nullable x) {
+        NSLog(@"search text is valid %@", x);
     }];
     
-    // 订阅最新发出来信号的 signal (7)
-    [command.executionSignals.switchToLatest subscribeNext:^(id  _Nullable x) {
-        
-        NSLog(@"执行最近的 signal , x = %@ , thread = %@",x,[NSThread currentThread]);
+    self.executeSearch = [[RACCommand alloc] initWithEnabled:validSearchSignal signalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+        return [self executeSearchSignal];
     }];
-    
-    // executionSignals 这里传的 x 值类型为 RACDynamicSignal 类型对象 (5)
-    [command.executionSignals subscribeNext:^(id  _Nullable x) {
-        
-        NSLog(@"executionSignals subscribeNext x = %@ , thread = %@",x,[NSThread currentThread]);
-    }];
-    
-    // 查看将要执行，每执行完一个步聚 都会调用一次查看哪个 signal block（即 第 x 个 block  ） 将被使用 (2)(4)(9)
-    // signal 的 skip: 方法功能是跳过 skipCount 个 使用 block 的查看
-    [[[command executing] skip:0] subscribeNext:^(NSNumber * _Nullable x) {
-        NSLog(@"executing signal subscribeNext x = %@ , thread = %@",x,[NSThread currentThread]);
-    }];
-    // 只执行一次 (1)
-    [command execute:@"我要执行啦*****"];
+}
+/*
+2020-05-29 15:57:23.746708+0800 RACExample[90175:12323634] search text is valid 0
+2020-05-29 15:57:27.843193+0800 RACExample[90175:12323634] search text is valid 1
+2020-05-29 15:57:34.804425+0800 RACExample[90175:12323634] search text is valid 0
+*/
+@end
+/*==================================V层======================================*/ 
+@interface RACAndMVVMViewController01 ()
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
+@property (strong, nonatomic) RACAndMVVMViewModel01 *viewModel;
+@end
+
+@implementation RACAndMVVMViewController01
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self bindViewModel];
 }
 
-// (1) RACCommand : 内部必须返回 RACSignal
-// (2) executionSignals : 信号外的信号
-// 　　(2.1) switchToLatest 最新发出来信号的 RACSignal 类型
-// 　　(2.2) 能过 (2.1)的诠释，那么只要用 switchToLatest subscribeNext: 订阅，就可以接收到发出来的信号
-// (3) 下面是执行的顺序，用 (index)表示
-// (4) execute:(id)input ; 该对象方法必须被调用(调用次数只有一次有效)才会执行一些相关操作，所有的 block 执行操作的 入口
+- (void)bindViewModel {
+    RAC(self.viewModel,searchText) = self.searchTextField.rac_textSignal;
+    self.loginButton.rac_command = self.viewModel.executeSearch;
+}
+
+-(RACAndMVVMViewModel01 *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[RACAndMVVMViewModel01 alloc] init];
+    }
+    return _viewModel;
+}
 ```
+
+<img src="/assets/images/iOS/rac/11.gif"/>
+
+当按钮值为`Input`时，按钮的状态是`Disabled`，因为输入的内容不合法。
+
+#### 示例2
+
+```objc
+/*================================================VM层================================================*/
+@interface RACAndMVVMViewModel02 : NSObject
+@property(nonatomic, strong) NSString *email;
+@property(nonatomic, strong) NSString *statusMessage;
+@property(nonatomic, strong) RACCommand *subscribeCommand;
+@end
+@implementation RACAndMVVMViewModel02
+-(instancetype)init{
+    if (self == [super init]) {
+        [self rac_init];
+    }
+    return self;
+}
+-(void)rac_init{
+    @weakify(self)
+    RACSignal *emailSignal = [[RACObserve(self, email) map:^id _Nullable(NSString*  _Nullable value) {
+        @strongify(self)
+        return @([self isValidEmail:value]);
+    }]distinctUntilChanged];
+    
+    [emailSignal subscribeNext:^(id  _Nullable x) {
+        NSLog(@"%@",x);
+    }];
+    
+    self.subscribeCommand = [[RACCommand alloc] initWithEnabled:emailSignal signalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+        @strongify(self)
+        return [self businessOperation:self.email];
+    }];
+    
+    RACSignal *rac1 = [self.subscribeCommand.executionSignals map:^id _Nullable(id  _Nullable value) {
+        NSLog(@"Request");
+        return @"Request";
+    }];
+    RACSignal *rac2 = [self.subscribeCommand.executionSignals flattenMap:^__kindof RACSignal * _Nullable(RACSignal* signal) {
+        return [[[signal materialize]filter:^BOOL(RACEvent *event) {
+            NSLog(@"... RACEventType:%zd",event.eventType);
+            return event.eventType == RACEventTypeCompleted;
+        }] map:^id _Nullable(id  _Nullable value) {
+            NSLog(@"Thanks!");
+            return @"Thanks!";
+        }];
+    }];
+    RACSignal *rac3 = [[self.subscribeCommand.errors subscribeOn:[RACScheduler mainThreadScheduler]] map:^id _Nullable(NSError * _Nullable value) {
+        NSLog(@"Error");
+        return @"Error";
+    }];
+    RAC(self,statusMessage) = [RACSignal merge:@[rac1,rac2,rac3]];
+}
+
+// 处理业务逻辑
+-(RACSignal*)businessOperation:(NSString*)content{
+    return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+        NSLog(@"Loading...");
+        [subscriber sendNext:@"Loading..."];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [subscriber sendError:nil];
+        });
+        return [RACDisposable disposableWithBlock:^{
+        }];
+    }];
+}
+
+// 检测strin是否是邮件
+- (BOOL)isValidEmail:(NSString*)content {
+    if (!content) return NO;
+    
+    NSString *emailPattern =
+    @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
+    @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
+    @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
+    @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
+    @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
+    @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
+    @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:emailPattern options:NSRegularExpressionCaseInsensitive error:&error];
+    NSTextCheckingResult *match = [regex firstMatchInString:content options:0 range:NSMakeRange(0, [content length])];
+    return match != nil;
+}
+@end
+/*================================================V层================================================*/
+@interface RACAndMVVMViewController02 ()
+@property (weak, nonatomic) IBOutlet UITextField *inputTextField;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property(nonatomic, strong) RACAndMVVMViewModel02 *viewModel;
+@end
+
+@implementation RACAndMVVMViewController02
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self bindViewModel];
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    RAC(self.viewModel,email) = self.inputTextField.rac_textSignal;
+    RAC(self.statusLabel,text) = RACObserve(self.viewModel, statusMessage);
+    self.loginButton.rac_command = self.viewModel.subscribeCommand;
+}
+
+#pragma mark - getter
+-(RACAndMVVMViewModel02 *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [RACAndMVVMViewModel02 new];
+    }
+    return _viewModel;
+}
+@end
+
+/*
+2020-05-29 16:58:36.155235+0800 RACExample[92708:12365862] 0
+2020-05-29 16:58:40.675972+0800 RACExample[92708:12365862] 1
+2020-05-29 16:58:43.872743+0800 RACExample[92708:12365862] Request
+2020-05-29 16:58:43.873233+0800 RACExample[92708:12365862] Loading...
+2020-05-29 16:58:43.873464+0800 RACExample[92708:12365862] ... RACEventType:2 --> 0 = RACEventTypeNext
+2020-05-29 16:58:45.874203+0800 RACExample[92708:12365862] ... RACEventType:0 --> 0 = RACEventTypeCompleted
+2020-05-29 16:58:45.874431+0800 RACExample[92708:12365862] Thanks!
+2020-05-29 16:58:45.876062+0800 RACExample[92708:12365862] Error
+*/ 
+```
+
+<img src="/assets/images/iOS/rac/12.gif"/>
 
 ## Foundation
 
@@ -1063,9 +1378,64 @@ RACSignalSequence.h
 
 ### RACSignal+Operations
 
+<!-- 
 
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+## RAC&MVVM
+
+### 
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
 
 ## 资料
 
 * [Github-ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa)
 * [响应式编程（Reactive Programming）介绍](https://www.tuicool.com/articles/BBNRRf)
+* [UITextField-RAC使用详解](https://link.jianshu.com/?t=http://www.raywenderlich.com/?p=62699)
