@@ -862,7 +862,7 @@ combineLatest、reduce示例:
 
 ### RACCommand
 
-> RACCommand：处理事件的操作,和UI关联.(主线程中执行)
+> RACCommand：处理事件的操作,和UI关联.(主线程中执行)，最常用于两个地方，监听按钮点击，网络请求。
 
 ```objc
 - (instancetype)initWithSignalBlock:(RACSignal<ValueType> * (^)(InputType _Nullable input))signalBlock;
