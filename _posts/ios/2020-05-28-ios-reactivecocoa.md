@@ -558,6 +558,100 @@ RACReplaySubject 2
 
 ## 基础使用
 
+### map、flattenMap(拦截信号处理数据)
+
+> 用于拦截信号发出的信号和处理数据 <br>
+>`flattenMap` : `map`用于把源信号内容映射成新的内容。
+
+`map`的返回值类型是`id`类型、`flattenMap`的返回值类型固定为`RACSignal`类型。
+
+```objc
+-(void)test_map{
+    RACSignal *syncSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        
+        for (int i = 0; i < 5; i++) {
+            NSLog(@"signal -- %d", i);
+            [subscriber sendNext:@(i)];
+        }
+        [subscriber sendCompleted];
+        
+        return nil;
+    }];
+    
+    [[syncSignal map:^id _Nullable(id  _Nullable value) {
+        NSLog(@"map -- %@", value);
+        return [NSString stringWithFormat:@"MAP+%@",value];
+    }] subscribeNext:^(id  _Nullable x) {
+        NSLog(@"subscribeNext -- %@", x);
+    }];
+}
+/*
+2019-08-30 14:00:05.098586+0800 RACExample[99686:2868124] signal -- 0
+2019-08-30 14:00:05.098791+0800 RACExample[99686:2868124] map -- 0
+2019-08-30 14:00:05.098987+0800 RACExample[99686:2868124] subscribeNext -- MAP+0
+2019-08-30 14:00:05.099149+0800 RACExample[99686:2868124] signal -- 1
+2019-08-30 14:00:05.099244+0800 RACExample[99686:2868124] map -- 1
+2019-08-30 14:00:05.099370+0800 RACExample[99686:2868124] subscribeNext -- MAP+1
+2019-08-30 14:00:05.099522+0800 RACExample[99686:2868124] signal -- 2
+2019-08-30 14:00:05.099601+0800 RACExample[99686:2868124] map -- 2
+2019-08-30 14:00:05.099717+0800 RACExample[99686:2868124] subscribeNext -- MAP+2
+2019-08-30 14:00:05.099866+0800 RACExample[99686:2868124] signal -- 3
+2019-08-30 14:00:05.100081+0800 RACExample[99686:2868124] map -- 3
+2019-08-30 14:00:05.100398+0800 RACExample[99686:2868124] subscribeNext -- MAP+3
+2019-08-30 14:00:05.100599+0800 RACExample[99686:2868124] signal -- 4
+2019-08-30 14:00:05.100759+0800 RACExample[99686:2868124] map -- 4
+2019-08-30 14:00:05.100999+0800 RACExample[99686:2868124] subscribeNext -- MAP+4
+*/
+```
+
+flattenMap
+
+```objc
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    RACSignal *syncSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        
+        for (int i = 0; i < 5; i++) {
+            NSLog(@"signal -- %d", i);
+            [subscriber sendNext:@(i)];
+        }
+        [subscriber sendCompleted];
+        
+        return nil;
+    }];
+
+    [[syncSignal flattenMap:^__kindof RACSignal * _Nullable(id  _Nullable value) {
+        NSLog(@"map -- %@", value);
+        return [RACSignal return:value].logCompleted;
+    }] subscribeNext:^(id  _Nullable x) {
+        NSLog(@"subscribeNext -- %@", x);
+    }];
+}
+/*
+2020-05-28 14:44:12.520009+0800 RACExample[45556:11658886] signal -- 0
+2020-05-28 14:44:12.520142+0800 RACExample[45556:11658886] map -- 0
+2020-05-28 14:44:12.520316+0800 RACExample[45556:11658886] subscribeNext -- 0
+2020-05-28 14:44:12.520456+0800 RACExample[45556:11658886] <RACReturnSignal: 0x60000023e320> name:  completed
+2020-05-28 14:44:12.520567+0800 RACExample[45556:11658886] signal -- 1
+2020-05-28 14:44:12.520658+0800 RACExample[45556:11658886] map -- 1
+2020-05-28 14:44:12.520790+0800 RACExample[45556:11658886] subscribeNext -- 1
+2020-05-28 14:44:12.520902+0800 RACExample[45556:11658886] <RACReturnSignal: 0x60000023e360> name:  completed
+2020-05-28 14:44:12.521116+0800 RACExample[45556:11658886] signal -- 2
+2020-05-28 14:44:12.521573+0800 RACExample[45556:11658886] map -- 2
+2020-05-28 14:44:12.521995+0800 RACExample[45556:11658886] subscribeNext -- 2
+2020-05-28 14:44:12.522413+0800 RACExample[45556:11658886] <RACReturnSignal: 0x600000238520> name:  completed
+2020-05-28 14:44:12.522804+0800 RACExample[45556:11658886] signal -- 3
+2020-05-28 14:44:12.537218+0800 RACExample[45556:11658886] map -- 3
+2020-05-28 14:44:12.537473+0800 RACExample[45556:11658886] subscribeNext -- 3
+2020-05-28 14:44:12.537624+0800 RACExample[45556:11658886] <RACReturnSignal: 0x600000238560> name:  completed
+2020-05-28 14:44:12.537738+0800 RACExample[45556:11658886] signal -- 4
+2020-05-28 14:44:12.537825+0800 RACExample[45556:11658886] map -- 4
+2020-05-28 14:44:12.537941+0800 RACExample[45556:11658886] subscribeNext -- 4
+2020-05-28 14:44:12.538046+0800 RACExample[45556:11658886] <RACReturnSignal: 0x600000238580> name:  completed
+*/
+```
+
 ### delay(延迟)
 
 > 延迟发送next。
@@ -860,7 +954,33 @@ combineLatest、reduce示例:
 }];
 ```
 
-### RACCommand
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+## RACCommand的使用
 
 > RACCommand：处理事件的操作,和UI关联.(主线程中执行)，最常用于两个地方，监听按钮点击，网络请求。
 
@@ -870,7 +990,386 @@ combineLatest、reduce示例:
 - (RACSignal<ValueType> *)execute:(nullable InputType)input;
 ```
 
-#### 示例1
+#### 示例：登录
+
+```objc
+/*================================================宏================================================*/
+#define GreenBgColor [UIColor colorWithRed:0.8 green:1.0 blue:0.8 alpha:1]
+#define RedBgColor   [UIColor colorWithRed:1.0 green:0.8 blue:0.8 alpha:1]
+#define WhiteBgColor [UIColor whiteColor]
+#define ConvertInputStateToColor(signal) [InputStateToColorConverter convert:signal]
+#define ConvertTextToInputState(signal, minimum, maximum) [TextToInputStateConverter convert:signal m##inimum:minimum m##aximum:maximum]
+typedef enum : NSUInteger {
+    InputStateEmpty,
+    InputStateValid,
+    InputStateInvalid
+} InputState;
+
+/*================================================V层-InputStateToColorConverter================================================*/
+@interface InputStateToColorConverter : NSObject
++ (RACSignal *)convert:(RACSignal *)signal;
+@end
+@implementation InputStateToColorConverter
++ (RACSignal *)convert:(RACSignal *)signal{
+    return [signal map:^id(NSNumber *inputStateNumber) {
+        InputState inputState = [inputStateNumber unsignedIntegerValue];
+        switch (inputState) {
+            case InputStateValid:
+                return GreenBgColor;
+            case InputStateInvalid:
+                return RedBgColor;
+            default:
+                return WhiteBgColor;
+        }
+    }];
+}
+@end
+/*================================================V层-TextToInputStateConverter================================================*/
+@interface TextToInputStateConverter : NSObject
++ (RACSignal *)convert:(RACSignal *)signal minimum:(NSInteger)minimum maximum:(NSInteger)maximum;
++ (InputState)inputStateForText:(NSString *)text minimum:(NSInteger)minimum maximum:(NSInteger)maximum;
+@end
+@implementation TextToInputStateConverter
++ (RACSignal *)convert:(RACSignal *)signal minimum:(NSInteger)minimum maximum:(NSInteger)maximum{
+    NSAssert(minimum > 0, @"TextToInputStateConverter: minimum must be greater than zero");
+    NSAssert(maximum >= minimum, @"TextToInputStateConverter: maximum must be greater than or equal to minimum");
+    return [signal map:^id(NSString *text) {
+        return @([TextToInputStateConverter inputStateForText:text minimum:minimum maximum:maximum]);
+    }];
+}
++ (InputState)inputStateForText:(NSString *)text minimum:(NSInteger)minimum maximum:(NSInteger)maximum{
+    if ([text length] >= minimum && [text length] <= maximum) {
+        return InputStateValid;
+    } else {
+        if ([text length] == 0) {
+            return InputStateEmpty;
+        } else {
+            return InputStateInvalid;
+        }
+    }
+}
+@end
+/*================================================VM层================================================*/
+@interface LoginViewModel : NSObject
+@property (copy, nonatomic) NSString *usename;
+@property (copy, nonatomic) NSString *password;
+
+@property (nonatomic, assign, readonly) InputState usernameInputState;
+@property (nonatomic, assign, readonly) InputState passwordInputState;
+@property (nonatomic, assign, readonly) BOOL loginEnabled;
+@end
+
+@interface LoginViewModel()
+@property (nonatomic, assign, readwrite) InputState usernameInputState;
+@property (nonatomic, assign, readwrite) InputState passwordInputState;
+@property (nonatomic, assign, readwrite) BOOL loginEnabled;
+@end
+
+@implementation LoginViewModel
+#pragma mark - init
+-(instancetype)init{
+    if (self = [super init]) {
+        [self racInit];
+    }
+    return self;
+}
+#pragma mark - business
+- (void)racInit {
+    RAC(self,usernameInputState) = ConvertTextToInputState(RACObserve(self,usename), 2, 4);
+    RAC(self,passwordInputState) = ConvertTextToInputState(RACObserve(self,password), 5, 10);
+    
+    RAC(self,loginEnabled) = [RACSignal combineLatest:@[RACObserve(self,usernameInputState),RACObserve(self,passwordInputState)] reduce:^id(NSNumber *usernameInputStateValue,NSNumber *passwordInputStateValue){
+        if ([usernameInputStateValue unsignedIntegerValue] == InputStateValid &&
+            [passwordInputStateValue unsignedIntegerValue] == InputStateValid) {
+            return @(YES);
+        }
+        return @(NO);
+    }];
+}
+#pragma mark - getter
+@end
+
+/*================================================V层================================================*/
+@interface LoginViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *usenameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextFeidl;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property(nonatomic, strong) LoginViewModel *viewModel;
+@end
+
+@implementation LoginViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self segInitViews];
+    [self bindViewModel];
+}
+
+#pragma mark - init Views
+-(void)segInitViews{
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    // bind input signals
+    RAC(self.viewModel,usename) = self.usenameTextField.rac_textSignal;
+    RAC(self.viewModel,password) = self.passwordTextFeidl.rac_textSignal;
+    // bind output signals
+    RAC(self.usenameTextField,backgroundColor) = ConvertInputStateToColor(RACObserve(self.viewModel, usernameInputState));
+    RAC(self.passwordTextFeidl,backgroundColor) = ConvertInputStateToColor(RACObserve(self.viewModel, passwordInputState));
+    RAC(self.loginButton, enabled) = RACObserve(self.viewModel, loginEnabled);
+    [[self.loginButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+        NSLog(@"Login....");
+    }];
+}
+
+#pragma mark - getter
+-(LoginViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[LoginViewModel alloc]init];
+    }
+    return _viewModel;
+}
+@end
+```
+
+<img src="/assets/images/iOS/rac/14.gif"/>
+
+#### 示例：豆瓣列表
+
+```objc
+/*================================================VM层================================================*/
+//定义命令、网络请求、获取数据、发送数据
+@interface DouBanDetailViewModel : NSObject
+@property (nonatomic, copy, readonly) NSArray<NSString*> *movies;
+@property (nonatomic, strong, readonly) RACCommand *requestCommand;
+@property (nonatomic, strong, readonly) AFHTTPSessionManager *manager;
+@end
+@implementation DouBanDetailViewModel
+#pragma mark - init
+-(instancetype)init{
+    if (self = [super init]) {
+        _manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.douban.com"]];
+        [self racInit];
+    }
+    return self;
+}
+#pragma mark - business
+- (void)racInit {
+    @weakify(self)
+    _requestCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+        // 网络请求
+        RACSignal *requestSignal = [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+            @strongify(self)
+            [self.manager GET:@"/v2/movie/in_theaters" parameters:input progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                NSLog(@"sendNext");
+                [subscriber sendNext:responseObject];
+                [subscriber sendCompleted];
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [subscriber sendError:error];
+                NSLog(@"sendError");
+            }];
+            return [RACDisposable disposableWithBlock:^{
+                NSLog(@"disposableWithBlock");
+            }];
+        }];
+        // 业务逻辑处理
+        return [requestSignal map:^id _Nullable(id  _Nullable value) {
+            NSLog(@"map");
+            NSMutableArray *tempt = [NSMutableArray array];
+            NSMutableArray *dictArray = value[@"subjects"];
+            for (NSDictionary *object in dictArray) {
+                [tempt addObject:[object valueForKey:@"title"]];
+            }
+            self->_movies = [NSArray arrayWithArray:tempt];;
+            return nil;
+        }];
+    }];
+}
+#pragma mark - getter
+@end
+/*================================================V层================================================*/
+
+@interface DouBanViewDetailController ()<UITableViewDataSource,UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property(nonatomic, strong) DouBanDetailViewModel *viewModel;
+@end
+
+@implementation DouBanViewDetailController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self segInitViews];
+    [self bindViewModel];
+}
+
+#pragma mark - init Views
+-(void)segInitViews{
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    @weakify(self)
+    [[[self.viewModel.requestCommand executionSignals] switchToLatest] subscribeNext:^(id  _Nullable x) {
+        @strongify(self)
+        NSLog(@"switchToLatest:%@",x);
+        [self.tableView reloadData];
+        [SVProgressHUD dismiss];
+    }];
+
+    [self.viewModel.requestCommand.errors subscribeNext:^(NSError * _Nullable x) {
+        NSLog(@"errors subscribeNext:%@",x);
+        [SVProgressHUD dismiss];
+    }];
+    
+    // 发起网络请求
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"apikey"] = @"0df993c66c0c636e29ecbb5344252a4a";
+    [self.viewModel.requestCommand execute:parameters];
+    [SVProgressHUD show];
+}
+
+// 或者可以这样
+- (void)bindViewModel {
+    @weakify(self)
+    [[self.viewModel.requestCommand executionSignals] subscribeNext:^(RACSignal*  _Nullable x) {
+        NSLog(@"subscribeNext1:%@",x);
+        [SVProgressHUD show];
+        [x subscribeNext:^(id  _Nullable x) {
+            @strongify(self)
+            NSLog(@"subscribeNext2:%@",x);
+            [self.tableView reloadData];
+            [SVProgressHUD dismiss];
+        }];
+    }];
+    
+    [self.viewModel.requestCommand.errors subscribeNext:^(NSError * _Nullable x) {
+        NSLog(@"errors subscribeNext:%@",x);
+        [SVProgressHUD dismiss];
+    }];
+    // 发起网络请求
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"apikey"] = @"0df993c66c0c636e29ecbb5344252a4a";
+    [self.viewModel.requestCommand execute:parameters];
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return self.viewModel.movies.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 44.0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    DouBanDetailTableViewCell *cell = [DouBanDetailTableViewCell cellWithTableView:tableView indexPath:indexPath];
+    cell.textLabel.text = self.viewModel.movies[indexPath.row];
+    return cell;
+}
+
+#pragma mark - getter
+-(DouBanDetailViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[DouBanDetailViewModel alloc]init];
+    }
+    return _viewModel;
+}
+@end
+```
+
+<img src="/assets/images/iOS/rac/13.gif"/>
+
+#### RACCommand中的sendError没反应的解答
+
+* [RAC中用RACCommand处理指令](https://blog.harrisonxi.com/2017/09/RAC%E4%B8%AD%E7%94%A8RACCommand%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4.html)
+
+```objc
+// 这样使用就可以捕捉到Error了。
+[self.viewModel.requestCommand.errors subscribeNext:^(NSError * _Nullable x) {
+     NSLog(@"errors subscribeNext:%@",x);
+}];
+```
+
+#### 示例:多接口请求
+
+```objc
+@interface DouBanDetailViewModel : NSObject
+@property (nonatomic, strong, readonly) RACCommand *requestCommand;
+@end
+@implementation DouBanDetailViewModel
+#pragma mark - init
+-(instancetype)init{
+    if (self = [super init]) {
+        [self racInit];
+    }
+    return self;
+}
+#pragma mark - business
+- (void)racInit {
+    _requestCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+        //网络请求1
+        RACSignal *signal1 = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+            NSLog(@"网络请求1");
+            [subscriber sendNext:@"网络请求1"];
+            return  nil;
+        }];
+        
+        //网络请求2
+        RACSignal *signal2 = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+            NSLog(@"网络请求2");
+            [subscriber sendNext:@"网络请求2"];
+            return  nil;
+        }];
+        
+        //网络请求3
+        RACSignal *signal3 = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+            NSLog(@"网络请求3");
+            [subscriber sendNext:@"网络请求3"];
+            return  nil;
+        }];
+        
+        return [self rac_liftSelector:@selector(dealDataWithData1:data2:data3:) withSignalsFromArray:@[signal1,signal2,signal3]];
+    }];
+}
+
+-(void)dealDataWithData1:(id)data1 data2:(id)data2 data3:(id)data3{}
+#pragma mark - getter
+@end
+```
+
+V层使用：
+
+```objc
+- (void)bindViewModel {
+    // 发起网络请求
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"q"] = _conditions;
+    parameters[@"apikey"] = @"0df993c66c0c636e29ecbb5344252a4a";
+    [self.viewModel.requestCommand execute:parameters];
+    [SVProgressHUD show];
+    
+    [self.viewModel.requestCommand.executionSignals.switchToLatest subscribeNext:^(id  _Nullable x) {
+        [self.tableView reloadData];
+        [SVProgressHUD dismiss];
+    }];
+    [self.viewModel.requestCommand.executionSignals subscribeError:^(NSError * _Nullable error) {
+        [SVProgressHUD dismiss];
+        NSLog(@"subscribeError");
+    }];
+    [[[self.viewModel.requestCommand executing] skip:1] subscribeNext:^(NSNumber * _Nullable x) {
+    }];
+}
+```
+
+#### 示例：RAC、distinctUntilChanged
 
 ```objc
 /*==================================VM层======================================*/ 
@@ -948,7 +1447,7 @@ combineLatest、reduce示例:
 
 当按钮值为`Input`时，按钮的状态是`Disabled`，因为输入的内容不合法。
 
-#### 示例2
+#### 示例：发邮件
 
 ```objc
 /*================================================VM层================================================*/
@@ -1076,6 +1575,76 @@ combineLatest、reduce示例:
 
 <img src="/assets/images/iOS/rac/12.gif"/>
 
+* `distinctUntilChanged`:当上一次的值和当前的值有明显的变化就会发出信号，否则会被忽略掉。
+* `take`:从开始一共取N次的信号
+* `takeLast`:取最后N次的信号,前提条件，订阅者必须调用完成，因为只有完成，就知道总共有多少信号.
+* `takeUntil`:(RACSignal):获取信号直到某个信号执行完成
+* `skip`:(NSUInteger):跳过几个信号,不接受。
+* `switchToLatest`:用于signalOfSignals（信号的信号），有时候信号也会发出信号，会在signalOfSignals中，获取signalOfSignals发送的最新信号。
+* `doNext`: 执行Next之前，会先执行这个Block
+* `doCompleted`: 执行sendCompleted之前，会先执行这个Block
+* `timeout`：超时，可以让一个信号在一定的时间后，自动报错。
+* `interval` 定时：每隔一段时间发出信号
+* `retry重试` ：只要失败，就会重新执行创建信号中的block,直到成功.
+* `replay重放`：当一个信号被多次订阅,反复播放内容
+* `throttle节流`:当某个信号发送比较频繁时，可以使用节流，在某一段时间不发送信号内容，过了一段时间获取信号的最新内容发出。
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+## RACChannel
+
+### [RACChannel实现双向绑定](https://blog.harrisonxi.com/2017/07/RAC%E4%B8%AD%E7%94%A8RACChannel%E5%AE%9E%E7%8E%B0%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A.html)
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
 ## Foundation
 
 涉及`Foundation`相关的RAC分类:`NSArray`、`NSData`、`NSDictionary`、`NSEnumerator`、`NSFileHandle`、`NSIndexSet`、`NSInvocation`、`NSNotificationCenter`、`NSObject`、`NSOrderedSet`、`NSSet`、`NSString`、`NSURLConnection`、`NSUserDefaults`。
@@ -1183,6 +1752,32 @@ NSString+RACSequenceAdditions.h
 NSString+RACSupport.h
 ```
 
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
 ## UIKit
 
 涉及`UIKit`相关的RAC分类：`UIActionSheet`、`UIAlertView`、`UIBarButtonItem`、`UIButton`、`UICollectionReusableView`、`UIControl`、`UIControl`、`UIDatePicker`、`UIGestureRecognizer`、`UIImagePickerController`、`UIRefreshControl`、`UISegmentedControl`、`UISlider`、`UIStepper`、`UISwitch`、`UITableViewCell`、`UITableViewHeaderFooterView`、`UITextField`、`UITextView`。
@@ -1242,7 +1837,7 @@ UITextView+RACSignalSupport.h
 
 <img src="/assets/images/iOS/rac/01.gif"/>
 
-## 信号处理
+<!-- 
 
 
 
@@ -1250,117 +1845,23 @@ UITextView+RACSignalSupport.h
 
 
 
-### map、flattenMap
 
-> 用于拦截信号发出的信号和处理数据
 
-`map`的返回值类型是`id`类型、`flattenMap`的返回值类型固定为`RACSignal`类型。
 
-```objc
--(void)test_map{
-    RACSignal *syncSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        
-        for (int i = 0; i < 5; i++) {
-            NSLog(@"signal -- %d", i);
-            [subscriber sendNext:@(i)];
-        }
-        [subscriber sendCompleted];
-        
-        return nil;
-    }];
-    
-    [[syncSignal map:^id _Nullable(id  _Nullable value) {
-        NSLog(@"map -- %@", value);
-        return [NSString stringWithFormat:@"MAP+%@",value];
-    }] subscribeNext:^(id  _Nullable x) {
-        NSLog(@"subscribeNext -- %@", x);
-    }];
-}
-/*
-2019-08-30 14:00:05.098586+0800 RACExample[99686:2868124] signal -- 0
-2019-08-30 14:00:05.098791+0800 RACExample[99686:2868124] map -- 0
-2019-08-30 14:00:05.098987+0800 RACExample[99686:2868124] subscribeNext -- MAP+0
-2019-08-30 14:00:05.099149+0800 RACExample[99686:2868124] signal -- 1
-2019-08-30 14:00:05.099244+0800 RACExample[99686:2868124] map -- 1
-2019-08-30 14:00:05.099370+0800 RACExample[99686:2868124] subscribeNext -- MAP+1
-2019-08-30 14:00:05.099522+0800 RACExample[99686:2868124] signal -- 2
-2019-08-30 14:00:05.099601+0800 RACExample[99686:2868124] map -- 2
-2019-08-30 14:00:05.099717+0800 RACExample[99686:2868124] subscribeNext -- MAP+2
-2019-08-30 14:00:05.099866+0800 RACExample[99686:2868124] signal -- 3
-2019-08-30 14:00:05.100081+0800 RACExample[99686:2868124] map -- 3
-2019-08-30 14:00:05.100398+0800 RACExample[99686:2868124] subscribeNext -- MAP+3
-2019-08-30 14:00:05.100599+0800 RACExample[99686:2868124] signal -- 4
-2019-08-30 14:00:05.100759+0800 RACExample[99686:2868124] map -- 4
-2019-08-30 14:00:05.100999+0800 RACExample[99686:2868124] subscribeNext -- MAP+4
-*/
-```
-
-flattenMap
-
-```objc
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    RACSignal *syncSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        
-        for (int i = 0; i < 5; i++) {
-            NSLog(@"signal -- %d", i);
-            [subscriber sendNext:@(i)];
-        }
-        [subscriber sendCompleted];
-        
-        return nil;
-    }];
-
-    [[syncSignal flattenMap:^__kindof RACSignal * _Nullable(id  _Nullable value) {
-        NSLog(@"map -- %@", value);
-        return [RACSignal return:value].logCompleted;
-    }] subscribeNext:^(id  _Nullable x) {
-        NSLog(@"subscribeNext -- %@", x);
-    }];
-}
-/*
-2020-05-28 14:44:12.520009+0800 RACExample[45556:11658886] signal -- 0
-2020-05-28 14:44:12.520142+0800 RACExample[45556:11658886] map -- 0
-2020-05-28 14:44:12.520316+0800 RACExample[45556:11658886] subscribeNext -- 0
-2020-05-28 14:44:12.520456+0800 RACExample[45556:11658886] <RACReturnSignal: 0x60000023e320> name:  completed
-2020-05-28 14:44:12.520567+0800 RACExample[45556:11658886] signal -- 1
-2020-05-28 14:44:12.520658+0800 RACExample[45556:11658886] map -- 1
-2020-05-28 14:44:12.520790+0800 RACExample[45556:11658886] subscribeNext -- 1
-2020-05-28 14:44:12.520902+0800 RACExample[45556:11658886] <RACReturnSignal: 0x60000023e360> name:  completed
-2020-05-28 14:44:12.521116+0800 RACExample[45556:11658886] signal -- 2
-2020-05-28 14:44:12.521573+0800 RACExample[45556:11658886] map -- 2
-2020-05-28 14:44:12.521995+0800 RACExample[45556:11658886] subscribeNext -- 2
-2020-05-28 14:44:12.522413+0800 RACExample[45556:11658886] <RACReturnSignal: 0x600000238520> name:  completed
-2020-05-28 14:44:12.522804+0800 RACExample[45556:11658886] signal -- 3
-2020-05-28 14:44:12.537218+0800 RACExample[45556:11658886] map -- 3
-2020-05-28 14:44:12.537473+0800 RACExample[45556:11658886] subscribeNext -- 3
-2020-05-28 14:44:12.537624+0800 RACExample[45556:11658886] <RACReturnSignal: 0x600000238560> name:  completed
-2020-05-28 14:44:12.537738+0800 RACExample[45556:11658886] signal -- 4
-2020-05-28 14:44:12.537825+0800 RACExample[45556:11658886] map -- 4
-2020-05-28 14:44:12.537941+0800 RACExample[45556:11658886] subscribeNext -- 4
-2020-05-28 14:44:12.538046+0800 RACExample[45556:11658886] <RACReturnSignal: 0x600000238580> name:  completed
-*/
-```
+ -->
+<!--====================================================================================================-->
+<!-- 
 
 
 
 
 
-* `flattenMap` map 用于把源信号内容映射成新的内容。
-* `distinctUntilChanged`:当上一次的值和当前的值有明显的变化就会发出信号，否则会被忽略掉。
-* `take`:从开始一共取N次的信号
-* `takeLast`:取最后N次的信号,前提条件，订阅者必须调用完成，因为只有完成，就知道总共有多少信号.
-* `takeUntil`:(RACSignal):获取信号直到某个信号执行完成
-* `skip`:(NSUInteger):跳过几个信号,不接受。
-* `switchToLatest`:用于signalOfSignals（信号的信号），有时候信号也会发出信号，会在signalOfSignals中，获取signalOfSignals发送的最新信号。
-* `doNext`: 执行Next之前，会先执行这个Block
-* `doCompleted`: 执行sendCompleted之前，会先执行这个Block
-* `timeout`：超时，可以让一个信号在一定的时间后，自动报错。
-* `interval` 定时：每隔一段时间发出信号
-* `retry重试` ：只要失败，就会重新执行创建信号中的block,直到成功.
-* `replay重放`：当一个信号被多次订阅,反复播放内容
-* `throttle节流`:当某个信号发送比较频繁时，可以使用节流，在某一段时间不发送信号内容，过了一段时间获取信号的最新内容发出。
+
+
+
+
+
+ -->
 
 ## 信号相关类
 
@@ -1404,9 +1905,378 @@ RACSignalSequence.h
 
  -->
 
-## RAC&MVVM
+## Tips
 
-### 
+```objc
+@interface HomeViewModel : NSObject
+@property (nonatomic, copy) NSString *searchConditons;
+@property (nonatomic, strong, readonly) RACSignal  *searchBtnEnableSignal;
+@end
+@implementation HomeViewModel
+-(instancetype)init{
+    if (self = [super init]) {
+        [self setUp];
+    }
+    return self;
+}
+- (void)setUp{
+    [self setupSearchBtnEnableSignal];
+}
+- (void)setupSearchBtnEnableSignal {
+    _searchBtnEnableSignal = [RACSignal combineLatest:@[RACObserve(self, searchConditons)] reduce:^id(NSString *searchConditions){
+        return @(searchConditions.length);
+    }];
+}
+@end
+
+// =====================================================
+
+@interface MovieViewModel : NSObject
+@property (nonatomic, strong, readonly) RACCommand *requestCommand;
+@property (nonatomic, copy, readonly) NSArray *movies;
+@end
+@implementation MovieViewModel
+
+-(instancetype)init{
+    if (self = [super init]) {
+        [self setup];
+    }
+    return self;
+}
+- (void)setup {
+    _requestCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+        NSLog(@"%@", input);
+        RACSignal *requestSignal = [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+            NetworkManager *manager = [NetworkManager manager];
+            [manager getDataWithUrl:@"https://api.douban.com/v2/movie/search" parameters:input success:^(id json) {
+                [subscriber sendNext:json];
+                [subscriber sendCompleted];
+            } failure:^(NSError *error) {
+                
+            }];
+            
+            return nil;
+        }];
+        return [requestSignal map:^id _Nullable(id  _Nullable value) {
+            NSMutableArray *dictArray = value[@"subjects"];
+            NSArray *modelArray = [dictArray.rac_sequence map:^id(id value) {
+                return [Movie movieWithDict:value];
+            }].array;
+           NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"year" ascending:NO];
+            _movies = [modelArray sortedArrayUsingDescriptors:@[sortDescriptor]];
+            NSLog(@"%@",_movies.description);
+            
+            return nil;
+        }];
+    }];
+}
+@end
+```
+
+在两个VM中，一个用的是`RACSignal`，一个用的是`RACCommand`：
+
+* `RACSignal`是单向的，就像1个人在做演讲，观众听到就结束了
+* `RACCommand`是双向的，演讲者做演讲，下面的观众听到后还反馈了意见，而演讲者对反馈还做了回复。(V中发出命令，VM收到命令后进行网络请求，并将获取的网络数据包发送出去，V对收到的数据进行解析和显示)。
+
+## MVVM&RAC
+
+### 使用设计
+
+* 一个V(`ViewController`也是一个V)对应一个VM，V界面元素属性与 VM 处理后的数据属性绑定。
+* `ViewController`对应的VM算是主VM。主 VM 承担了网络请求、点击事件协议、初始化子 VM 并且给子VM的属性赋初值；网络请求成功返回数据过后，主 ViewModel 还需要给子 ViewModel 的属性赋予新的值。
+
+```objc
+@interface MineViewModel : NSObject
+@property (nonatomic, strong) MineHeaderViewModel *mineHeaderViewModel;
+@property (nonatomic, strong) NSArray<MineTopCollectionViewCellViewModel *> *dataSorceOfMineTopCollectionViewCell;
+@property (nonatomic, strong) NSArray<MineDownCollectionViewCellViewModel *> *dataSorceOfMineDownCollectionViewCell;
+@property (nonatomic, strong) RACCommand *autoLoginCommand;//用于网络请求
+@property (nonatomic, strong) RACSubject *pushSubject;//相当于协议，这里用于点击事件的代理
+@end
+```
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+## RAC&MVVM开发规约
+
+### VM层
+
+```objc
+@implementation SEGMenberPointsViewModel
+#pragma mark - init
+-(instancetype)init{
+    if (self = [super init]) {
+        [self racInit];
+    }
+    return self;
+}
+#pragma mark - business
+- (void)racInit {}
+#pragma mark - getter
+@end
+```
+
+### V层
+
+#### Controller
+```objc
+@interface LoginViewController ()
+@property(nonatomic, strong) RACAndMVVMViewModel *viewModel;
+@end
+
+@implementation LoginViewController
+#pragma mark - life cycle
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self segInitViews];
+    [self bindViewModel];
+}
+#pragma mark - init Views
+-(void)segInitViews{}
+
+#pragma mark - Layout
+- (void)updateViewConstraints {
+    [super updateViewConstraints];
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {}
+
+#pragma mark - getter
+-(RACAndMVVMViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[RACAndMVVMViewModel alloc]init];
+    }
+    return _viewModel;
+}
+@end
+```
+
+有些方案会把`Controller`中的`View`也自定义出来，成为主`View`，具体样例：
+
+VM层：
+
+```objc
+/*================================================VM层================================================*/
+@interface LoginMainViewModel : NSObject
+// Demo RACSubject
+@property (nonatomic, strong) RACSubject *pushSubject;
+@end
+@implementation LoginMainViewModel
+#pragma mark - init
+-(instancetype)init{
+    if (self = [super init]) {
+        [self racInit];
+    }
+    return self;
+}
+
+#pragma mark - business
+- (void)racInit {}
+
+#pragma mark - getter
+- (RACSubject *)pushSubject {
+    if (!_pushSubject) {
+        _pushSubject = [RACSubject subject];
+    }
+    return _pushSubject;
+}
+@end
+```
+
+主View层：
+
+```objc
+/*================================================V层================================================*/
+@interface LoginMainView : UIView
+// Demo Button
+@property(nonatomic,strong) UIButton* button;
+@property(nonatomic,strong) LoginMainViewModel* viewModel;
+- (instancetype)initWithViewModel:(LoginMainViewModel*)viewModel;
+@end
+
+@implementation LoginMainView
+- (instancetype)initWithViewModel:(LoginMainViewModel*)viewModel {
+    if (self == [super init]) {
+        _viewModel = viewModel;
+        [self segInitViews];
+        [self updateConstraints];
+        [self bindViewModel];
+    }
+    return self;
+}
+
+#pragma mark - init Views
+-(void)segInitViews{}
+
+#pragma mark - Layout
+- (void)updateConstraints {
+    [super updateConstraints];
+}
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    // Demo sendNext
+    [[self.button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+        [self.viewModel.pushSubject sendNext:@"1"];
+    }];
+}
+
+#pragma mark - getter
+-(LoginMainViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[LoginMainViewModel alloc]init];
+    }
+    return _viewModel;
+}
+@end
+```
+
+Controller层：
+
+```objc
+/*================================================V层================================================*/
+@interface LoginViewController ()
+@property (nonatomic, strong) LoginMainView *mineView;
+@property(nonatomic, strong) LoginMainViewModel *viewModel;
+@end
+@implementation LoginViewController
+#pragma mark - life cycle
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self segInitViews];
+    [self bindViewModel];
+}
+#pragma mark - init Views
+-(void)segInitViews{
+    [self.view addSubview:self.mineView];
+}
+
+#pragma mark - Layout
+- (void)updateViewConstraints {
+    [self.mineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
+    [super updateViewConstraints];
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    // Demo subscribeNext
+    @weakify(self);
+    [self.viewModel.pushSubject subscribeNext:^(id  _Nullable x) {
+        @strongify(self);
+        [self.navigationController pushViewController:[UIViewController new] animated:YES];
+    }];
+}
+
+#pragma mark - getter
+- (LoginMainView *)mineView {
+    if (!_mineView) {
+        _mineView = [[LoginMainView alloc] initWithViewModel:self.viewModel];
+    }
+    return _mineView;
+}
+-(LoginMainViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[LoginMainViewModel alloc]init];
+    }
+    return _viewModel;
+}
+@end
+```
+
+#### 自定义UIView
+
+```objc
+@interface  LoginTableView: UIView
+@property(nonatomic,strong) LoginTableViewModel* viewModel;
+- (instancetype)initWithViewModel:(LoginTableViewModel*)viewModel;
+@end
+@implementation LoginTableView
+- (instancetype)initWithViewModel:(LoginTableViewModel*)viewModel {
+    if (self == [super init]) {
+        _viewModel = viewModel;
+        [self segInitViews];
+        [self updateConstraints];
+        [self bindViewModel];
+    }
+    return self;
+}
+
+#pragma mark - init Views
+-(void)segInitViews{}
+
+#pragma mark - Layout
+- (void)updateConstraints {
+    [super updateConstraints];
+}
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {}
+
+#pragma mark - getter
+-(LoginTableViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[LoginTableViewModel alloc]init];
+    }
+    return _viewModel;
+}
+@end
+```
+
+#### 自定义复用机制UIView
+
+> 有复用机制的View：UICollectionviewCell、UITableViewCell...
+
+```objc
+@interface  LoginTableViewCell: UITableViewCell
+@property(nonatomic,strong) LoginTableViewCellViewModel* viewModel;
+@end
+@implementation LoginTableViewCell
+#pragma mark - init Views
+-(void)segInitViews{}
+
+#pragma mark - Layout
+- (void)updateConstraints {
+    [super updateConstraints];
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {}
+
+#pragma mark - getter
+
+#pragma mark setter
+-(void)setViewModel:(LoginTableViewCellViewModel *)viewModel{
+    _viewModel = viewModel;
+    if (!viewModel)  return;
+    [self bindViewModel];
+}
+@end
+```
 
 <!-- 
 
@@ -1439,3 +2309,4 @@ RACSignalSequence.h
 * [Github-ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa)
 * [响应式编程（Reactive Programming）介绍](https://www.tuicool.com/articles/BBNRRf)
 * [UITextField-RAC使用详解](https://link.jianshu.com/?t=http://www.raywenderlich.com/?p=62699)
+* [iOS使用RAC实现MVVM的正经姿势](https://blog.harrisonxi.com/2017/07/iOS%E4%BD%BF%E7%94%A8RAC%E5%AE%9E%E7%8E%B0MVVM%E7%9A%84%E6%AD%A3%E7%BB%8F%E5%A7%BF%E5%8A%BF.html)

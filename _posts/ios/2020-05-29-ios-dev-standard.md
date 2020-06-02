@@ -3,7 +3,7 @@ title: Objective-C 开发规范
 layout: post
 categories:
  - ios
-published: false
+published: true
 ---
 
 ## 编程规约
@@ -25,46 +25,4 @@ published: false
 
 * **【参考】**
 
-### RAC&MVVM开发规约
-
-#### VM层
-
-```objc
-@implementation SEGMenberPointsViewModel
-#pragma mark - business
-#pragma mark - getter
-@end
-```
-
-#### V层
-
-```objc
-@interface RACAndMVVMViewController ()
-@property(nonatomic, strong) RACAndMVVMViewModel *viewModel;
-@end
-
-@implementation RACAndMVVMViewController02
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self segInitViews];
-    [self bindViewModel];
-}
-
-#pragma mark - init Views
--(void)segInitViews{
-
-}
-
-#pragma mark - RAC Data Binding
-- (void)bindViewModel {
-}
-
-#pragma mark - getter
--(RACAndMVVMViewModel *)viewModel{
-    if (!_viewModel) {
-        _viewModel = [[RACAndMVVMViewModel alloc]init];
-    }
-    return _viewModel;
-}
-@end
-```
+## UITableView
