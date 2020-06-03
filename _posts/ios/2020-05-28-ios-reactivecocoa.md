@@ -2879,6 +2879,58 @@ implementation CircleListMainViewModel
 
 ### TableView&UIButton
 
+在`UITableViewCell`中有`UIButton`按钮，点击按钮出发回调，会有如下一种错误场景：**刷新数据时，会重复订阅，导致方法多次触发**
+
+<img src="/assets/images/iOS/rac/16.gif"/>
+
+**CircleListMainView:**
+
+```objc
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CircleListMainViewCell *cell = [CircleListMainViewCell cellWithTableView:tableView indexPath:indexPath];
+    if (self.viewModel.dataArray.count > indexPath.row) {
+        cell.viewModel = self.viewModel.dataArray[indexPath.row];
+    }
+    [cell.viewModel.buttonClickSubject subscribeNext:^(id  _Nullable x) {
+        NSLog(@"raiseButton subscribeNext--%@",x);
+    }];
+    return cell;
+}
+```
+
+**CircleListMainViewCell:**
+
+```objc
+@implementation CircleListMainViewCell
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+   @weakify(self);
+   [[self.raiseButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+       @strongify(self);
+       [self.viewModel.buttonClickSubject sendNext:self.viewModel.model];
+   }];
+}
+@end
+```
+
+在`UITableViewCell`的分类中，有一个属性`rac_prepareForReuseSignal`，可以解决这一问题。
+
+```objc
+@implementation CircleListMainViewCell
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    @weakify(self);
+    [[[self.raiseButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:self.rac_prepareForReuseSignal] subscribeNext:^(__kindof UIControl * _Nullable x) {
+        @strongify(self);
+        [self.viewModel.buttonClickSubject sendNext:self.viewModel.model.title];
+    }];
+}
+@end
+```
+
+<img src="/assets/images/iOS/rac/17.gif"/>
+
+
 <!-- 
 
 
