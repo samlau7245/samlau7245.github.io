@@ -2362,10 +2362,35 @@ Controller层：
 
 ```objc
 @interface  LoginTableViewCell: UITableViewCell
-@property(nonatomic,strong) LoginTableViewCellViewModel* viewModel;
+@property (strong, nonatomic) NSIndexPath *indexPath;
+@property(nonatomic,strong) CircleListMainViewCellViewModel* viewModel;
+
++(NSString*)reuseIdentifier;
++(CircleListMainViewCell*)cellWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
 @end
 @implementation LoginTableViewCell
 #pragma mark - init Views
++(NSString*)reuseIdentifier{
+    return NSStringFromClass([self class]);
+}
+
++(CircleListMainViewCell*)cellWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath{
+    CircleListMainViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[self reuseIdentifier]];
+    if (!cell) {
+        cell = [[CircleListMainViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[self reuseIdentifier]];
+    }
+    cell.indexPath = indexPath;
+    return cell;
+}
+
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        [self segInitViews];
+        [self updateConstraints];
+    }
+    return self;
+}
+
 -(void)segInitViews{}
 
 #pragma mark - Layout
@@ -2846,6 +2871,7 @@ implementation CircleListMainViewModel
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self segInitViews];
+        [self updateConstraints];
     }
     return self;
 }
@@ -2931,6 +2957,230 @@ implementation CircleListMainViewModel
 <img src="/assets/images/iOS/rac/17.gif"/>
 
 ### TableView&UITextField
+
+```objc
+RACChannelTo(self.viewModel,leftString) =  RACChannelTo(self.leftTextField,text);
+[RACObserve(self.viewModel,leftString) subscribeNext:^(id  _Nullable x) {
+    NSLog(@"leftString %@",x);
+}];
+[[self.clickButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+    self.viewModel.leftString = @"代码设置StringValue";
+}];
+```
+
+<img src="/assets/images/iOS/rac/18.gif"/>
+
+通过`RACChannelTo`对`TextField.txt`和`VM.leftString`进行双向绑定，可以发现，`TextField`进行键盘输入时，`VM.leftString`的值不会更新。当通过代码去对`VM.leftString`进行赋值时，`TextField.txt`的值更新了。而按照官方的说法就是，`UIKIt`里面的很多控件本身不支持`KVO`，而`ReactiveCocoa`本身是基于`KVO`实现的，所以就会出现这种双向绑定不成功的现象。
+
+* `self.valueTextField.rac_newTextChannel` : sends values when you type in the text field, but not when you change the text in the text field from code.
+* `RACChannelTo(self.valueTextField, text)` : sends values when you change the text in the text field from code, but not when you type in the text field.
+
+```objc
+RACChannelTo(self.viewModel,leftString) = self.leftTextField.rac_newTextChannel;
+```
+
+<img src="/assets/images/iOS/rac/19.gif"/>
+
+#### TableViewCell&UITextField
+
+<img src="/assets/images/iOS/rac/20.gif"/>
+
+```objc
+#pragma mark - ====================VM层====================
+@interface TextFieldAndTableCellViewModel : NSObject
+@property (copy, nonatomic) NSString *leftString;
+@property (copy, nonatomic) NSString *rightString;
+@property (strong, nonatomic) NSArray<TextFieldAndTableViewCellViewModel*> *dataArray;
+@end
+@implementation TextFieldAndTableCellViewModel
+-(NSArray *)dataArray{
+    if (!_dataArray) {
+        NSMutableArray *tempt = [NSMutableArray array];
+        for (NSInteger i = 0; i <= 10; i++) {
+            TextFieldAndTableViewCellViewModel *data = [[TextFieldAndTableViewCellViewModel alloc] init];
+            data.tag = i;
+            [tempt addObject:data];
+        }
+        _dataArray = [NSArray arrayWithArray:tempt];
+    }
+    return _dataArray;
+}
+@end
+
+#pragma mark - ====================V层====================
+
+@interface TextFieldAndTableCellViewController ()<UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITextField *leftTextField;
+@property (weak, nonatomic) IBOutlet UITextField *rightTextField;
+@property (weak, nonatomic) IBOutlet UILabel *textLabel;
+@property (weak, nonatomic) IBOutlet UIButton *clickButton;
+
+@property(nonatomic, strong) TextFieldAndTableCellViewModel *viewModel;
+@end
+
+@implementation TextFieldAndTableCellViewController
+#pragma mark - life cycle
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self segInitViews];
+    [self bindViewModel];
+    [self.tableView reloadData];
+}
+#pragma mark - init Views
+-(void)segInitViews{
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+}
+
+#pragma mark - Layout
+- (void)updateViewConstraints {
+    [super updateViewConstraints];
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    [[self.clickButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+        [self.tableView endEditing:YES];
+        for (TextFieldAndTableViewCellViewModel *object in self.viewModel.dataArray) {
+            NSLog(@"inputValue %@",object.inputValue);
+        }
+    }];
+}
+
+#pragma mark - getter
+-(TextFieldAndTableCellViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[TextFieldAndTableCellViewModel alloc]init];
+    }
+    return _viewModel;
+}
+#pragma mark - ====================delegate====================
+
+#pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.viewModel.dataArray.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    TextFieldAndTableViewCell *cell = [TextFieldAndTableViewCell cellWithTableView:tableView indexPath:indexPath];
+    cell.viewModel = self.viewModel.dataArray[indexPath.row];
+    return cell;
+}
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50;
+}
+@end
+```
+
+```objc
+@interface TextFieldAndTableViewCell : UITableViewCell
+@property (strong, nonatomic) UITextField *inputTextField;
+
+@property (strong, nonatomic) NSIndexPath *indexPath;
+@property(nonatomic,strong) TextFieldAndTableViewCellViewModel* viewModel;
+
++(NSString*)reuseIdentifier;
++(TextFieldAndTableViewCell*)cellWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
+@end
+
+@implementation TextFieldAndTableViewCell
+#pragma mark - init Views
++(NSString*)reuseIdentifier{
+    return NSStringFromClass([self class]);
+}
+
++(TextFieldAndTableViewCell*)cellWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath{
+    TextFieldAndTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[self reuseIdentifier] forIndexPath:indexPath];
+    if (!cell) {
+        cell = [[TextFieldAndTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[self reuseIdentifier]];
+    }
+    cell.indexPath = indexPath;
+    return cell;
+}
+
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        [self segInitViews];
+        [self updateConstraints];
+    }
+    return self;
+}
+
+-(void)segInitViews{
+    [self.contentView addSubview:self.inputTextField];
+}
+
+#pragma mark - Layout
+- (void)updateConstraints {
+    [self.inputTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.equalTo(self.contentView).mas_offset(5);
+        make.right.bottom.equalTo(self.contentView).mas_offset(-5);
+    }];
+    [super updateConstraints];
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    self.inputTextField.text = self.viewModel.inputValue;
+    self.inputTextField.tag = self.viewModel.tag;
+    
+    @weakify(self)
+    [[[[self.inputTextField rac_textSignal] takeUntil:self.rac_prepareForReuseSignal] filter:^BOOL(NSString * _Nullable value) {
+        NSLog(@"filter -- %@", value);
+        return YES;
+    }] subscribeNext:^(NSString * _Nullable x) {
+        @strongify(self);
+        NSLog(@"subscribeNext %@ tag:%zd",x,self.inputTextField.tag);
+        self.viewModel.inputValue = x;
+    }];
+}
+
+#pragma mark - getter
+
+#pragma mark setter
+-(void)setViewModel:(TextFieldAndTableViewCellViewModel *)viewModel{
+    _viewModel = viewModel;
+    if (!viewModel)  return;
+    [self bindViewModel];
+}
+
+-(UITextField *)inputTextField{
+    if (!_inputTextField) {
+        _inputTextField = [[UITextField alloc] init];
+        _inputTextField.font = [UIFont systemFontOfSize:16];
+        _inputTextField.textColor = [UIColor blackColor];
+        _inputTextField.tintColor = [UIColor blackColor];
+    }
+    return _inputTextField;
+}
+@end
+```
+
+```objc
+@interface TextFieldAndTableViewCellViewModel : NSObject
+@property (nonatomic, copy) NSString *inputValue;
+@property (nonatomic, assign) NSInteger tag;
+@end
+
+@implementation TextFieldAndTableViewCellViewModel
+#pragma mark - init
+-(instancetype)init{
+    if (self = [super init]) {
+        [self racInit];
+    }
+    return self;
+}
+#pragma mark - business
+- (void)racInit {
+}
+#pragma mark - getter
+@end
+```
 
 <!-- 
 
