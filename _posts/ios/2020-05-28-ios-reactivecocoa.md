@@ -5,9 +5,9 @@ categories:
  - ios
 ---
 
-> RAC 的核心思想：创建信号 - 订阅信号 - 发送信号.
+[代码的仓库](https://gitee.com/samcoding/RACExample.git)
 
-## 基础理论
+## 基础
 
 ### RACSignal 触发流程
 
@@ -1973,7 +1973,37 @@ RACSignalProvider.d
 RACSignalSequence.h
 ```
 
-### RACSignal+Operations
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+## rac_deallocDisposable、rac_deallocDisposable、rac_prepareForReuseSignal
+
+* `NSObject` : `rac_deallocDisposable`
+* `NSObject` : `rac_willDeallocSignal`
+* `UITableViewCell` : `rac_prepareForReuseSignal`
 
 <!-- 
 
@@ -2847,7 +2877,7 @@ implementation CircleListMainViewModel
 @end
 ```
 
-### TableView&TextField
+### TableView&UIButton
 
 <!-- 
 
