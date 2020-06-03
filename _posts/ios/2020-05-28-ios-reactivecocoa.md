@@ -558,6 +558,104 @@ RACReplaySubject 2
 
 ## 基础使用
 
+### skip、take、takeUntil、takeLast
+
+* `take`:从开始一共取N次的信号
+* `takeLast`:取最后N次的信号,前提条件，订阅者必须调用完成，因为只有完成，就知道总共有多少信号.
+* `takeUntil`:(RACSignal):获取信号直到某个信号执行完成(原始信号一直发送信号，直到，替代的信号发出事件，原始信号终止)。
+* `skip`:(NSUInteger):跳过几个信号,不接受。
+
+```objc
+-(RACSignal*)createSignal{
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        for (int i = 0; i < 5; i++) {
+            NSLog(@"subscriber sendNext -- %d", i);
+            [subscriber sendNext:@(i)];
+        }
+        NSLog(@"sendCompleted");
+        [subscriber sendCompleted];
+        
+        return nil;
+    }];
+}
+-(void)test_take{
+    RACSignal *signal = [self createSignal];
+   [signal subscribeNext:^(id  _Nullable x) {
+       NSLog(@"subscribeNext -- %@", x);
+   }];
+    /*
+     2020-06-03 14:51:53.558366+0800 RACExample[30888:2260368] subscriber sendNext -- 0
+     2020-06-03 14:51:53.558606+0800 RACExample[30888:2260368] subscribeNext -- 0
+     2020-06-03 14:51:53.558714+0800 RACExample[30888:2260368] subscriber sendNext -- 1
+     2020-06-03 14:51:53.558807+0800 RACExample[30888:2260368] subscribeNext -- 1
+     2020-06-03 14:51:53.558898+0800 RACExample[30888:2260368] subscriber sendNext -- 2
+     2020-06-03 14:51:53.558985+0800 RACExample[30888:2260368] subscribeNext -- 2
+     2020-06-03 14:51:53.559069+0800 RACExample[30888:2260368] subscriber sendNext -- 3
+     2020-06-03 14:51:53.559159+0800 RACExample[30888:2260368] subscribeNext -- 3
+     2020-06-03 14:51:53.559249+0800 RACExample[30888:2260368] subscriber sendNext -- 4
+     2020-06-03 14:51:53.559439+0800 RACExample[30888:2260368] subscribeNext -- 4
+     2020-06-03 14:51:53.559708+0800 RACExample[30888:2260368] sendCompleted
+     */
+```
+
+上面是正常的订阅。
+
+```objc
+-(void)test_take{
+    [[signal take:2] subscribeNext:^(id  _Nullable x) {
+        NSLog(@"subscribeNext -- %@", x);
+    }];
+    /*
+     2020-06-03 14:53:40.530949+0800 RACExample[30990:2262219] subscriber sendNext -- 0
+     2020-06-03 14:53:40.531286+0800 RACExample[30990:2262219] subscribeNext -- 0
+     2020-06-03 14:53:40.531476+0800 RACExample[30990:2262219] subscriber sendNext -- 1
+     2020-06-03 14:53:40.531610+0800 RACExample[30990:2262219] subscribeNext -- 1
+     2020-06-03 14:53:40.531734+0800 RACExample[30990:2262219] subscriber sendNext -- 2
+     2020-06-03 14:53:40.531829+0800 RACExample[30990:2262219] subscriber sendNext -- 3
+     2020-06-03 14:53:40.531924+0800 RACExample[30990:2262219] subscriber sendNext -- 4
+     2020-06-03 14:53:40.532056+0800 RACExample[30990:2262219] sendCompleted
+     */
+}
+```
+
+`take:2` : 只取前两次订阅的信号。
+
+```objc
+-(void)test_take{
+    [[[signal skip:1] take:1] subscribeNext:^(id  _Nullable x) {
+        NSLog(@"subscribeNext -- %@", x);
+    }];
+    /*
+     2020-06-03 14:59:58.615703+0800 RACExample[31246:2265921] subscriber sendNext -- 0 ==> 虽然发送的数据，但是 subscriber 没有使用，跳过这一条
+     2020-06-03 14:59:58.616069+0800 RACExample[31246:2265921] subscriber sendNext -- 1
+     2020-06-03 14:59:58.616254+0800 RACExample[31246:2265921] subscribeNext -- 1       ==> take:1
+     2020-06-03 14:59:58.616376+0800 RACExample[31246:2265921] subscriber sendNext -- 2
+     2020-06-03 14:59:58.616494+0800 RACExample[31246:2265921] subscriber sendNext -- 3
+     2020-06-03 14:59:58.616608+0800 RACExample[31246:2265921] subscriber sendNext -- 4
+     */
+}
+```
+`skip:1`和`take:1` : 跳过第一条开始接收数据，并且只取前一条数据。
+
+```objc
+-(void)test_takeLast{
+    [[signal takeLast:1] subscribeNext:^(id  _Nullable x) {
+        NSLog(@"subscribeNext -- %@", x);
+    }];
+    /*
+     2020-06-03 15:04:32.363153+0800 RACExample[31419:2268388] signal -- 0
+     2020-06-03 15:04:32.363415+0800 RACExample[31419:2268388] signal -- 1
+     2020-06-03 15:04:32.363534+0800 RACExample[31419:2268388] signal -- 2
+     2020-06-03 15:04:32.363639+0800 RACExample[31419:2268388] signal -- 3
+     2020-06-03 15:04:32.363741+0800 RACExample[31419:2268388] signal -- 4
+     2020-06-03 15:04:32.363943+0800 RACExample[31419:2268388] subscribeNext -- 3
+     2020-06-03 15:04:32.364053+0800 RACExample[31419:2268388] subscribeNext -- 4
+     */
+}
+```
+
+`takeLast:1` : 只获取最新的数据。
+
 ### map、flattenMap(拦截信号处理数据)
 
 > 用于拦截信号发出的信号和处理数据 <br>
@@ -954,6 +1052,18 @@ combineLatest、reduce示例:
 }];
 ```
 
+### 其他使用
+
+* `distinctUntilChanged`:当上一次的值和当前的值有明显的变化就会发出信号，否则会被忽略掉。
+* `switchToLatest`:用于signalOfSignals（信号的信号），有时候信号也会发出信号，会在signalOfSignals中，获取signalOfSignals发送的最新信号。
+* `doNext`: 执行Next之前，会先执行这个Block
+* `doCompleted`: 执行sendCompleted之前，会先执行这个Block
+* `timeout`：超时，可以让一个信号在一定的时间后，自动报错。
+* `interval` 定时：每隔一段时间发出信号
+* `retry重试` ：只要失败，就会重新执行创建信号中的block,直到成功.
+* `replay重放`：当一个信号被多次订阅,反复播放内容
+* `throttle节流`:当某个信号发送比较频繁时，可以使用节流，在某一段时间不发送信号内容，过了一段时间获取信号的最新内容发出。
+
 <!-- 
 
 
@@ -1049,7 +1159,7 @@ typedef enum : NSUInteger {
     }
 }
 @end
-/*================================================VM层================================================*/
+#pragma mark - ====================VM层====================
 @interface LoginViewModel : NSObject
 @property (copy, nonatomic) NSString *usename;
 @property (copy, nonatomic) NSString *password;
@@ -1089,7 +1199,7 @@ typedef enum : NSUInteger {
 #pragma mark - getter
 @end
 
-/*================================================V层================================================*/
+#pragma mark - ====================V层====================
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usenameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextFeidl;
@@ -1137,7 +1247,7 @@ typedef enum : NSUInteger {
 #### 示例：豆瓣列表
 
 ```objc
-/*================================================VM层================================================*/
+#pragma mark - ====================VM层====================
 //定义命令、网络请求、获取数据、发送数据
 @interface DouBanDetailViewModel : NSObject
 @property (nonatomic, copy, readonly) NSArray<NSString*> *movies;
@@ -1187,7 +1297,7 @@ typedef enum : NSUInteger {
 }
 #pragma mark - getter
 @end
-/*================================================V层================================================*/
+#pragma mark - ====================V层====================
 
 @interface DouBanViewDetailController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -1450,7 +1560,7 @@ V层使用：
 #### 示例：发邮件
 
 ```objc
-/*================================================VM层================================================*/
+#pragma mark - ====================VM层====================
 @interface RACAndMVVMViewModel02 : NSObject
 @property(nonatomic, strong) NSString *email;
 @property(nonatomic, strong) NSString *statusMessage;
@@ -1530,7 +1640,7 @@ V层使用：
     return match != nil;
 }
 @end
-/*================================================V层================================================*/
+#pragma mark - ====================V层====================
 @interface RACAndMVVMViewController02 ()
 @property (weak, nonatomic) IBOutlet UITextField *inputTextField;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -1574,20 +1684,6 @@ V层使用：
 ```
 
 <img src="/assets/images/iOS/rac/12.gif"/>
-
-* `distinctUntilChanged`:当上一次的值和当前的值有明显的变化就会发出信号，否则会被忽略掉。
-* `take`:从开始一共取N次的信号
-* `takeLast`:取最后N次的信号,前提条件，订阅者必须调用完成，因为只有完成，就知道总共有多少信号.
-* `takeUntil`:(RACSignal):获取信号直到某个信号执行完成
-* `skip`:(NSUInteger):跳过几个信号,不接受。
-* `switchToLatest`:用于signalOfSignals（信号的信号），有时候信号也会发出信号，会在signalOfSignals中，获取signalOfSignals发送的最新信号。
-* `doNext`: 执行Next之前，会先执行这个Block
-* `doCompleted`: 执行sendCompleted之前，会先执行这个Block
-* `timeout`：超时，可以让一个信号在一定的时间后，自动报错。
-* `interval` 定时：每隔一段时间发出信号
-* `retry重试` ：只要失败，就会重新执行创建信号中的block,直到成功.
-* `replay重放`：当一个信号被多次订阅,反复播放内容
-* `throttle节流`:当某个信号发送比较频繁时，可以使用节流，在某一段时间不发送信号内容，过了一段时间获取信号的最新内容发出。
 
 <!-- 
 
@@ -1978,23 +2074,6 @@ RACSignalSequence.h
 * `RACSignal`是单向的，就像1个人在做演讲，观众听到就结束了
 * `RACCommand`是双向的，演讲者做演讲，下面的观众听到后还反馈了意见，而演讲者对反馈还做了回复。(V中发出命令，VM收到命令后进行网络请求，并将获取的网络数据包发送出去，V对收到的数据进行解析和显示)。
 
-## MVVM&RAC
-
-### 使用设计
-
-* 一个V(`ViewController`也是一个V)对应一个VM，V界面元素属性与 VM 处理后的数据属性绑定。
-* `ViewController`对应的VM算是主VM。主 VM 承担了网络请求、点击事件协议、初始化子 VM 并且给子VM的属性赋初值；网络请求成功返回数据过后，主 ViewModel 还需要给子 ViewModel 的属性赋予新的值。
-
-```objc
-@interface MineViewModel : NSObject
-@property (nonatomic, strong) MineHeaderViewModel *mineHeaderViewModel;
-@property (nonatomic, strong) NSArray<MineTopCollectionViewCellViewModel *> *dataSorceOfMineTopCollectionViewCell;
-@property (nonatomic, strong) NSArray<MineDownCollectionViewCellViewModel *> *dataSorceOfMineDownCollectionViewCell;
-@property (nonatomic, strong) RACCommand *autoLoginCommand;//用于网络请求
-@property (nonatomic, strong) RACSubject *pushSubject;//相当于协议，这里用于点击事件的代理
-@end
-```
-
 <!-- 
 
 
@@ -2081,7 +2160,7 @@ RACSignalSequence.h
 VM层：
 
 ```objc
-/*================================================VM层================================================*/
+#pragma mark - ====================VM层====================
 @interface LoginMainViewModel : NSObject
 // Demo RACSubject
 @property (nonatomic, strong) RACSubject *pushSubject;
@@ -2111,7 +2190,7 @@ VM层：
 主View层：
 
 ```objc
-/*================================================V层================================================*/
+#pragma mark - ====================V层====================
 @interface LoginMainView : UIView
 // Demo Button
 @property(nonatomic,strong) UIButton* button;
@@ -2158,9 +2237,9 @@ VM层：
 Controller层：
 
 ```objc
-/*================================================V层================================================*/
+#pragma mark - ====================V层====================
 @interface LoginViewController ()
-@property (nonatomic, strong) LoginMainView *mineView;
+@property (nonatomic, strong) LoginMainView *mainView;
 @property(nonatomic, strong) LoginMainViewModel *viewModel;
 @end
 @implementation LoginViewController
@@ -2172,12 +2251,12 @@ Controller层：
 }
 #pragma mark - init Views
 -(void)segInitViews{
-    [self.view addSubview:self.mineView];
+    [self.view addSubview:self.mainView];
 }
 
 #pragma mark - Layout
 - (void)updateViewConstraints {
-    [self.mineView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.mainView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
     [super updateViewConstraints];
@@ -2194,11 +2273,11 @@ Controller层：
 }
 
 #pragma mark - getter
-- (LoginMainView *)mineView {
-    if (!_mineView) {
-        _mineView = [[LoginMainView alloc] initWithViewModel:self.viewModel];
+- (LoginMainView *)mainView {
+    if (!_mainView) {
+        _mainView = [[LoginMainView alloc] initWithViewModel:self.viewModel];
     }
-    return _mineView;
+    return _mainView;
 }
 -(LoginMainViewModel *)viewModel{
     if (!_viewModel) {
@@ -2249,7 +2328,7 @@ Controller层：
 
 #### 自定义复用机制UIView
 
-> 有复用机制的View：UICollectionviewCell、UITableViewCell...
+> 有复用机制的View：UICollectionviewCell、UITableViewCell...,因为有复用机制，会有部份cell不会走`init`方法，而是直接走`cell复用池`。
 
 ```objc
 @interface  LoginTableViewCell: UITableViewCell
@@ -2277,6 +2356,498 @@ Controller层：
 }
 @end
 ```
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+## MVVM&RAC
+
+### 使用设计
+
+* 一个V(`ViewController`也是一个V)对应一个VM，V界面元素属性与 VM 处理后的数据属性绑定。
+* `ViewController`对应的VM算是主VM。主 VM 承担了网络请求、点击事件协议、初始化子 VM 并且给子VM的属性赋初值；网络请求成功返回数据过后，主 ViewModel 还需要给子 ViewModel 的属性赋予新的值。
+
+```objc
+@interface mainViewModel : NSObject
+@property (nonatomic, strong) MineHeaderViewModel *mineHeaderViewModel;
+@property (nonatomic, strong) NSArray<MineTopCollectionViewCellViewModel *> *dataSorceOfMineTopCollectionViewCell;
+@property (nonatomic, strong) NSArray<MineDownCollectionViewCellViewModel *> *dataSorceOfMineDownCollectionViewCell;
+@property (nonatomic, strong) RACCommand *autoLoginCommand;//用于网络请求
+@property (nonatomic, strong) RACSubject *pushSubject;//相当于协议，这里用于点击事件的代理
+@end
+```
+
+### 示例：列表刷新
+
+具体效果：
+
+<img src="/assets/images/iOS/rac/15.gif"/>
+
+```
+2020-06-03 14:20:34.431310+0800 RACExample[29796:2244630] refreshDataCommand execute
+2020-06-03 14:20:34.464985+0800 RACExample[29796:2244630] executing subscribeNext
+2020-06-03 14:20:34.465376+0800 RACExample[29796:2244630] RefreshLoading
+2020-06-03 14:20:35.088477+0800 RACExample[29796:2244630] refreshDataCommand subscriber sendNext
+2020-06-03 14:20:35.088770+0800 RACExample[29796:2244630] switchToLatest subscribeNext
+2020-06-03 14:20:35.092880+0800 RACExample[29796:2244630] RefreshUI
+2020-06-03 14:20:35.093239+0800 RACExample[29796:2244630] refreshDataCommand subscriber sendCompleted
+2020-06-03 14:20:37.458024+0800 RACExample[29796:2244630] refreshDataCommand subscriber sendNext
+2020-06-03 14:20:37.458241+0800 RACExample[29796:2244630] switchToLatest subscribeNext
+2020-06-03 14:20:37.458642+0800 RACExample[29796:2244630] RefreshUI
+2020-06-03 14:20:37.458772+0800 RACExample[29796:2244630] refreshDataCommand subscriber sendCompleted
+2020-06-03 14:20:38.549670+0800 RACExample[29796:2244630] refreshDataCommand subscriber sendNext
+2020-06-03 14:20:38.549901+0800 RACExample[29796:2244630] switchToLatest subscribeNext
+2020-06-03 14:20:38.550304+0800 RACExample[29796:2244630] RefreshUI
+2020-06-03 14:20:38.550600+0800 RACExample[29796:2244630] refreshDataCommand subscriber sendCompleted
+2020-06-03 14:20:40.055668+0800 RACExample[29796:2244630] refreshDataCommand subscriber sendNext
+2020-06-03 14:20:40.055887+0800 RACExample[29796:2244630] switchToLatest subscribeNext
+2020-06-03 14:20:40.056336+0800 RACExample[29796:2244630] RefreshUI
+2020-06-03 14:20:40.056514+0800 RACExample[29796:2244630] refreshDataCommand subscriber sendCompleted
+```
+
+他们的项目结构：
+
+```
+├── Controller
+│   ├── CircleListViewController.h
+│   └── CircleListViewController.m
+├── Model
+│   ├── DouBanTheatersModel.h
+│   └── DouBanTheatersModel.m
+├── View
+│   ├── CircleListMainView.h
+│   ├── CircleListMainView.m
+│   ├── CircleListMainViewCell.h
+│   └── CircleListMainViewCell.m
+└── ViewModel
+    ├── CircleListMainViewCellViewModel.h
+    ├── CircleListMainViewCellViewModel.m
+    ├── CircleListMainViewModel.h
+    └── CircleListMainViewModel.m
+```
+
+#### CircleListViewController
+
+```objc
+@interface CircleListViewController ()
+@property (nonatomic, strong) CircleListMainView *mainView;
+@property(nonatomic, strong) CircleListMainViewModel *viewModel;
+@end
+
+@implementation CircleListViewController
+#pragma mark - life cycle
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self segInitViews];
+    [self bindViewModel];
+}
+#pragma mark - init Views
+-(void)segInitViews{
+    [self.view addSubview:self.mainView];
+}
+
+#pragma mark - Layout
+- (void)updateViewConstraints {
+    [self.mainView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
+    [super updateViewConstraints];
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    // 点击 cell 跳转 Controller
+    @weakify(self);
+    [[self.viewModel.cellClickSubject takeUntil:self.rac_willDeallocSignal] subscribeNext:^(CircleListMainViewCellViewModel*  _Nullable x) {
+        @strongify(self);
+        UIViewController *VC = [UIViewController new];
+        VC.view.backgroundColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:VC animated:YES];
+    }];
+}
+
+#pragma mark - getter
+- (CircleListMainView *)mainView {
+    if (!_mainView) {
+        _mainView = [[CircleListMainView alloc] initWithViewModel:self.viewModel];
+    }
+    return _mainView;
+}
+-(CircleListMainViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[CircleListMainViewModel alloc]init];
+    }
+    return _viewModel;
+}
+@end
+```
+
+#### ViewModel
+
+##### CircleListMainViewModel
+
+```objc
+typedef enum : NSUInteger {
+    RefreshLoading, // 正在刷新
+    RefreshError, // 刷新出错
+    RefreshUI, // 仅仅刷新UI布局
+} RefreshDataStatus;
+
+@interface CircleListMainViewModel : NSObject
+@property (nonatomic, strong) RACCommand *refreshDataCommand;
+@property (nonatomic, strong) RACSubject *refreshDataSubject;
+
+@property (nonatomic, strong) RACSubject *cellClickSubject;//点击cell的热信号
+
+@property (nonatomic, strong,readonly) NSArray<CircleListMainViewCellViewModel*> *dataArray;
+@end
+
+// ============================.m==========================
+@interface CircleListMainViewModel()
+@property (nonatomic, strong) HttpManager *httpManager;
+@property (nonatomic, strong,readwrite) NSArray<CircleListMainViewCellViewModel*> *dataArray;
+@end
+
+implementation CircleListMainViewModel
+#pragma mark - init
+-(instancetype)init{
+    if (self = [super init]) {
+        [self racInit];
+    }
+    return self;
+}
+#pragma mark - business
+- (void)racInit {
+    // 初始化 RACCommand ，并发起网络请求。
+    _refreshDataCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+        return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+            
+            // 网络请求
+            NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+            parameters[@"apikey"] = @"0df993c66c0c636e29ecbb5344252a4a";
+            [self.httpManager requestNetworkDataWithUrlString:@"/v2/movie/in_theaters" Params:parameters completed:^(id  _Nonnull response, NSError * _Nonnull error) {
+                if (error) {
+                    NSLog(@"refreshDataCommand subscriber sendError");
+                    [subscriber sendError:error];
+                }else{
+                    NSLog(@"refreshDataCommand subscriber sendNext");
+                    [subscriber sendNext:response];
+                }
+                NSLog(@"refreshDataCommand subscriber sendCompleted");
+                [subscriber sendCompleted];
+            }];
+            
+            return [RACDisposable disposableWithBlock:^{
+            }];
+        }];
+    }];
+    
+    // 信号流：O-O-O-O-O-O，而下面这段就是,跳过第一个信号，并且只执行一次。
+    [[[_refreshDataCommand.executing skip:1] take:1] subscribeNext:^(NSNumber * _Nullable x) {
+        NSLog(@"executing subscribeNext");
+        [self showStatus:@"正在加载..."];
+    }];
+    
+    // 进行业务处理
+    [[[_refreshDataCommand executionSignals] switchToLatest] subscribeNext:^(NSDictionary*  _Nullable response) {
+        NSLog(@"switchToLatest subscribeNext");
+        
+        if (!response) {
+             [self showErrorStatus:@"网络有问题！"];
+            return;
+        }
+        
+        // 把 BO 数据转成 VM
+        NSMutableArray<CircleListMainViewCellViewModel*>*tempt = [NSMutableArray array];
+        NSArray *subjects = [response valueForKey:@"subjects"];
+        for (NSDictionary *object in subjects) {;
+            CircleListMainViewCellViewModel *cellViewModel = [[CircleListMainViewCellViewModel alloc] init];
+            cellViewModel.model = [DouBanTheatersModel yy_modelWithJSON:object];
+            [tempt addObject:cellViewModel];
+        }
+        self.dataArray = [NSArray arrayWithArray:tempt];
+        [self showMessage:@"请求成功！"];
+    }];
+    
+    // 错误处理
+    [_refreshDataCommand.errors subscribeNext:^(NSError * _Nullable x) {
+        NSLog(@"errors subscribeNext");
+        [self showErrorStatus:@"网络有问题！"];
+    }];
+}
+-(void)showMessage:(NSString*)message{
+    [self.refreshDataSubject sendNext:@{@"code":@(RefreshUI),@"msg":message}];
+}
+-(void)showStatus:(NSString*)status{
+    [self.refreshDataSubject sendNext:@{@"code":@(RefreshLoading),@"msg":status}];
+}
+-(void)showErrorStatus:(NSString*)error{
+    [self.refreshDataSubject sendNext:@{@"code":@(RefreshError),@"msg":error}];
+}
+
+#pragma mark - getter
+-(HttpManager *)httpManager{
+    if (!_httpManager) {
+        _httpManager = [[HttpManager alloc] initWithBaseURLString:@"https://api.douban.com"];
+    }
+    return _httpManager;
+}
+-(RACSubject *)refreshDataSubject{
+    if (!_refreshDataSubject) {
+        _refreshDataSubject = [RACSubject subject];
+    }
+    return _refreshDataSubject;
+}
+
+-(RACSubject *)cellClickSubject{
+    if (!_cellClickSubject) {
+        _cellClickSubject = [RACSubject subject];
+    }
+    return _cellClickSubject;
+}
+@end
+```
+
+##### CircleListMainViewCellViewModel
+
+```objc
+@interface CircleListMainViewCellViewModel : NSObject
+@property (strong, nonatomic) DouBanTheatersModel *model;
+@end
+
+@implementation CircleListMainViewCellViewModel
+#pragma mark - init
+-(instancetype)init{
+    if (self = [super init]) {
+        [self racInit];
+    }
+    return self;
+}
+#pragma mark - business
+- (void)racInit {}
+#pragma mark - getter
+-(DouBanTheatersModel *)model{
+    if (!_model) {
+        _model = [[DouBanTheatersModel alloc] init];
+    }
+    return _model;
+}
+@end
+```
+
+#### View
+
+##### CircleListMainView
+
+```objc
+@interface CircleListMainView : UIView
+@property(nonatomic,strong) CircleListMainViewModel* viewModel;
+- (instancetype)initWithViewModel:(CircleListMainViewModel*)viewModel;
+@end
+
+// ==============================.m================================
+
+@interface CircleListMainView()<UITableViewDataSource, UITableViewDelegate>
+@property (strong, nonatomic) UITableView *mainTableView;
+@end
+
+@implementation CircleListMainView
+- (instancetype)initWithViewModel:(CircleListMainViewModel*)viewModel {
+    if (self == [super init]) {
+        self.backgroundColor = self.superview.backgroundColor;
+        _viewModel = viewModel;
+        [self segInitViews];
+        [self setNeedsUpdateConstraints];
+        [self updateConstraintsIfNeeded];
+        [self bindViewModel];
+    }
+    return self;
+}
+
+#pragma mark - init Views
+-(void)segInitViews{
+    [self addSubview:self.mainTableView];
+}
+
+#pragma mark - Layout
+- (void)updateConstraints {
+    [self.mainTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    [super updateConstraints];
+}
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    [SVProgressHUD setMinimumDismissTimeInterval:1.0];
+    
+    // 数据请求
+    NSLog(@"refreshDataCommand execute");
+    [self.viewModel.refreshDataCommand execute:nil];
+    // 数据刷新
+    [self.viewModel.refreshDataSubject subscribeNext:^(NSDictionary*  _Nullable x) {
+        [self.mainTableView.mj_header endRefreshing];
+        [self.mainTableView.mj_footer endRefreshing];
+        
+        [self.mainTableView reloadData];
+        
+        NSInteger code = [[x valueForKey:@"code"] integerValue];
+        NSString* msg = [x valueForKey:@"msg"];
+        
+        switch (code) {
+            case RefreshLoading:
+                NSLog(@"RefreshLoading");
+                [SVProgressHUD show];
+                break;
+            case RefreshError:
+                NSLog(@"RefreshError");
+                [SVProgressHUD showErrorWithStatus:msg];
+                break;
+            case RefreshUI:
+                NSLog(@"RefreshUI");
+                [SVProgressHUD showSuccessWithStatus:msg];
+                break;
+            default:
+                break;
+        }
+    }];
+}
+
+#pragma mark - getter
+-(CircleListMainViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[CircleListMainViewModel alloc]init];
+    }
+    return _viewModel;
+}
+- (UITableView *)mainTableView {
+    if (!_mainTableView) {
+        _mainTableView = [[UITableView alloc] init];
+        _mainTableView.delegate = self;
+        _mainTableView.dataSource = self;
+        _mainTableView.backgroundColor = self.backgroundColor;
+        _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _mainTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            [self.viewModel.refreshDataCommand execute:nil];
+        }];
+        _mainTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            [self.viewModel.refreshDataCommand execute:nil];
+        }];
+    }
+    return _mainTableView;
+}
+
+#pragma mark - ====================delegate====================
+
+#pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.viewModel.dataArray.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CircleListMainViewCell *cell = [CircleListMainViewCell cellWithTableView:tableView indexPath:indexPath];
+    if (self.viewModel.dataArray.count > indexPath.row) {
+        cell.viewModel = self.viewModel.dataArray[indexPath.row];
+    }
+    return cell;
+}
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 100;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.viewModel.dataArray.count > indexPath.row) {
+        [self.viewModel.cellClickSubject sendNext:self.viewModel.dataArray[indexPath.row]];
+    }
+}
+@end
+```
+
+##### CircleListMainViewCell
+
+```objc
+@interface CircleListMainViewCell : UITableViewCell
+@property (strong, nonatomic) NSIndexPath *indexPath;
+@property(nonatomic,strong) CircleListMainViewCellViewModel* viewModel;
+
++(NSString*)reuseIdentifier;
++(CircleListMainViewCell*)cellWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
+@end
+
+@implementation CircleListMainViewCell
+#pragma mark - init Views
++(NSString*)reuseIdentifier{
+    return NSStringFromClass([self class]);
+}
+
++(CircleListMainViewCell*)cellWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath{
+    CircleListMainViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[self reuseIdentifier]];
+    if (!cell) {
+        cell = [[CircleListMainViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[self reuseIdentifier]];
+    }
+    cell.indexPath = indexPath;
+    return cell;
+}
+
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        [self segInitViews];
+    }
+    return self;
+}
+
+-(void)segInitViews{}
+
+#pragma mark - Layout
+- (void)updateConstraints {
+    [super updateConstraints];
+}
+
+#pragma mark - RAC Data Binding
+- (void)bindViewModel {
+    self.textLabel.text = self.viewModel.model.title;
+    
+    //RAC(self.textLabel,text) = RACObserve(self.viewModel.model, title); ==> 这个在数据刷新的时候报错！因为KVO的keypath重复绑定。
+    //RAC(self.textLabel,text) = [RACObserve(self.viewModel.model, title) takeUntil:self.rac_prepareForReuseSignal]; ==> 可以通过这样的方式搞定。
+    //在cell里面创建的信号加上takeUntil:cell.rac_prepareForReuseSignal，这个是让cell在每次重用的时候都去disposable创建的信号。
+}
+
+#pragma mark - getter
+
+#pragma mark setter
+-(void)setViewModel:(CircleListMainViewCellViewModel *)viewModel{
+    _viewModel = viewModel;
+    if (!viewModel)  return;
+    [self bindViewModel];
+}
+@end
+```
+
+### TableView&TextField
 
 <!-- 
 

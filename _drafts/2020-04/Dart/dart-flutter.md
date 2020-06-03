@@ -63,7 +63,13 @@ flutter config --enable-macos-desktop # --enable-web --enable-linux-desktop --en
 export ENABLE_FLUTTER_DESKTOP=true
 flutter doctor
 flutter devices
+# run
+flutter run -d macos
+# build
+flutter build macos
 ```
+
+* [Desktop support for Flutter](https://flutter.dev/desktop)
 
 
 
