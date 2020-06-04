@@ -1218,6 +1218,8 @@ typedef enum : NSUInteger {
 -(void)segInitViews{
 }
 
+#pragma mark - Private Methods
+
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
     // bind input signals
@@ -1317,6 +1319,8 @@ typedef enum : NSUInteger {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 }
+
+#pragma mark - Private Methods
 
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
@@ -1654,6 +1658,8 @@ V层使用：
     [super viewDidLoad];
     [self bindViewModel];
 }
+
+#pragma mark - Private Methods
 
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
@@ -2172,6 +2178,8 @@ RACSignalSequence.h
     [super updateViewConstraints];
 }
 
+#pragma mark - Private Methods
+
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {}
 
@@ -2246,6 +2254,8 @@ VM层：
 - (void)updateConstraints {
     [super updateConstraints];
 }
+#pragma mark - Private Methods
+
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
     // Demo sendNext
@@ -2291,6 +2301,8 @@ Controller层：
     }];
     [super updateViewConstraints];
 }
+
+#pragma mark - Private Methods
 
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
@@ -2343,6 +2355,8 @@ Controller层：
 - (void)updateConstraints {
     [super updateConstraints];
 }
+#pragma mark - Private Methods
+
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {}
 
@@ -2397,6 +2411,8 @@ Controller层：
 - (void)updateConstraints {
     [super updateConstraints];
 }
+
+#pragma mark - Private Methods
 
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {}
@@ -2531,6 +2547,8 @@ Controller层：
     }];
     [super updateViewConstraints];
 }
+
+#pragma mark - Private Methods
 
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
@@ -2754,6 +2772,8 @@ implementation CircleListMainViewModel
     }];
     [super updateConstraints];
 }
+#pragma mark - Private Methods
+
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
     [SVProgressHUD setMinimumDismissTimeInterval:1.0];
@@ -2883,6 +2903,8 @@ implementation CircleListMainViewModel
     [super updateConstraints];
 }
 
+#pragma mark - Private Methods
+
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
     self.textLabel.text = self.viewModel.model.title;
@@ -2928,6 +2950,8 @@ implementation CircleListMainViewModel
 
 ```objc
 @implementation CircleListMainViewCell
+#pragma mark - Private Methods
+
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
    @weakify(self);
@@ -2943,6 +2967,8 @@ implementation CircleListMainViewModel
 
 ```objc
 @implementation CircleListMainViewCell
+#pragma mark - Private Methods
+
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
     @weakify(self);
@@ -3039,6 +3065,8 @@ RACChannelTo(self.viewModel,leftString) = self.leftTextField.rac_newTextChannel;
     [super updateViewConstraints];
 }
 
+#pragma mark - Private Methods
+
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
     [[self.clickButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
@@ -3123,6 +3151,8 @@ RACChannelTo(self.viewModel,leftString) = self.leftTextField.rac_newTextChannel;
     }];
     [super updateConstraints];
 }
+
+#pragma mark - Private Methods
 
 #pragma mark - RAC Data Binding
 - (void)bindViewModel {
