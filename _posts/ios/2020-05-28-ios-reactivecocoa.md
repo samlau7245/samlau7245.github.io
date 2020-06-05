@@ -1176,7 +1176,7 @@ typedef enum : NSUInteger {
 @end
 
 @implementation LoginViewModel
-#pragma mark - init
+#pragma mark - Init
 -(instancetype)init{
     if (self = [super init]) {
         [self racInit];
@@ -1196,7 +1196,10 @@ typedef enum : NSUInteger {
         return @(NO);
     }];
 }
+
 #pragma mark - getter
+
+#pragma mark setter
 @end
 
 #pragma mark - ====================V层====================
@@ -1214,7 +1217,7 @@ typedef enum : NSUInteger {
     [self bindViewModel];
 }
 
-#pragma mark - init Views
+#pragma mark - Init Views
 -(void)segInitViews{
 }
 
@@ -1241,6 +1244,7 @@ typedef enum : NSUInteger {
     }
     return _viewModel;
 }
+#pragma mark setter
 @end
 ```
 
@@ -1257,7 +1261,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong, readonly) AFHTTPSessionManager *manager;
 @end
 @implementation DouBanDetailViewModel
-#pragma mark - init
+#pragma mark - Init
 -(instancetype)init{
     if (self = [super init]) {
         _manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.douban.com"]];
@@ -1298,6 +1302,7 @@ typedef enum : NSUInteger {
     }];
 }
 #pragma mark - getter
+#pragma mark setter
 @end
 #pragma mark - ====================V层====================
 
@@ -1314,7 +1319,7 @@ typedef enum : NSUInteger {
     [self bindViewModel];
 }
 
-#pragma mark - init Views
+#pragma mark - Init Views
 -(void)segInitViews{
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -1396,6 +1401,7 @@ typedef enum : NSUInteger {
     }
     return _viewModel;
 }
+#pragma mark setter
 @end
 ```
 
@@ -1419,7 +1425,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong, readonly) RACCommand *requestCommand;
 @end
 @implementation DouBanDetailViewModel
-#pragma mark - init
+#pragma mark - Init
 -(instancetype)init{
     if (self = [super init]) {
         [self racInit];
@@ -1456,6 +1462,7 @@ typedef enum : NSUInteger {
 
 -(void)dealDataWithData1:(id)data1 data2:(id)data2 data3:(id)data3{}
 #pragma mark - getter
+#pragma mark setter
 @end
 ```
 
@@ -1675,6 +1682,7 @@ V层使用：
     }
     return _viewModel;
 }
+#pragma mark setter
 @end
 
 /*
@@ -2142,16 +2150,22 @@ RACSignalSequence.h
 
 ```objc
 @implementation SEGMenberPointsViewModel
-#pragma mark - init
+#pragma mark - Init
 -(instancetype)init{
     if (self = [super init]) {
         [self racInit];
     }
     return self;
 }
-#pragma mark - business
 - (void)racInit {}
-#pragma mark - getter
+
+#pragma mark - Publish Methods
+
+#pragma mark - Private Methods
+
+#pragma mark - Getter
+
+#pragma mark - Stter
 @end
 ```
 
@@ -2159,18 +2173,28 @@ RACSignalSequence.h
 
 #### Controller
 ```objc
+@interface LoginViewController : UIViewController
+- (instancetype)initWithViewModel:(RACAndMVVMViewModel*)viewModel;
+@end
+
 @interface LoginViewController ()
 @property(nonatomic, strong) RACAndMVVMViewModel *viewModel;
 @end
 
 @implementation LoginViewController
 #pragma mark - life cycle
+- (instancetype)initWithViewModel:(RACAndMVVMViewModel*)viewModel{
+    if (self == [super init]) {
+        _viewModel = viewModel;
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self segInitViews];
     [self bindViewModel];
 }
-#pragma mark - init Views
+#pragma mark - Init Views
 -(void)segInitViews{}
 
 #pragma mark - Layout
@@ -2190,6 +2214,7 @@ RACSignalSequence.h
     }
     return _viewModel;
 }
+#pragma mark setter
 @end
 ```
 
@@ -2204,7 +2229,7 @@ VM层：
 @property (nonatomic, strong) RACSubject *pushSubject;
 @end
 @implementation LoginMainViewModel
-#pragma mark - init
+#pragma mark - Init
 -(instancetype)init{
     if (self = [super init]) {
         [self racInit];
@@ -2222,6 +2247,7 @@ VM层：
     }
     return _pushSubject;
 }
+#pragma mark setter
 @end
 ```
 
@@ -2247,7 +2273,7 @@ VM层：
     return self;
 }
 
-#pragma mark - init Views
+#pragma mark - Init Views
 -(void)segInitViews{}
 
 #pragma mark - Layout
@@ -2271,6 +2297,7 @@ VM层：
     }
     return _viewModel;
 }
+#pragma mark setter
 @end
 ```
 
@@ -2289,7 +2316,7 @@ Controller层：
     [self segInitViews];
     [self bindViewModel];
 }
-#pragma mark - init Views
+#pragma mark - Init Views
 -(void)segInitViews{
     [self.view addSubview:self.mainView];
 }
@@ -2327,6 +2354,7 @@ Controller层：
     }
     return _viewModel;
 }
+#pragma mark setter
 @end
 ```
 
@@ -2348,7 +2376,7 @@ Controller层：
     return self;
 }
 
-#pragma mark - init Views
+#pragma mark - Init Views
 -(void)segInitViews{}
 
 #pragma mark - Layout
@@ -2367,6 +2395,7 @@ Controller层：
     }
     return _viewModel;
 }
+#pragma mark setter
 @end
 ```
 
@@ -2383,7 +2412,7 @@ Controller层：
 +(CircleListMainViewCell*)cellWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
 @end
 @implementation LoginTableViewCell
-#pragma mark - init Views
+#pragma mark - Init Views
 +(NSString*)reuseIdentifier{
     return NSStringFromClass([self class]);
 }
@@ -2535,7 +2564,7 @@ Controller层：
     [self segInitViews];
     [self bindViewModel];
 }
-#pragma mark - init Views
+#pragma mark - Init Views
 -(void)segInitViews{
     [self.view addSubview:self.mainView];
 }
@@ -2575,6 +2604,7 @@ Controller层：
     }
     return _viewModel;
 }
+#pragma mark setter
 @end
 ```
 
@@ -2605,7 +2635,7 @@ typedef enum : NSUInteger {
 @end
 
 implementation CircleListMainViewModel
-#pragma mark - init
+#pragma mark - Init
 -(instancetype)init{
     if (self = [super init]) {
         [self racInit];
@@ -2701,6 +2731,7 @@ implementation CircleListMainViewModel
     }
     return _cellClickSubject;
 }
+#pragma mark setter
 @end
 ```
 
@@ -2712,7 +2743,7 @@ implementation CircleListMainViewModel
 @end
 
 @implementation CircleListMainViewCellViewModel
-#pragma mark - init
+#pragma mark - Init
 -(instancetype)init{
     if (self = [super init]) {
         [self racInit];
@@ -2728,6 +2759,7 @@ implementation CircleListMainViewModel
     }
     return _model;
 }
+#pragma mark setter
 @end
 ```
 
@@ -2760,7 +2792,7 @@ implementation CircleListMainViewModel
     return self;
 }
 
-#pragma mark - init Views
+#pragma mark - Init Views
 -(void)segInitViews{
     [self addSubview:self.mainTableView];
 }
@@ -2874,7 +2906,7 @@ implementation CircleListMainViewModel
 @end
 
 @implementation CircleListMainViewCell
-#pragma mark - init Views
+#pragma mark - Init Views
 +(NSString*)reuseIdentifier{
     return NSStringFromClass([self class]);
 }
@@ -3054,7 +3086,7 @@ RACChannelTo(self.viewModel,leftString) = self.leftTextField.rac_newTextChannel;
     [self bindViewModel];
     [self.tableView reloadData];
 }
-#pragma mark - init Views
+#pragma mark - Init Views
 -(void)segInitViews{
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -3084,6 +3116,9 @@ RACChannelTo(self.viewModel,leftString) = self.leftTextField.rac_newTextChannel;
     }
     return _viewModel;
 }
+
+#pragma mark setter
+
 #pragma mark - ====================delegate====================
 
 #pragma mark - UITableViewDataSource
@@ -3117,7 +3152,7 @@ RACChannelTo(self.viewModel,leftString) = self.leftTextField.rac_newTextChannel;
 @end
 
 @implementation TextFieldAndTableViewCell
-#pragma mark - init Views
+#pragma mark - Init Views
 +(NSString*)reuseIdentifier{
     return NSStringFromClass([self class]);
 }
@@ -3198,7 +3233,7 @@ RACChannelTo(self.viewModel,leftString) = self.leftTextField.rac_newTextChannel;
 @end
 
 @implementation TextFieldAndTableViewCellViewModel
-#pragma mark - init
+#pragma mark - Init
 -(instancetype)init{
     if (self = [super init]) {
         [self racInit];
@@ -3209,6 +3244,8 @@ RACChannelTo(self.viewModel,leftString) = self.leftTextField.rac_newTextChannel;
 - (void)racInit {
 }
 #pragma mark - getter
+
+#pragma mark setter
 @end
 ```
 
