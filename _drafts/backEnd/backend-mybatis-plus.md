@@ -2,7 +2,7 @@
 title: 后台学习(2)-MyBatis-Plus
 layout: post
 categories:
- - backEnd
+ - back_end
 ---
 
 MyBatis与JPA对比

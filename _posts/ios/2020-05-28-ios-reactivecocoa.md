@@ -2051,13 +2051,21 @@ RACSignalSequence.h
     }
     return self;
 }
+
+-(void)dealloc{
+    [self.requestCommand rac_deallocDisposable];
+    [self.messageSubject rac_deallocDisposable];
+}
+
 - (void)racInit {
 
     //@weakify(self);
     _requestCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
-        //@strongify(self);
         return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+            //@strongify(self);
+
             // Code here...
+            
             return [RACDisposable disposableWithBlock:^{
             }];
         }];

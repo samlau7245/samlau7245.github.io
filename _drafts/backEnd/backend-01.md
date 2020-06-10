@@ -2,7 +2,7 @@
 title: 后台学习(1)
 layout: post
 categories:
- - backEnd
+ - back_end
 ---
 
 ## 单体架构设计与准备工作
