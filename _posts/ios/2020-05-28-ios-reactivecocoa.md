@@ -2339,7 +2339,7 @@ Controller层：
 +(CircleListMainViewCell*)cellWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath{
     CircleListMainViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[self reuseIdentifier]];
     if (!cell) {
-        cell = [[CircleListMainViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[self reuseIdentifier]];
+        cell = [[self alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[self reuseIdentifier]];
     }
     cell.indexPath = indexPath;
     return cell;
@@ -2347,6 +2347,7 @@ Controller层：
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self segInitViews];
         [self updateConstraints];
     }
