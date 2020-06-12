@@ -474,6 +474,45 @@ __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
 
 ## 动画
 
+### 安全范围内移动控件
+
+<img src="/assets/images/masonry/31.gif"/>
+
+```objc
+@interface MASExampleTouchMoveView()
+@property (nonatomic, strong) MASConstraint *leftConstraint; // 保存左边的约束，用于在移动时调整位置
+@property (nonatomic, strong) MASConstraint *topConstraint; // 保存顶部的约束，用于在移动时调整位置
+@end
+
+@implementation MASExampleTouchMoveView
+- (id)init {
+    self = [super init];
+    if (!self) return nil;
+    UILabel *label = [LayoutUtils fixedLabelWithText:@"Move Me"];
+    [self addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        self.leftConstraint = make.centerX.equalTo(self.mas_left).with.offset(50).priorityHigh();
+        self.topConstraint = make.centerY.equalTo(self.mas_top).with.offset(50).priorityHigh();
+        
+        // 边界条件约束，保证内容可见，优先级1000
+        make.left.greaterThanOrEqualTo(kPadding);
+        make.right.lessThanOrEqualTo(kPadding);
+        make.top.greaterThanOrEqualTo(kPadding);
+        make.bottom.lessThanOrEqualTo(kPadding);
+    }];
+    return self;
+}
+
+-(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint touchLocation = [touch locationInView:self];
+    NSLog(@"%@",NSStringFromCGPoint(touchLocation));
+    self.leftConstraint.offset = touchLocation.x;
+        self.topConstraint.offset = touchLocation.y;
+}
+@end
+```
+
 ### 更新动画
 
 ```objc
@@ -1634,6 +1673,152 @@ UIEdgeInsets padding = UIEdgeInsetsMake(10, 10, 10, 10);
 }
 @end
 ```
+
+### UITableView 折叠、展开
+
+<img src="/assets/images/masonry/28.gif"/>
+
+```objc
+@interface MASTableViewProfieCell()
+@property (strong, nonatomic) MASConstraint* masHeight;
+@end
+
+@implementation MASTableViewProfieCell
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        self.headImageView = [LayoutUtils createView];
+        self.headImageView.layer.cornerRadius = 30;
+        self.headImageView.layer.masksToBounds = YES;
+        [self.contentView addSubview:self.headImageView];
+        [self.headImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@60);
+            make.height.equalTo(@60).priorityLow();
+            make.left.top.equalTo(kPadding);
+        }];
+        [self.headImageView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        
+        self.titleLabel = [LayoutUtils fixedLabelWithText:@""];
+        [self.contentView addSubview:self.titleLabel];
+        self.titleLabel.numberOfLines = 1;
+        [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(kPadding);
+            make.left.equalTo(self.headImageView.mas_right).insets(kPadding);
+            make.right.lessThanOrEqualTo(kPadding);
+        }];
+        
+        
+        self.descabel = [LayoutUtils fixedLabelWithText:@""];
+        self.descabel.textAlignment = NSTextAlignmentLeft;
+        [self.contentView addSubview:self.descabel];
+        [self.descabel makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.headImageView.mas_right).insets(kPadding);
+            make.top.equalTo(self.headImageView.mas_centerY);
+            make.right.lessThanOrEqualTo(kPadding);
+            
+            make.bottom.equalTo(kPadding);
+            make.bottom.greaterThanOrEqualTo(self.headImageView);
+            //self.masHeight = make.height.lessThanOrEqualTo(@100);
+        }];
+        
+    }
+    return self;
+}
+-(void)updateData{
+    self.titleLabel.text = self.cellData.content;
+    self.descabel.text = self.cellData.content;
+    if (self.cellData.isExpended) {
+        NSLog(@"==1==");
+        //[self.masHeight uninstall];
+        self.descabel.numberOfLines = 0;
+    }else{
+        NSLog(@"==2==");
+        //[self.masHeight install];
+        self.descabel.numberOfLines = 3;
+    }
+    
+    [super updateData];
+}
+@end
+```
+
+另外一种布局约束，既可以解决`headImageView.bottom<-cell.bottom` cell的底部必须超过`heaImageView`，同时如果`descLabel.bottom<-cell.bottom` cell的底部必须超过`descLabel`；也支持折叠、展开。
+
+<img src="/assets/images/masonry/29.png"/>
+
+```objc
+@interface MASTableViewProfieCell()
+@property (strong, nonatomic) MASConstraint* masHeight;
+@end
+
+
+@implementation MASTableViewProfieCell
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        self.headImageView = [LayoutUtils createView];
+        self.headImageView.layer.cornerRadius = 30;
+        self.headImageView.layer.masksToBounds = YES;
+        [self.contentView addSubview:self.headImageView];
+        [self.headImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@60);
+            make.height.equalTo(@60).priorityLow();
+            make.left.top.equalTo(kPadding);
+            make.bottom.lessThanOrEqualTo(kPadding); //关键代码
+        }];
+        [self.headImageView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        
+        self.titleLabel = [LayoutUtils fixedLabelWithText:@""];
+        [self.contentView addSubview:self.titleLabel];
+        self.titleLabel.numberOfLines = 1;
+        [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(kPadding);
+            make.left.equalTo(self.headImageView.mas_right).insets(kPadding);
+            make.right.lessThanOrEqualTo(kPadding);
+        }];
+        
+        
+        self.descabel = [LayoutUtils fixedLabelWithText:@""];
+        self.descabel.textAlignment = NSTextAlignmentLeft;
+        [self.contentView addSubview:self.descabel];
+        [self.descabel makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.headImageView.mas_right).insets(kPadding);
+            make.top.equalTo(self.headImageView.mas_centerY);
+            make.right.lessThanOrEqualTo(kPadding);
+            
+            //make.bottom.equalTo(kPadding);
+            self.masHeight = make.height.lessThanOrEqualTo(@100); //关键代码
+            //make.bottom.greaterThanOrEqualTo(self.headImageView);
+            make.bottom.lessThanOrEqualTo(kPadding); //关键代码
+        }];
+        
+    }
+    return self;
+}
+-(void)updateData{
+    self.titleLabel.text = self.cellData.content;
+    self.descabel.text = self.cellData.content;
+    if (self.cellData.isExpended) {
+        NSLog(@"==1==");
+        [self.masHeight uninstall]; //关键代码
+        self.descabel.numberOfLines = 0;
+    }else{
+        NSLog(@"==2==");
+        [self.masHeight install]; //关键代码
+        self.descabel.numberOfLines = 3;
+    }
+    
+    [super updateData];
+}
+
+-(void)updateConstraints{
+    [super updateConstraints];
+}
+@end
+```
+<img src="/assets/images/masonry/30.png"/>
 
 <!-- 
 
