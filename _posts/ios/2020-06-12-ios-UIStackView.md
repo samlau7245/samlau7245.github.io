@@ -536,6 +536,95 @@ stackView.spacing = -15;
 }];
 ```
 
+### 给人打星评价
+
+<img src="/assets/images/masonry/52.gif"/>
+
+```objc
+@interface UIKitExampleStackViewStarController ()
+@property(nonatomic,strong) UIStackView *topStackView;
+@property(nonatomic,strong) UIStackView *bottomStackView;
+@end
+
+@implementation UIKitExampleStackViewStarController
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.title = @"点击星星";
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
+    return self;
+}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _topStackView = [[UIStackView alloc] init];
+    _topStackView.axis = UILayoutConstraintAxisVertical;
+    _topStackView.alignment = UIStackViewAlignmentCenter;
+    _topStackView.distribution = UIStackViewDistributionFillEqually;
+    _topStackView.spacing = 6;
+    
+    _bottomStackView = [[UIStackView alloc] init];
+    _bottomStackView.alignment = UIStackViewAlignmentCenter;
+    _bottomStackView.distribution = UIStackViewDistributionFillEqually;
+    _bottomStackView.spacing = 6;
+    
+    [self.view addSubview:self.topStackView];
+    [self.view addSubview:self.bottomStackView];
+    
+    [self.topStackView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.top.equalTo(@100);
+        make.height.equalTo(400);
+    }];
+    
+    [self.bottomStackView makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.topStackView.mas_bottom);
+    }];
+    
+    UILabel *titleLabel = [LayoutUtils fixedLabelWithText:@"给个评价吧？"];
+    UIView *logoView = [LayoutUtils createView];
+    UIButton *addStarButton = [LayoutUtils createButtonWithTitle:@"Star" target:self selector:@selector(addStar)];
+    UIButton *removeStarButton = [LayoutUtils createButtonWithTitle:@"Remove Star" target:self selector:@selector(removeStar)];
+    UIStackView *operation = [[UIStackView alloc] initWithArrangedSubviews:@[addStarButton,removeStarButton]];
+    operation.distribution = UIStackViewDistributionFillEqually;
+    
+    [self.topStackView addArrangedSubview:titleLabel];
+    [self.topStackView addArrangedSubview:logoView];
+    [self.topStackView addArrangedSubview:operation];
+    
+    [logoView makeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(@(CGSizeMake(50, 50))).priorityLow();
+    }];
+    
+    [self.topStackView layoutIfNeeded];
+}
+-(void)addStar{
+    UIView *starView = [LayoutUtils createView];
+    [self.bottomStackView addArrangedSubview:starView];
+    [starView makeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(@(CGSizeMake(50, 50))).priorityHigh();
+    }];
+    starView.layer.cornerRadius = 25;
+    starView.layer.masksToBounds = YES;
+    starView.clipsToBounds = true;
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.bottomStackView layoutIfNeeded];
+    }];
+}
+-(void)removeStar{
+    if (self.bottomStackView.arrangedSubviews.count >= 1) {
+        [self.bottomStackView.arrangedSubviews.lastObject removeFromSuperview];
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.bottomStackView layoutIfNeeded];
+        }];
+    }
+}
+@end
+```
+
 ### 翻译
 
 <!-- 
