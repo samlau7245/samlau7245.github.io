@@ -9,6 +9,8 @@ categories:
 
 `UIStackView`像一个容器，类似于`UITableView`，`UICollectionView`。
 
+[仓库地址](https://gitee.com/samcoding/MasonryExample.git )
+
 ## 创建
 
 初始化方式：
@@ -623,6 +625,13 @@ stackView.spacing = -15;
     }
 }
 @end
+```
+
+### 添加边距
+
+```objc
+stackView.layoutMargins = UIEdgeInsetsMake(0, 10, 0, 10);
+[stackView setLayoutMarginsRelativeArrangement:YES];
 ```
 
 ### 翻译
