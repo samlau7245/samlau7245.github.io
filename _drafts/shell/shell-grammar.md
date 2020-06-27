@@ -483,8 +483,6 @@ if [ $a -eq 20 -o $b -eq 20 ]; then echo "true" ; else echo "false" ; fi ; # tru
 |关系运算符|`-eq`、`-ne`、`-gt`、`-lt`、`-ge`、`-le`|等同`[]`|
 |逻辑运/布尔运算符|`!`、`-o`、`-a`|`&&`、`||`|
 
-
-
 ### case 条件
 ### for 循环
 ### while 循环
@@ -570,3 +568,8 @@ if [ $a -eq 20 -o $b -eq 20 ]; then echo "true" ; else echo "false" ; fi ; # tru
 
 
  -->
+
+## 资料
+
+* [Shell教程 菜鸟教程](https://www.runoob.com/linux/linux-shell.html)
+
