@@ -1,0 +1,1688 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="# 搭建环境 sudo npm install gitbook-cli">
+<meta name="keywords" content="Jekyll, NexT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitBook 博客搭建">
+<meta property="og:url" content="http://localhost:4000/diary/2020/06/17/diary-gitbook/">
+<meta property="og:site_name" content="Sam's Blog">
+<meta property="og:description" content="# 搭建环境 sudo npm install gitbook-cli">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="/assets/images/GitBook/02.png">
+<meta property="og:image" content="/assets/images/GitBook/01.png">
+<meta property="og:image" content="/assets/images/GitBook/03.png">
+<meta property="og:image" content="/assets/images/GitBook/04.png">
+<meta property="og:image" content="/assets/images/GitBook/.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GitBook 博客搭建">
+<meta name="twitter:description" content="# 搭建环境 sudo npm install gitbook-cli">
+<meta name="twitter:image" content="/assets/images/GitBook/02.png">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>GitBook 博客搭建 | Sam's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sam's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/diary/2020/06/17/diary-gitbook/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam Lau">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            GitBook 博客搭建
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T00:00:00+08:00">
+                2020-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/diary" itemprop="url" rel="index">
+                    <span itemprop="name">diary</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="c"># 搭建环境</span>
+<span class="nb">sudo </span>npm <span class="nb">install </span>gitbook-cli
+</code></pre></td></tr></tbody></table></div></div>
+
+<blockquote>
+  <p>所有的操作都在<code class="language-plaintext highlighter-rouge">GitBook</code>目录中完成。我们需要创建一个名为<code class="language-plaintext highlighter-rouge">objc-book</code>的书籍。</p>
+</blockquote>
+
+<h2 id="创建电子书的章节目录">创建电子书的章节目录</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>% <span class="nb">mkdir </span>objc-book
+% <span class="nb">cd </span>objc-book 
+% gitbook init
+<span class="c"># warn: no summary file in this book </span>
+<span class="c"># info: create README.md </span>
+<span class="c"># info: create SUMMARY.md </span>
+<span class="c"># info: initialization is finished </span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">gitbook init</code> 在<code class="language-plaintext highlighter-rouge">node 14.0.0</code>环境中报错，用低版本的<code class="language-plaintext highlighter-rouge">node</code>。</p>
+</blockquote>
+
+<p>现在的树结构：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>.
+└── objc-book
+    ├── README.md
+    └── SUMMARY.md
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">README.md</code> : 默认首页文件,相当于网站的首页<code class="language-plaintext highlighter-rouge">index.html</code>,一般是介绍文字或相关导航链接。</li>
+  <li><code class="language-plaintext highlighter-rouge">SUMMARY.md</code> : 是默认概括文件,主要是根据该文件内容生成相应的目录结构。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code># Summary
+
+## Part I
+
+* [Introduction](README.md)
+* [BASIC](basic.md)
+	* [BASIC-2](basic.md)
+		* [BASIC-BASIC-2BASIC-22](basic.md)
+		
+
+## Part I
+
+* [Introduction](README.md)
+* [BASIC](basic.md)
+	* [BASIC-2](basic.md)
+
+----
+
+* [Introduction](README.md)
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/GitBook/02.png" /></p>
+
+<h2 id="运行电子书">运行电子书</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23</pre></td><td class="code"><pre class="highlight"><code>shanliu@shanliudeMac-mini GitBook % git serve ./objc-book/
+git: <span class="s1">'serve'</span> is not a git command. See <span class="s1">'git --help'</span><span class="nb">.</span>
+
+The most similar <span class="nb">command </span>is
+	merge
+shanliu@shanliudeMac-mini GitBook % gitbook serve ./objc-book/
+Live reload server started on port: 35729
+Press CTRL+C to quit ...
+
+info: 7 plugins are installed 
+info: loading plugin <span class="s2">"livereload"</span>... OK 
+info: loading plugin <span class="s2">"highlight"</span>... OK 
+info: loading plugin <span class="s2">"search"</span>... OK 
+info: loading plugin <span class="s2">"lunr"</span>... OK 
+info: loading plugin <span class="s2">"sharing"</span>... OK 
+info: loading plugin <span class="s2">"fontsettings"</span>... OK 
+info: loading plugin <span class="s2">"theme-default"</span>... OK 
+info: found 1 pages 
+info: found 0 asset files 
+info: <span class="o">&gt;&gt;</span> generation finished with success <span class="k">in </span>0.4s <span class="o">!</span> 
+
+Starting server ...
+Serving book on http://localhost:4000
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/GitBook/01.png" /></p>
+
+<p>或者直接<code class="language-plaintext highlighter-rouge">cd</code>到<code class="language-plaintext highlighter-rouge">objc-book</code>根目录下运行。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code>shanliu@shanliudeMac-mini GitBook % <span class="nb">cd </span>objc-book 
+shanliu@shanliudeMac-mini objc-book % gitbook serve
+Live reload server started on port: 35729
+Press CTRL+C to quit ...
+
+info: 7 plugins are installed 
+info: loading plugin <span class="s2">"livereload"</span>... OK 
+info: loading plugin <span class="s2">"highlight"</span>... OK 
+info: loading plugin <span class="s2">"search"</span>... OK 
+info: loading plugin <span class="s2">"lunr"</span>... OK 
+info: loading plugin <span class="s2">"sharing"</span>... OK 
+info: loading plugin <span class="s2">"fontsettings"</span>... OK 
+info: loading plugin <span class="s2">"theme-default"</span>... OK 
+info: found 1 pages 
+info: found 0 asset files 
+info: <span class="o">&gt;&gt;</span> generation finished with success <span class="k">in </span>0.4s <span class="o">!</span> 
+
+Starting server ...
+Serving book on http://localhost:4000
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>不过因为操作都是基于<code class="language-plaintext highlighter-rouge">GitBook</code>根目录，所以下面的操作都不会<code class="language-plaintext highlighter-rouge">cd</code>到具体的目录。</p>
+
+<h2 id="创建资源文件">创建资源文件</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>.
+├── README.md
+├── SUMMARY.md
+├── _posts =&gt; 这个文件夹存放文章
+├── assets =&gt; 这个文件夹存放资源
+│   ├── csv
+│   │   └── test.csv
+│   ├── images
+│   │   └── favicon.ico
+│   └── shell
+│       └── test.sh
+├── book.json =&gt; 这个文件是配置文件
+└── website.css =&gt; 这个文件是配置文件
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="配置文件">配置文件</h2>
+
+<p><code class="language-plaintext highlighter-rouge">book.json</code></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80</pre></td><td class="code"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"title"</span><span class="p">:</span><span class="s2">"书籍的标题"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"author"</span><span class="p">:</span><span class="s2">"书籍的作者"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"description"</span><span class="p">:</span><span class="s2">"书籍的简要描述."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"isbn"</span><span class="p">:</span><span class="s2">"书籍的国际标准书号"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"links"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"sidebar"</span><span class="p">:{</span><span class="w">
+            </span><span class="nl">"我的网站1"</span><span class="p">:</span><span class="s2">"https://snowdreams1006.cn/"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"我的网站2"</span><span class="p">:</span><span class="s2">"https://snowdreams1006.cn/"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"styles"</span><span class="p">:{</span><span class="w">
+            </span><span class="nl">"website"</span><span class="p">:</span><span class="s2">"styles/website.css"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"ebook"</span><span class="p">:</span><span class="s2">"styles/ebook.css"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"pdf"</span><span class="p">:</span><span class="s2">"styles/pdf.css"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"mobi"</span><span class="p">:</span><span class="s2">"styles/mobi.css"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"epub"</span><span class="p">:</span><span class="s2">"styles/epub.css"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"plugins"</span><span class="p">:[</span><span class="w">
+        </span><span class="s2">"simple-page-toc"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"anchor-navigation-ex"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"-lunr"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"-search"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"search-plus"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"advanced-emoji"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"splitter"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"expandable-chapters-small"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"local-video"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"anchors"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"copy-code-button"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"alerts"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"include-csv"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"include-codeblock"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ace"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"favicon"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"todo"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"pluginsConfig"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"simple-page-toc"</span><span class="p">:{</span><span class="w">
+            </span><span class="nl">"maxDepth"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"skipFirstH1"</span><span class="p">:</span><span class="kc">true</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"anchor-navigation-ex"</span><span class="p">:{</span><span class="w">
+            </span><span class="nl">"showLevel"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"associatedWithSummary"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"printLog"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"multipleH1"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"mode"</span><span class="p">:</span><span class="s2">"float"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"showGoTop"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"float"</span><span class="p">:{</span><span class="w">
+                </span><span class="nl">"floatIcon"</span><span class="p">:</span><span class="s2">"fa fa-navicon"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"showLevelIcon"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"level1Icon"</span><span class="p">:</span><span class="s2">"fa fa-hand-o-right"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"level2Icon"</span><span class="p">:</span><span class="s2">"fa fa-hand-o-right"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"level3Icon"</span><span class="p">:</span><span class="s2">"fa fa-hand-o-right"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"pageTop"</span><span class="p">:{</span><span class="w">
+                </span><span class="nl">"showLevelIcon"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"level1Icon"</span><span class="p">:</span><span class="s2">"fa fa-hand-o-right"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"level2Icon"</span><span class="p">:</span><span class="s2">"fa fa-hand-o-right"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"level3Icon"</span><span class="p">:</span><span class="s2">"fa fa-hand-o-right"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"disqus"</span><span class="p">:{</span><span class="w">
+                </span><span class="nl">"shortName"</span><span class="p">:</span><span class="s2">"gitbookuse"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"include-codeblock"</span><span class="p">:{</span><span class="w">
+                </span><span class="nl">"template"</span><span class="p">:</span><span class="s2">"ace"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"favicon"</span><span class="p">:{</span><span class="w">
+                </span><span class="nl">"shortcut"</span><span class="p">:</span><span class="s2">"assets/images/favicon.ico"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"bookmark"</span><span class="p">:</span><span class="s2">"assets/images/favicon.ico"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"appleTouch"</span><span class="p">:</span><span class="s2">"assets/images/favicon.ico"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"appleTouchMore"</span><span class="p">:{</span><span class="w">
+                    </span><span class="nl">"120x120"</span><span class="p">:</span><span class="s2">"assets/images/favicon.ico"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"180x180"</span><span class="p">:</span><span class="s2">"assets/images/favicon.ico"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<p>安装依赖：<code class="language-plaintext highlighter-rouge">gitbook install</code>。</p>
+
+<h2 id="发布到gitpage">发布到GitPage</h2>
+
+<ul>
+  <li>创建仓库<code class="language-plaintext highlighter-rouge">https://github.com/{userName}/objc-book.git</code>。</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>cd ./GitBook
+git clone -b gh-pages https://github.com/{userName}/objc-book.git objc-book-gh-pages
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
+  <li>创建分支</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="nb">cd </span>objc-book-master 
+<span class="c"># 创建 gh-pages 分支，分支名必须是这个</span>
+git checkout <span class="nt">-b</span> gh-pages
+<span class="c"># push到远程</span>
+git push <span class="nt">--set-upstream</span> origin gh-pages
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>这样就可以以<code class="language-plaintext highlighter-rouge">GitPage</code>的方式访问页面:<code class="language-plaintext highlighter-rouge">http://{userName}.github.io/objc-book/</code></p>
+
+<ul>
+  <li>把分支拉取到本地</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="nb">cd</span> ./GitBook
+git clone <span class="nt">-b</span> gh-pages https://github.com/<span class="o">{</span>userName<span class="o">}</span>/objc-book.git objc-book-gh-pages
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>现在整体的目录结构:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>GitBook
+├── objc-book
+├── objc-book-gh-pages =&gt; 分支
+└── objc-book-master =&gt; 主干，可以把 objc-book 代码放到主干中，作为日常草稿，等到需要发布到线上时，再 gitbook build 到 gh-pages 分支。
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
+  <li>把<code class="language-plaintext highlighter-rouge">objc-book</code>目录中的内容移到<code class="language-plaintext highlighter-rouge">objc-book-master</code>，上传到仓库。</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="nb">cd</span> ./objc-book-master
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"add"</span>
+git push
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
+  <li>发布到 gh-pages 分支</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="nb">cd</span> ./GitBook
+gitbook build ./objc-book-master ./tmp
+<span class="c"># 再把 tmp 文件夹中的内容拷贝到 objc-book-gh-pages ，上传到远程仓库。就发布成功了。</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="gitignore-文件">.gitignore 文件</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106</pre></td><td class="code"><pre class="highlight"><code># Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for instrumented libs generated by jscoverage/JSCover
+lib-cov
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Bower dependency directory (https://bower.io/)
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+_book/
+
+# TypeScript v1 declaration files
+typings/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+# Comment in the public line in if your project uses Gatsby and *not* Next.js
+# https://nextjs.org/blog/next-9-1#public-directory-support
+# public
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="插件">插件</h2>
+
+<h3 id="anchor-navigation-ex浮动目录导航"><a href="https://github.com/zq99299/gitbook-plugin-anchor-navigation-ex">anchor-navigation-ex</a>浮动目录导航</h3>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20</pre></td><td class="code"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"plugins"</span><span class="p">:[</span><span class="w">
+        </span><span class="s2">"anchor-navigation-ex"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"pluginsConfig"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"anchor-navigation-ex"</span><span class="p">:{</span><span class="w">
+            </span><span class="nl">"showLevel"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"associatedWithSummary"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"printLog"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"multipleH1"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"mode"</span><span class="p">:</span><span class="s2">"float"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"float"</span><span class="p">:{</span><span class="w">
+                </span><span class="nl">"showLevelIcon"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"level1Icon"</span><span class="p">:</span><span class="s2">"fa fa-hand-o-right"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"level2Icon"</span><span class="p">:</span><span class="s2">"fa fa-hand-o-right"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"level3Icon"</span><span class="p">:</span><span class="s2">"fa fa-hand-o-right"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/GitBook/03.png" /></p>
+
+<h3 id="copy-code-button代码复制"><a href="">copy-code-button</a>代码复制</h3>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"plugins"</span><span class="p">:[</span><span class="s2">"copy-code-button"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="simple-page-toc自动生成本页的目录结构"><a href="">simple-page-toc</a>自动生成本页的目录结构</h3>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"plugins"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"simple-page-toc"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"pluginsConfig"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"simple-page-toc"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"maxDepth"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"skipFirstH1"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<p>使用：</p>
+
+<p>在需要使用的地方添加<code class="language-plaintext highlighter-rouge">&lt;!-- toc --&gt;</code></p>
+
+<h3 id="expandable-chapters-small左侧的章节目录可以折叠"><a href="">expandable-chapters-small</a>左侧的章节目录可以折叠</h3>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="err">plugins:</span><span class="w"> </span><span class="p">[</span><span class="s2">"expandable-chapters-small"</span><span class="p">]</span><span class="w">
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="emphasize浮动目录导航"><a href="">emphasize</a>浮动目录导航</h3>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"emphasize"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/GitBook/04.png" /></p>
+
+<h3 id="search-plus支持中文搜索"><a href="">search-plus</a>支持中文搜索</h3>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"-lunr"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-search"</span><span class="p">,</span><span class="w"> </span><span class="s2">"search-plus"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="资料">资料</h2>
+
+<ul>
+  <li><a href="https://chrisniael.gitbooks.io/gitbook-documentation/editor/draft.html">GitBook文档（中文版）</a></li>
+  <li><a href="http://gitbook.zhangjikai.com/plugins.html">GitBook 插件</a></li>
+</ul>
+
+<!-- 
+
+### []()浮动目录导航
+
+```json
+
+```
+
+-->
+
+<!-- <img src="/assets/images/GitBook/.png"/> -->
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/assets/images/251576903498_.pic_hd.jpg" alt="Sam Lau WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/assets/images/261576903527_.pic_hd.jpg" alt="Sam Lau Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ios/2020/06/12/ios-masonry/" rel="prev" title="Masonry">
+                Masonry <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.png"
+               alt="Sam Lau" />
+          <p class="site-author-name" itemprop="name">Sam Lau</p>
+           
+              <p class="site-description motion-element" itemprop="description">get busy living or get busy dying</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建电子书的章节目录"> <span class="nav-number">1</span> <span class="nav-text">创建电子书的章节目录</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#运行电子书"> <span class="nav-number">2</span> <span class="nav-text">运行电子书</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建资源文件"> <span class="nav-number">3</span> <span class="nav-text">创建资源文件</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置文件"> <span class="nav-number">4</span> <span class="nav-text">配置文件</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#发布到gitpage"> <span class="nav-number">5</span> <span class="nav-text">发布到GitPage</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#gitignore-文件"> <span class="nav-number">6</span> <span class="nav-text">.gitignore 文件</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#插件"> <span class="nav-number">7</span> <span class="nav-text">插件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#anchor-navigation-ex浮动目录导航"> <span class="nav-number">7.1</span> <span class="nav-text">anchor-navigation-ex浮动目录导航</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#copy-code-button代码复制"> <span class="nav-number">7.2</span> <span class="nav-text">copy-code-button代码复制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#simple-page-toc自动生成本页的目录结构"> <span class="nav-number">7.3</span> <span class="nav-text">simple-page-toc自动生成本页的目录结构</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#expandable-chapters-small左侧的章节目录可以折叠"> <span class="nav-number">7.4</span> <span class="nav-text">expandable-chapters-small左侧的章节目录可以折叠</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#emphasize浮动目录导航"> <span class="nav-number">7.5</span> <span class="nav-text">emphasize浮动目录导航</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#search-plus支持中文搜索"> <span class="nav-number">7.6</span> <span class="nav-text">search-plus支持中文搜索</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#资料"> <span class="nav-number">8</span> <span class="nav-text">资料</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sam Lau</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
+

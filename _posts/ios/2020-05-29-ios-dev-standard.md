@@ -13,7 +13,7 @@ published: true
 * **【强制】**
 * **【推荐】** 善于使用标记代码标记。
 
-```
+```objc
 //MARK: <#Write here#>
 //TODO: <#Write here#>
 //FIXME: <#Write here#>

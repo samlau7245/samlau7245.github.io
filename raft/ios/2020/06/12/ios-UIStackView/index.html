@@ -1,0 +1,1906 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="系统：9.0以上。">
+<meta name="keywords" content="Jekyll, NexT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIStackView">
+<meta property="og:url" content="http://localhost:4000/ios/2020/06/12/ios-UIStackView/">
+<meta property="og:site_name" content="Sam's Blog">
+<meta property="og:description" content="系统：9.0以上。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="/assets/images/masonry/40.png">
+<meta property="og:image" content="/assets/images/masonry/37.png">
+<meta property="og:image" content="/assets/images/masonry/38.png">
+<meta property="og:image" content="/assets/images/masonry/41.png">
+<meta property="og:image" content="/assets/images/masonry/46.png">
+<meta property="og:image" content="/assets/images/masonry/43.png">
+<meta property="og:image" content="/assets/images/masonry/39.png">
+<meta property="og:image" content="/assets/images/masonry/44.png">
+<meta property="og:image" content="/assets/images/masonry/42.gif">
+<meta property="og:image" content="/assets/images/masonry/45.png">
+<meta property="og:image" content="/assets/images/masonry/47.png">
+<meta property="og:image" content="/assets/images/masonry/51.png">
+<meta property="og:image" content="/assets/images/masonry/48.png">
+<meta property="og:image" content="/assets/images/masonry/32.png">
+<meta property="og:image" content="/assets/images/masonry/50.png">
+<meta property="og:image" content="/assets/images/masonry/33.png">
+<meta property="og:image" content="/assets/images/masonry/34.png">
+<meta property="og:image" content="/assets/images/masonry/35.png">
+<meta property="og:image" content="/assets/images/masonry/36.png">
+<meta property="og:image" content="/assets/images/masonry/49.png">
+<meta property="og:image" content="/assets/images/masonry/52.gif">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIStackView">
+<meta name="twitter:description" content="系统：9.0以上。">
+<meta name="twitter:image" content="/assets/images/masonry/40.png">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>UIStackView | Sam's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sam's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/ios/2020/06/12/ios-UIStackView/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam Lau">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            UIStackView
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-12T00:00:00+08:00">
+                2020-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/ios" itemprop="url" rel="index">
+                    <span itemprop="name">ios</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <blockquote>
+  <p>系统：9.0以上。</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">UIStackView</code>像一个容器，类似于<code class="language-plaintext highlighter-rouge">UITableView</code>，<code class="language-plaintext highlighter-rouge">UICollectionView</code>。</p>
+
+<p><a href="https://gitee.com/samcoding/MasonryExample.git">仓库地址</a></p>
+
+<h2 id="创建">创建</h2>
+
+<p>初始化方式：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithCoder</span><span class="p">:(</span><span class="n">NSCoder</span> <span class="o">*</span><span class="p">)</span><span class="nv">coder</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithArrangedSubviews</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">__kindof</span> <span class="n">UIView</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">views</span><span class="p">;</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">readonly</span><span class="p">,</span><span class="n">copy</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">__kindof</span> <span class="n">UIView</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">arrangedSubviews</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18</pre></td><td class="code"><pre class="highlight"><code><span class="n">UIStackView</span> <span class="o">*</span><span class="n">sv</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">creatStackView</span><span class="p">];</span>
+<span class="p">[</span><span class="n">self</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">sv</span><span class="p">];</span>
+
+<span class="n">UIView</span> <span class="o">*</span><span class="n">subView1</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createView</span><span class="p">];</span>
+<span class="n">UIView</span> <span class="o">*</span><span class="n">subView2</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createView</span><span class="p">];</span>
+
+<span class="c1">// 子View 实例加到 UIStackView 里</span>
+<span class="p">[</span><span class="n">sv</span> <span class="nf">addArrangedSubview</span><span class="p">:</span><span class="n">subView1</span><span class="p">];</span>
+<span class="p">[</span><span class="n">sv</span> <span class="nf">addArrangedSubview</span><span class="p">:</span><span class="n">subView2</span><span class="p">];</span>
+
+<span class="n">NSArray</span><span class="o">&lt;</span><span class="n">UIView</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">arrangedSubviews</span> <span class="o">=</span> <span class="n">sv</span><span class="p">.</span><span class="n">arrangedSubviews</span><span class="p">;</span>
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span><span class="n">arrangedSubviews</span><span class="p">);</span>
+<span class="cm">/*
+2020-06-12 09:39:59.898694+0800 MasonryExample[65963:3203047] (
+    "&lt;UIView: 0x7fcb28c40940; frame = (0 0; 0 0); layer = &lt;CALayer: 0x6000039cfd60&gt;&gt;",
+    "&lt;UIView: 0x7fcb28c40ab0; frame = (0 0; 0 0); layer = &lt;CALayer: 0x6000039cfda0&gt;&gt;"
+)
+*/</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14</pre></td><td class="code"><pre class="highlight"><code><span class="n">UILabel</span> <span class="o">*</span><span class="n">subLabel1</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">fixedLabelWithText</span><span class="p">:</span><span class="s">@"Sub1"</span><span class="p">];</span>
+<span class="n">UILabel</span> <span class="o">*</span><span class="n">subLabel2</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">fixedLabelWithText</span><span class="p">:</span><span class="s">@"Sub2"</span><span class="p">];</span>
+
+<span class="n">UIStackView</span> <span class="o">*</span><span class="n">sv</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIStackView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithArrangedSubviews</span><span class="p">:@[</span><span class="n">subLabel1</span><span class="p">,</span><span class="n">subLabel2</span><span class="p">]];</span>
+<span class="p">[</span><span class="n">self</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">sv</span><span class="p">];</span>
+
+<span class="n">NSArray</span><span class="o">&lt;</span><span class="n">UIView</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">arrangedSubviews</span> <span class="o">=</span> <span class="n">sv</span><span class="p">.</span><span class="n">arrangedSubviews</span><span class="p">;</span>
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span><span class="n">arrangedSubviews</span><span class="p">);</span>
+<span class="cm">/*
+2020-06-12 09:42:19.734773+0800 MasonryExample[66066:3204972] (
+    "&lt;UILabel: 0x7f909d73d010; frame = (0 0; 0 0); text = 'Sub1'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x600000803200&gt;&gt;",
+    "&lt;UILabel: 0x7f909d7430b0; frame = (0 0; 0 0); text = 'Sub2'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x6000008032f0&gt;&gt;"
+)
+*/</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>从结构上看<code class="language-plaintext highlighter-rouge">@interface UIStackView : UIView</code>，<code class="language-plaintext highlighter-rouge">UIStackView</code>是继承自<code class="language-plaintext highlighter-rouge">UIView</code>，对比下他们的关系：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">subviews</code>：它的顺序实际上是图层覆盖顺序，也就是视图元素的<code class="language-plaintext highlighter-rouge">z</code>轴。</li>
+  <li><code class="language-plaintext highlighter-rouge">arrangedSubviews</code>：它的顺序代表了 <code class="language-plaintext highlighter-rouge">stack</code> 堆叠的位置顺序，即视图元素的<code class="language-plaintext highlighter-rouge">x</code>轴和<code class="language-plaintext highlighter-rouge">y</code>轴。</li>
+  <li>如果一个元素没有被 <code class="language-plaintext highlighter-rouge">addSubview</code>，调用 <code class="language-plaintext highlighter-rouge">arrangedSubviews</code> 会自动 <code class="language-plaintext highlighter-rouge">addSubview</code>。</li>
+  <li>当一个元素被 <code class="language-plaintext highlighter-rouge">removeFromSuperview</code> ，则 <code class="language-plaintext highlighter-rouge">arrangedSubviews</code>也会同步移除。</li>
+  <li>当一个元素被 <code class="language-plaintext highlighter-rouge">removeArrangedSubview</code>， 不会触发 <code class="language-plaintext highlighter-rouge">removeFromSuperview</code>，它依然在视图结构中。</li>
+</ul>
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+<h2 id="布局">布局</h2>
+
+<p>可以控制布局的几种方式，</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">UILayoutConstraintAxis</span> <span class="n">axis</span><span class="p">;</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">UIStackViewDistribution</span> <span class="n">distribution</span><span class="p">;</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">UIStackViewAlignment</span> <span class="n">alignment</span><span class="p">;</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">spacing</span><span class="p">;</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isBaselineRelativeArrangement</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">baselineRelativeArrangement</span><span class="p">;</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isLayoutMarginsRelativeArrangement</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">layoutMarginsRelativeArrangement</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/masonry/40.png" /></p>
+
+<h3 id="axis-布局方向轴">axis 布局方向（轴）</h3>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">UILayoutConstraintAxis</span> <span class="n">axis</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">UILayoutConstraintAxis</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">UILayoutConstraintAxisHorizontal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// 水平方向</span>
+    <span class="n">UILayoutConstraintAxisVertical</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">// 垂直方向</span>
+<span class="p">};</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="distribution-子视图的分布">distribution 子视图的分布</h3>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">UIStackViewDistribution</span> <span class="n">distribution</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">UIStackViewDistribution</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">UIStackViewDistributionFill</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="c1">// 默认，轴方向上填充</span>
+    <span class="n">UIStackViewDistributionFillEqually</span><span class="p">,</span> <span class="c1">//轴方向等宽或登高</span>
+    <span class="n">UIStackViewDistributionFillProportionally</span><span class="p">,</span><span class="c1">// 轴方向，比例分布</span>
+    <span class="n">UIStackViewDistributionEqualSpacing</span><span class="p">,</span><span class="c1">// 子视图间隔一致</span>
+    <span class="n">UIStackViewDistributionEqualCentering</span><span class="p">,</span> <span class="c1">// 子视图中心距离一致</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h4 id="uistackviewdistributionfill">UIStackViewDistributionFill</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisHorizontal</code>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">UIStackView</code>中的所有子视图的宽度等于<code class="language-plaintext highlighter-rouge">UIStackView</code>的宽。</li>
+      <li>当<code class="language-plaintext highlighter-rouge">UIStackView</code>中有1个子视图，则子视图的宽度就等于UIStackView的宽。</li>
+      <li>当<code class="language-plaintext highlighter-rouge">UIStackView</code>中有2个子视图，且优先级一样，则会拉伸或压缩某个子视图，使两个子视图的宽度之和等于UIStackView的宽。</li>
+      <li>当<code class="language-plaintext highlighter-rouge">UIStackView</code>中有2个子视图，且优先级不一样，则会按优先级从高到低设置子视图的位置，对优先级最低的子视图进行必要的拉伸或压缩。</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisVertical</code>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">UIStackView</code>中的所有子视图的宽度等于<code class="language-plaintext highlighter-rouge">UIStackView</code>的高。</li>
+      <li>当<code class="language-plaintext highlighter-rouge">UIStackView</code>中有1个子视图，则子视图的高度就等于UIStackView的高。</li>
+      <li>当<code class="language-plaintext highlighter-rouge">UIStackView</code>中有2个子视图，且优先级一样，则会拉伸或压缩某个子视图，使两个子视图的高度之和等于UIStackView的高。</li>
+      <li>当<code class="language-plaintext highlighter-rouge">UIStackView</code>中有2个子视图，且优先级不一样，则会按优先级从高到低设置子视图的位置，对优先级最低的子视图进行必要的拉伸或压缩。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">UIStackViewDistributionFill</code>基本就是在轴方向上对子视图进行填充，类似对所有的子视图执行了下面两个方法：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 别挤我</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setContentCompressionResistancePriority</span><span class="p">:(</span><span class="n">UILayoutPriority</span><span class="p">)</span><span class="nv">priority</span> <span class="nf">forAxis</span><span class="p">:(</span><span class="n">UILayoutConstraintAxis</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
+<span class="c1">// 抱紧，类似于sizefit，不会根据父view长度变化</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setContentHuggingPriority</span><span class="p">:(</span><span class="n">UILayoutPriority</span><span class="p">)</span><span class="nv">priority</span> <span class="nf">forAxis</span><span class="p">:(</span><span class="n">UILayoutConstraintAxis</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/masonry/37.png" /></p>
+
+<h4 id="uistackviewdistributionfillequally">UIStackViewDistributionFillEqually</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisHorizontal</code>:
+    <ul>
+      <li>所有子视图在轴方向上等宽。</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisVertical</code>:
+    <ul>
+      <li>所有子视图在轴方向上等高。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/images/masonry/38.png" /></p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="p">[</span><span class="n">subView1</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView2</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView3</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">120</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+
+<span class="p">[</span><span class="n">stackView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">left</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">top</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@100</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">right</span><span class="p">.</span><span class="n">lessThanOrEqualTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">height</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@200</span><span class="p">);</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/masonry/41.png" /></p>
+
+<h4 id="uistackviewdistributionfillproportionally">UIStackViewDistributionFillProportionally</h4>
+
+<p>该属性设置后会根据原先子视图的比例来拉伸或压缩子视图的宽或高，如果三个子视图原先设置的宽度是1：2：3，所以水平方向上显示时，会按照这个比例进行拉伸。</p>
+
+<p><img src="/assets/images/masonry/46.png" /></p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="p">[</span><span class="n">subView1</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView2</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">200</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView3</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+
+<span class="p">[</span><span class="n">stackView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">left</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">top</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@100</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">right</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">height</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@200</span><span class="p">);</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/masonry/43.png" /></p>
+
+<h4 id="uistackviewdistributionequalspacing">UIStackViewDistributionEqualSpacing</h4>
+
+<p>该属性会保持子视图的宽高，所有子视图中间的间隔保持一致。</p>
+
+<p><img src="/assets/images/masonry/39.png" /></p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="p">[</span><span class="n">subView1</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView2</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView3</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">120</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+
+<span class="p">[</span><span class="n">stackView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">left</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">top</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@100</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">right</span><span class="p">.</span><span class="n">lessThanOrEqualTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">height</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@200</span><span class="p">);</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/masonry/44.png" /></p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">whiteColor</span><span class="p">];</span>
+    
+    <span class="n">UIView</span> <span class="o">*</span><span class="n">subView1</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createView</span><span class="p">];</span>
+    <span class="n">UIView</span> <span class="o">*</span><span class="n">subView2</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createView</span><span class="p">];</span>
+    <span class="n">UIView</span> <span class="o">*</span><span class="n">subView3</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createView</span><span class="p">];</span>
+    
+    <span class="n">subView1</span><span class="p">.</span><span class="n">tag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">subView2</span><span class="p">.</span><span class="n">tag</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">subView3</span><span class="p">.</span><span class="n">tag</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    
+    <span class="n">subView1</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">redColor</span><span class="p">;</span>
+    <span class="n">subView2</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">greenColor</span><span class="p">;</span>
+    <span class="n">subView3</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">blueColor</span><span class="p">;</span>
+    
+    <span class="p">[</span><span class="n">subView1</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">130</span><span class="p">,</span> <span class="mi">100</span><span class="p">)));</span>
+    <span class="p">}];</span>
+    <span class="p">[</span><span class="n">subView2</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">130</span><span class="p">,</span> <span class="mi">80</span><span class="p">)));</span>
+    <span class="p">}];</span>
+    <span class="p">[</span><span class="n">subView3</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="c1">// priorityLow() 是为了防止子视图总宽度超过，UIStackView 限制的宽度被挤压而产生的约束不合法。</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">130</span><span class="p">,</span> <span class="mi">120</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+    <span class="p">}];</span>
+    <span class="c1">// 130 * 3 = 390 &gt; 375 ，超过屏幕的宽度了，subView3 优先级比较低，所以首先会被挤压。</span>
+    
+    <span class="n">sv</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIStackView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithArrangedSubviews</span><span class="p">:@[</span><span class="n">subView1</span><span class="p">,</span><span class="n">subView2</span><span class="p">,</span><span class="n">subView3</span><span class="p">]];</span>
+    <span class="n">sv</span><span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">UIStackViewAlignmentBottom</span><span class="p">;</span>
+    <span class="n">sv</span><span class="p">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="n">UIStackViewDistributionEqualSpacing</span><span class="p">;</span>
+    <span class="n">sv</span><span class="p">.</span><span class="n">spacing</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">sv</span><span class="p">];</span>
+    <span class="c1">// 不设置宽度，让它宽度自适应</span>
+    <span class="p">[</span><span class="n">sv</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">left</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">kPadding</span><span class="p">);</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">top</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@100</span><span class="p">);</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">right</span><span class="p">.</span><span class="n">lessThanOrEqualTo</span><span class="p">(</span><span class="n">kPadding</span><span class="p">);</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">height</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+    <span class="p">}];</span>
+<span class="p">}</span>
+
+<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan</span><span class="p">:(</span><span class="n">NSSet</span><span class="o">&lt;</span><span class="n">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent</span><span class="p">:(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">object</span> <span class="k">in</span> <span class="n">sv</span><span class="p">.</span><span class="n">arrangedSubviews</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">object</span><span class="p">.</span><span class="n">tag</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">object</span> <span class="nf">setHidden</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span> <span class="c1">// [object removeFromSuperview];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/masonry/42.gif" /></p>
+
+<h4 id="uistackviewdistributionequalcentering">UIStackViewDistributionEqualCentering</h4>
+
+<p>该属性会控制所有子视图的中心之间的距离保持一致。</p>
+
+<p><img src="/assets/images/masonry/45.png" /></p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="p">[</span><span class="n">subView1</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+     <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView2</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView3</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">120</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+
+<span class="p">[</span><span class="n">stackView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">left</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">top</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@100</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">right</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">height</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@200</span><span class="p">);</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/masonry/47.png" /></p>
+
+<h3 id="alignment">alignment</h3>
+
+<p><code class="language-plaintext highlighter-rouge">alignment</code> : 控制子视图之间的间隔大小。在<code class="language-plaintext highlighter-rouge">distribution</code>属性设置为<code class="language-plaintext highlighter-rouge">UIStackViewDistributionFill</code>、<code class="language-plaintext highlighter-rouge">UIStackViewDistributionFillEqually</code>、<code class="language-plaintext highlighter-rouge">UIStackViewDistributionFillProportionally</code>值的时候，子视图是没有间隔的，我们就可以通过<code class="language-plaintext highlighter-rouge">alignment</code>属性来设置子视图之间的间距。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">UIStackViewAlignment</span> <span class="n">alignment</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">UIStackViewAlignment</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">UIStackViewAlignmentFill</span><span class="p">,</span>
+    <span class="n">UIStackViewAlignmentLeading</span><span class="p">,</span>
+    <span class="n">UIStackViewAlignmentTop</span> <span class="o">=</span> <span class="n">UIStackViewAlignmentLeading</span><span class="p">,</span>
+    <span class="n">UIStackViewAlignmentFirstBaseline</span><span class="p">,</span> 
+    <span class="n">UIStackViewAlignmentCenter</span><span class="p">,</span>
+    <span class="n">UIStackViewAlignmentTrailing</span><span class="p">,</span>
+    <span class="n">UIStackViewAlignmentBottom</span> <span class="o">=</span> <span class="n">UIStackViewAlignmentTrailing</span><span class="p">,</span>
+    <span class="n">UIStackViewAlignmentLastBaseline</span><span class="p">,</span> 
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/masonry/51.png" /></p>
+
+<h4 id="uistackviewalignmentfill"><code class="language-plaintext highlighter-rouge">UIStackViewAlignmentFill</code></h4>
+
+<p>尽可能铺满</p>
+
+<p><img src="/assets/images/masonry/48.png" /></p>
+
+<h4 id="uistackviewalignmentleadinguistackviewalignmenttop">UIStackViewAlignmentLeading、UIStackViewAlignmentTop</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisVertical</code> :
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">UIStackViewAlignmentLeading</code> 按 leading 方向对齐</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisHorizontal</code> :
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">UIStackViewAlignmentTop</code> 按 top 方向对齐。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/images/masonry/32.png" /></p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="p">[</span><span class="n">subView1</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView2</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+<span class="p">[</span><span class="n">subView3</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">120</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+<span class="p">}];</span>
+
+<span class="p">[</span><span class="n">stackView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">left</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">top</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@100</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">right</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">height</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@200</span><span class="p">);</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/assets/images/masonry/50.png" /></p>
+
+<h4 id="uistackviewalignmenttrailinguistackviewalignmentbottom">UIStackViewAlignmentTrailing、UIStackViewAlignmentBottom</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisVertical</code> :
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">UIStackViewAlignmentTrailing</code> 按 trailing 方向对齐。</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisHorizontal</code> :
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">UIStackViewAlignmentBottom</code> 按 bottom 方向对齐。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/images/masonry/33.png" /></p>
+
+<h4 id="uistackviewalignmentcenter">UIStackViewAlignmentCenter</h4>
+
+<p>居中对齐</p>
+
+<p><img src="/assets/images/masonry/34.png" /></p>
+
+<h4 id="uistackviewalignmentfirstbaseline">UIStackViewAlignmentFirstBaseline</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisVertical</code> : 垂直方向无效。</li>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisHorizontal</code> : 水平方向<strong>有效</strong>，按首行基线对齐。</li>
+</ul>
+
+<p><img src="/assets/images/masonry/35.png" /></p>
+
+<h4 id="uistackviewalignmentlastbaseline">UIStackViewAlignmentLastBaseline</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisVertical</code> : 垂直方向无效。</li>
+  <li><code class="language-plaintext highlighter-rouge">UILayoutConstraintAxisHorizontal</code> : 水平方向<strong>有效</strong>，按文章底部基线对齐。</li>
+</ul>
+
+<p><img src="/assets/images/masonry/36.png" /></p>
+
+<h3 id="spacing">spacing</h3>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 设置元素之间的边距值</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">spacing</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="baselinerelativearrangement">baselineRelativeArrangement</h3>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 决定了垂直轴如果是文本的话，是否按照 baseline 来参与布局，默认 false。</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isBaselineRelativeArrangement</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">baselineRelativeArrangement</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="layoutmarginsrelativearrangement">layoutMarginsRelativeArrangement</h3>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 如果打开则通过 layout margins 布局，关闭则通过 bounds，默认 false。</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isLayoutMarginsRelativeArrangement</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">layoutMarginsRelativeArrangement</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="刷新布局">刷新布局</h3>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="n">UIView</span> <span class="o">*</span><span class="n">subView</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createView</span><span class="p">];</span>
+<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">topStackView</span> <span class="nf">addArrangedSubview</span><span class="p">:</span><span class="n">subView</span><span class="p">];</span>
+<span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">25</span> <span class="nf">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">topStackView</span> <span class="nf">layoutIfNeeded</span><span class="p">];</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+<h2 id="子视图操作">子视图操作</h2>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 新增</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addArrangedSubview</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">view</span><span class="p">;</span>
+<span class="c1">// 移除</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeArrangedSubview</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">view</span><span class="p">;</span>
+<span class="c1">// 插入</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">insertArrangedSubview</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">view</span> <span class="nf">atIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">stackIndex</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+<h2 id="示例">示例</h2>
+
+<h3 id="点赞">点赞</h3>
+
+<p><img src="/assets/images/masonry/49.png" /></p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24</pre></td><td class="code"><pre class="highlight"><code><span class="n">NSMutableArray</span><span class="o">&lt;</span><span class="n">UIView</span><span class="o">*&gt;</span> <span class="o">*</span><span class="n">imageViewArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nf">array</span><span class="p">];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">UIView</span> <span class="o">*</span><span class="n">subView</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createView</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">subView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)));</span>
+    <span class="p">}];</span>
+    <span class="n">subView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+    <span class="n">subView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">subView</span><span class="p">.</span><span class="n">clipsToBounds</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">imageViewArray</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">subView</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="n">UIStackView</span> <span class="o">*</span><span class="n">stackView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIStackView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithArrangedSubviews</span><span class="p">:</span><span class="n">imageViewArray</span><span class="p">];</span>
+<span class="n">stackView</span><span class="p">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="n">UIStackViewDistributionFillEqually</span><span class="p">;</span>
+<span class="n">stackView</span><span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">UIStackViewAlignmentCenter</span><span class="p">;</span>
+<span class="n">stackView</span><span class="p">.</span><span class="n">spacing</span> <span class="o">=</span> <span class="o">-</span><span class="mi">15</span><span class="p">;</span>
+<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">stackView</span><span class="p">];</span>
+
+<span class="p">[</span><span class="n">stackView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">left</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">top</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@100</span><span class="p">);</span>
+    <span class="c1">//make.right.equalTo(self.view);</span>
+    <span class="n">make</span><span class="p">.</span><span class="n">height</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@50</span><span class="p">);</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="给人打星评价">给人打星评价</h3>
+
+<p><img src="/assets/images/masonry/52.gif" /></p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82</pre></td><td class="code"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">UIKitExampleStackViewStarController</span> <span class="p">()</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">strong</span><span class="p">)</span> <span class="n">UIStackView</span> <span class="o">*</span><span class="n">topStackView</span><span class="p">;</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">strong</span><span class="p">)</span> <span class="n">UIStackView</span> <span class="o">*</span><span class="n">bottomStackView</span><span class="p">;</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">UIKitExampleStackViewStarController</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@"点击星星"</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">whiteColor</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="n">_topStackView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIStackView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">_topStackView</span><span class="p">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">UILayoutConstraintAxisVertical</span><span class="p">;</span>
+    <span class="n">_topStackView</span><span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">UIStackViewAlignmentCenter</span><span class="p">;</span>
+    <span class="n">_topStackView</span><span class="p">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="n">UIStackViewDistributionFillEqually</span><span class="p">;</span>
+    <span class="n">_topStackView</span><span class="p">.</span><span class="n">spacing</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+    
+    <span class="n">_bottomStackView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIStackView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">_bottomStackView</span><span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">UIStackViewAlignmentCenter</span><span class="p">;</span>
+    <span class="n">_bottomStackView</span><span class="p">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="n">UIStackViewDistributionFillEqually</span><span class="p">;</span>
+    <span class="n">_bottomStackView</span><span class="p">.</span><span class="n">spacing</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+    
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">topStackView</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">bottomStackView</span><span class="p">];</span>
+    
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">topStackView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">left</span><span class="p">.</span><span class="n">right</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">top</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">@100</span><span class="p">);</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">height</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="mi">400</span><span class="p">);</span>
+    <span class="p">}];</span>
+    
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bottomStackView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">bottom</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">centerX</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">);</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">top</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">topStackView</span><span class="p">.</span><span class="n">mas_bottom</span><span class="p">);</span>
+    <span class="p">}];</span>
+    
+    <span class="n">UILabel</span> <span class="o">*</span><span class="n">titleLabel</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">fixedLabelWithText</span><span class="p">:</span><span class="s">@"给个评价吧？"</span><span class="p">];</span>
+    <span class="n">UIView</span> <span class="o">*</span><span class="n">logoView</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createView</span><span class="p">];</span>
+    <span class="n">UIButton</span> <span class="o">*</span><span class="n">addStarButton</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createButtonWithTitle</span><span class="p">:</span><span class="s">@"Star"</span> <span class="nf">target</span><span class="p">:</span><span class="n">self</span> <span class="n">selector</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">addStar</span><span class="p">)];</span>
+    <span class="n">UIButton</span> <span class="o">*</span><span class="n">removeStarButton</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createButtonWithTitle</span><span class="p">:</span><span class="s">@"Remove Star"</span> <span class="nf">target</span><span class="p">:</span><span class="n">self</span> <span class="n">selector</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">removeStar</span><span class="p">)];</span>
+    <span class="n">UIStackView</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIStackView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithArrangedSubviews</span><span class="p">:@[</span><span class="n">addStarButton</span><span class="p">,</span><span class="n">removeStarButton</span><span class="p">]];</span>
+    <span class="n">operation</span><span class="p">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="n">UIStackViewDistributionFillEqually</span><span class="p">;</span>
+    
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">topStackView</span> <span class="nf">addArrangedSubview</span><span class="p">:</span><span class="n">titleLabel</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">topStackView</span> <span class="nf">addArrangedSubview</span><span class="p">:</span><span class="n">logoView</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">topStackView</span> <span class="nf">addArrangedSubview</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+    
+    <span class="p">[</span><span class="n">logoView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))).</span><span class="n">priorityLow</span><span class="p">();</span>
+    <span class="p">}];</span>
+    
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">topStackView</span> <span class="nf">layoutIfNeeded</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">addStar</span><span class="p">{</span>
+    <span class="n">UIView</span> <span class="o">*</span><span class="n">starView</span> <span class="o">=</span> <span class="p">[</span><span class="n">LayoutUtils</span> <span class="nf">createView</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bottomStackView</span> <span class="nf">addArrangedSubview</span><span class="p">:</span><span class="n">starView</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">starView</span> <span class="nf">makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">make</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="err">@</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))).</span><span class="n">priorityHigh</span><span class="p">();</span>
+    <span class="p">}];</span>
+    <span class="n">starView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+    <span class="n">starView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">starView</span><span class="p">.</span><span class="n">clipsToBounds</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span> <span class="nf">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bottomStackView</span> <span class="nf">layoutIfNeeded</span><span class="p">];</span>
+    <span class="p">}];</span>
+<span class="p">}</span>
+<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">removeStar</span><span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bottomStackView</span><span class="p">.</span><span class="n">arrangedSubviews</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bottomStackView</span><span class="p">.</span><span class="n">arrangedSubviews</span><span class="p">.</span><span class="n">lastObject</span> <span class="nf">removeFromSuperview</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span> <span class="nf">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+            <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bottomStackView</span> <span class="nf">layoutIfNeeded</span><span class="p">];</span>
+        <span class="p">}];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="添加边距">添加边距</h3>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">stackView</span><span class="p">.</span><span class="n">layoutMargins</span> <span class="o">=</span> <span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="p">[</span><span class="n">stackView</span> <span class="nf">setLayoutMarginsRelativeArrangement</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="翻译">翻译</h3>
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+<!--====================================================================================================-->
+<!-- 
+
+
+
+
+
+
+
+
+
+
+ -->
+
+<h2 id="资料">资料</h2>
+
+<ul>
+  <li><a href="https://juejin.im/post/5c2ee162e51d4550fc42ac57">掘金-UIStackView 入坑指南</a></li>
+  <li><a href="https://code.tutsplus.com/tutorials/ios-9-getting-started-with-uistackview--cms-24193">iOS 9: Getting Started with UIStackView</a></li>
+</ul>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/assets/images/251576903498_.pic_hd.jpg" alt="Sam Lau WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/assets/images/261576903527_.pic_hd.jpg" alt="Sam Lau Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ios/2020/06/12/ios-masonry/" rel="next" title="Masonry">
+                <i class="fa fa-chevron-left"></i> Masonry
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ios/2020/06/11/ios-notes/" rel="prev" title="iOS开发随笔(一)">
+                iOS开发随笔(一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.png"
+               alt="Sam Lau" />
+          <p class="site-author-name" itemprop="name">Sam Lau</p>
+           
+              <p class="site-description motion-element" itemprop="description">get busy living or get busy dying</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建"> <span class="nav-number">1</span> <span class="nav-text">创建</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#布局"> <span class="nav-number">2</span> <span class="nav-text">布局</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#axis-布局方向轴"> <span class="nav-number">2.1</span> <span class="nav-text">axis 布局方向（轴）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#distribution-子视图的分布"> <span class="nav-number">2.2</span> <span class="nav-text">distribution 子视图的分布</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewdistributionfill"> <span class="nav-number">2.2.1</span> <span class="nav-text">UIStackViewDistributionFill</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewdistributionfillequally"> <span class="nav-number">2.2.2</span> <span class="nav-text">UIStackViewDistributionFillEqually</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewdistributionfillproportionally"> <span class="nav-number">2.2.3</span> <span class="nav-text">UIStackViewDistributionFillProportionally</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewdistributionequalspacing"> <span class="nav-number">2.2.4</span> <span class="nav-text">UIStackViewDistributionEqualSpacing</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewdistributionequalcentering"> <span class="nav-number">2.2.5</span> <span class="nav-text">UIStackViewDistributionEqualCentering</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#alignment"> <span class="nav-number">2.3</span> <span class="nav-text">alignment</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewalignmentfill"> <span class="nav-number">2.3.1</span> <span class="nav-text">UIStackViewAlignmentFill</code</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewalignmentleadinguistackviewalignmenttop"> <span class="nav-number">2.3.2</span> <span class="nav-text">UIStackViewAlignmentLeading、UIStackViewAlignmentTop</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewalignmenttrailinguistackviewalignmentbottom"> <span class="nav-number">2.3.3</span> <span class="nav-text">UIStackViewAlignmentTrailing、UIStackViewAlignmentBottom</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewalignmentcenter"> <span class="nav-number">2.3.4</span> <span class="nav-text">UIStackViewAlignmentCenter</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewalignmentfirstbaseline"> <span class="nav-number">2.3.5</span> <span class="nav-text">UIStackViewAlignmentFirstBaseline</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#uistackviewalignmentlastbaseline"> <span class="nav-number">2.3.6</span> <span class="nav-text">UIStackViewAlignmentLastBaseline</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#spacing"> <span class="nav-number">2.4</span> <span class="nav-text">spacing</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#baselinerelativearrangement"> <span class="nav-number">2.5</span> <span class="nav-text">baselineRelativeArrangement</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#layoutmarginsrelativearrangement"> <span class="nav-number">2.6</span> <span class="nav-text">layoutMarginsRelativeArrangement</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#刷新布局"> <span class="nav-number">2.7</span> <span class="nav-text">刷新布局</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#子视图操作"> <span class="nav-number">3</span> <span class="nav-text">子视图操作</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#示例"> <span class="nav-number">4</span> <span class="nav-text">示例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#点赞"> <span class="nav-number">4.1</span> <span class="nav-text">点赞</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#给人打星评价"> <span class="nav-number">4.2</span> <span class="nav-text">给人打星评价</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#添加边距"> <span class="nav-number">4.3</span> <span class="nav-text">添加边距</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#翻译"> <span class="nav-number">4.4</span> <span class="nav-text">翻译</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#资料"> <span class="nav-number">5</span> <span class="nav-text">资料</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sam Lau</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
+

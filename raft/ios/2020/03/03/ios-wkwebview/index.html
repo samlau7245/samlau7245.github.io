@@ -1,0 +1,2146 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="WKWebView 网页组件记录。">
+<meta name="keywords" content="Jekyll, NexT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WKWebView网页组件">
+<meta property="og:url" content="http://localhost:4000/ios/2020/03/03/ios-wkwebview/">
+<meta property="og:site_name" content="Sam's Blog">
+<meta property="og:description" content="WKWebView 网页组件记录。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="/assets/images/wkwebview/02-1.png">
+<meta property="og:image" content="/assets/images/wkwebview/02-2.png">
+<meta property="og:image" content="/assets/images/wkwebview/02-3.png">
+<meta property="og:image" content="/assets/images/wkwebview/01-1.png">
+<meta property="og:image" content="/assets/images/wkwebview/01-2.png">
+<meta property="og:image" content="/assets/images/wkwebview/03-1.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WKWebView网页组件">
+<meta name="twitter:description" content="WKWebView 网页组件记录。">
+<meta name="twitter:image" content="/assets/images/wkwebview/02-1.png">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>WKWebView网页组件 | Sam's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sam's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/ios/2020/03/03/ios-wkwebview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam Lau">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            WKWebView网页组件
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-03T00:00:00+08:00">
+                2020-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/ios" itemprop="url" rel="index">
+                    <span itemprop="name">ios</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    WKWebView 网页组件记录。
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1 id="webkit组件部分属性方法">WebKit组件部分属性方法</h1>
+
+<h2 id="wkwebview">WKWebView</h2>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">id</span> <span class="o">&lt;</span><span class="n">WKNavigationDelegate</span><span class="o">&gt;</span> <span class="n">navigationDelegate</span><span class="p">;</span> <span class="c1">// 导航代理</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">id</span> <span class="o">&lt;</span><span class="n">WKUIDelegate</span><span class="o">&gt;</span> <span class="n">UIDelegate</span><span class="p">;</span><span class="c1">// UI代理</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span><span class="c1">// 页面标题, 一般使用KVO动态获取</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="kt">double</span> <span class="n">estimatedProgress</span><span class="p">;</span><span class="c1">// 页面加载进度, 一般使用KVO动态获取</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">WKBackForwardList</span> <span class="o">*</span><span class="n">backForwardList</span><span class="p">;</span><span class="c1">// 可返回的页面列表</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">URL</span><span class="p">;</span><span class="c1">// 页面url</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isLoading</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">loading</span><span class="p">;</span><span class="c1">// 页面是否在加载中</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">canGoBack</span><span class="p">;</span><span class="c1">// 是否可返回</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">canGoForward</span><span class="p">;</span><span class="c1">// 是否可向前</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">allowsBackForwardNavigationGestures</span><span class="p">;</span><span class="c1">// 是否允许手势左滑</span>
+
+<span class="c1">//自定义UserAgent, 会覆盖默认的值 ,iOS 9之后有效</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">customUserAgent</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>部分的方法：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 带配置信息的初始化方法</span>
+<span class="c1">// configuration 配置信息</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">configuration</span><span class="p">:(</span><span class="n">WKWebViewConfiguration</span> <span class="o">*</span><span class="p">)</span><span class="nv">configuration</span>
+<span class="c1">// 加载请求
+</span><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nf">loadRequest</span><span class="p">:(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span><span class="p">;</span>
+<span class="c1">// 加载HTML</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nf">loadHTMLString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span> <span class="nf">baseURL</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">baseURL</span><span class="p">;</span>
+<span class="c1">// 返回上一级</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="n">goBack</span><span class="p">;</span>
+<span class="c1">// 前进下一级, 需要曾经打开过, 才能前进</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="n">goForward</span><span class="p">;</span>
+<span class="c1">// 刷新页面</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="n">reload</span><span class="p">;</span>
+<span class="c1">// 根据缓存有效期来刷新页面</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="n">reloadFromOrigin</span><span class="p">;</span>
+<span class="c1">// 停止加载页面</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopLoading</span><span class="p">;</span>
+<span class="c1">// 执行JavaScript代码</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">evaluateJavaScript</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">javaScriptString</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span> <span class="n">_Nullable</span><span class="p">)(</span><span class="n">_Nullable</span> <span class="n">id</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">error</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="wkwebviewconfiguration">WKWebViewConfiguration</h2>
+
+<p>初始化<code class="language-plaintext highlighter-rouge">WKWebView</code>的配置属性，这是个属性的集合。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">WKProcessPool</span> <span class="o">*</span><span class="n">processPool</span><span class="p">;</span>
+<span class="c1">//  首选项设置:可设置最小字号、是否通过js自动打开新的窗口</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">WKPreferences</span> <span class="o">*</span><span class="n">preferences</span><span class="p">;</span>
+<span class="c1">// 通过此属性来执行JavaScript代码来修改页面的行为</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">WKUserContentController</span> <span class="o">*</span><span class="n">userContentController</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">WKWebsiteDataStore</span> <span class="o">*</span><span class="n">websiteDataStore</span> <span class="nf">API_AVAILABLE</span><span class="p">(</span><span class="n">ios</span><span class="p">(</span><span class="mi">9</span><span class="p">.</span><span class="mi">0</span><span class="p">));</span>
+
+<span class="c1">// 是使用h5的视频播放器在线播放(YES), 还是使用原生播放器全屏播放(NO),默认值：NO</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">allowsInlineMediaPlayback</span><span class="p">;</span>
+<span class="c1">// 设置视频是否需要用户手动播放  设置为NO则会允许自动播放。</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">requiresUserActionForMediaPlayback</span> <span class="nf">API_DEPRECATED_WITH_REPLACEMENT</span><span class="p">(</span><span class="s">"mediaTypesRequiringUserActionForPlayback"</span><span class="p">,</span> <span class="n">ios</span><span class="p">(</span><span class="mi">9</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">.</span><span class="mi">0</span><span class="p">));</span>
+<span class="c1">//设置是否允许画中画技术 在特定设备上有效，默人YES。</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">allowsPictureInPictureMediaPlayback</span> <span class="nf">API_AVAILABLE</span><span class="p">(</span><span class="n">ios</span><span class="p">(</span><span class="mi">9</span><span class="n">_0</span><span class="p">));</span>
+<span class="c1">// 设置请求的User-Agent信息中应用程序名称</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">applicationNameForUserAgent</span> <span class="nf">API_AVAILABLE</span><span class="p">(</span><span class="n">ios</span><span class="p">(</span><span class="mi">9</span><span class="p">.</span><span class="mi">0</span><span class="p">));</span>
+<span class="n">WKUse</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="wkusercontentcontroller">WKUserContentController</h2>
+
+<p>可以通过<code class="language-plaintext highlighter-rouge">WKUserContentController</code>实现与<code class="language-plaintext highlighter-rouge">JavaScript</code>的交互。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 注入JavaScript与原生交互协议</span>
+<span class="c1">// JS 端可通过 window.webkit.messageHandlers.&lt;name&gt;.postMessage(&lt;messageBody&gt;) 发送消息</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addScriptMessageHandler</span><span class="p">:(</span><span class="n">id</span> <span class="o">&lt;</span><span class="n">WKScriptMessageHandler</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">scriptMessageHandler</span> <span class="nf">name</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span>
+<span class="c1">// 移除注入的协议, 在deinit方法中调用</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeScriptMessageHandlerForName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span>
+
+<span class="c1">// 通过WKUserScript注入需要执行的JavaScript代码</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addUserScript</span><span class="p">:(</span><span class="n">WKUserScript</span> <span class="o">*</span><span class="p">)</span><span class="nv">userScript</span><span class="p">;</span>
+<span class="c1">// 移除所有注入的JavaScript代码</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">removeAllUserScripts</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userContentController</span><span class="p">:(</span><span class="n">WKUserContentController</span> <span class="o">*</span><span class="p">)</span><span class="nv">userContentController</span> <span class="nf">didReceiveScriptMessage</span><span class="p">:(</span><span class="n">WKScriptMessage</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>通过<code class="language-plaintext highlighter-rouge">WKScriptMessageHandler</code>协议, 获取<code class="language-plaintext highlighter-rouge">JavaScript</code>端传递的事件和参数：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userContentController</span><span class="p">:(</span><span class="n">WKUserContentController</span> <span class="o">*</span><span class="p">)</span><span class="nv">userContentController</span> <span class="nf">didReceiveScriptMessage</span><span class="p">:(</span><span class="n">WKScriptMessage</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>其中<code class="language-plaintext highlighter-rouge">WKScriptMessage</code>中含有的协议名称及参数：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="c1">// 协议名称, 即上面的add方法传递的name</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">id</span> <span class="n">body</span><span class="p">;</span><span class="c1">// 传递的参数</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="wkpreferences">WKPreferences</h2>
+
+<p>这是首选项配置类，一般在<code class="language-plaintext highlighter-rouge">WKWebViewConfiguration</code>里面设置。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 最小字体大小 当将javaScriptEnabled属性设置为NO时，可以看到明显的效果</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">minimumFontSize</span><span class="p">;</span>
+<span class="c1">// 设置是否支持javaScript 默认是支持的</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">javaScriptEnabled</span><span class="p">;</span>
+<span class="c1">// 在iOS上默认为NO，表示是否允许不经过用户交互由javaScript自动打开窗口</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">javaScriptCanOpenWindowsAutomatically</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="wkbackforwardlist">WKBackForwardList</h2>
+<p>可返回的页面列表, 存储已打开过的网页。</p>
+
+<h2 id="wkuserscript">WKUserScript</h2>
+
+<p>主要是需要加载的页面中添加一些额外执行的<code class="language-plaintext highlighter-rouge">JavaScript</code>代码，这是个初始化方法；一般是搭配<code class="language-plaintext highlighter-rouge">WKWebViewConfiguration</code>使用。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code><span class="cm">/*
+source: 需要执行的JavaScript代码
+injectionTime: 加入的位置, 是一个枚举
+typedef NS_ENUM(NSInteger, WKUserScriptInjectionTime) {
+    WKUserScriptInjectionTimeAtDocumentStart,
+    WKUserScriptInjectionTimeAtDocumentEnd
+} API_AVAILABLE(macosx(10.10), ios(8.0));
+
+forMainFrameOnly: 是加入所有框架, 还是只加入主框架
+*/</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSource</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">source</span> <span class="nf">injectionTime</span><span class="p">:(</span><span class="n">WKUserScriptInjectionTime</span><span class="p">)</span><span class="nv">injectionTime</span> <span class="nf">forMainFrameOnly</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">forMainFrameOnly</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="wkuidelegate">WKUIDelegate</h2>
+
+<p>主要处理JS脚本，确认框，警告框等。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// web界面中有弹出警告框时调用,JS中调用alert方法</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">runJavaScriptAlertPanelWithMessage</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span> <span class="nf">initiatedByFrame</span><span class="p">:(</span><span class="n">WKFrameInfo</span> <span class="o">*</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span><span class="nv">completionHandler</span> <span class="p">{</span>
+    <span class="n">UIAlertController</span> <span class="o">*</span><span class="n">alertController</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIAlertController</span> <span class="nf">alertControllerWithTitle</span><span class="p">:</span><span class="s">@"Title"</span> <span class="nf">message</span><span class="p">:</span><span class="n">message</span><span class="p">?:</span><span class="s">@""</span> <span class="n">preferredStyle</span><span class="o">:</span><span class="n">UIAlertControllerStyleAlert</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">alertController</span> <span class="nf">addAction</span><span class="p">:([</span><span class="n">UIAlertAction</span> <span class="nf">actionWithTitle</span><span class="p">:</span><span class="s">@"OK"</span> <span class="nf">style</span><span class="p">:</span><span class="n">UIAlertActionStyleDefault</span> <span class="nf">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">completionHandler</span><span class="p">();</span>
+    <span class="p">}])];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">presentViewController</span><span class="p">:</span><span class="n">alertController</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="n">completion</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="c1">// web界面中有确认框时调用,JS中调用confirm方法</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">runJavaScriptConfirmPanelWithMessage</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span> <span class="nf">initiatedByFrame</span><span class="p">:(</span><span class="n">WKFrameInfo</span> <span class="o">*</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">{</span>
+    <span class="n">UIAlertController</span> <span class="o">*</span><span class="n">alertController</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIAlertController</span> <span class="nf">alertControllerWithTitle</span><span class="p">:</span><span class="s">@""</span> <span class="nf">message</span><span class="p">:</span><span class="n">message</span><span class="p">?:</span><span class="s">@""</span> <span class="n">preferredStyle</span><span class="o">:</span><span class="n">UIAlertControllerStyleAlert</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">alertController</span> <span class="nf">addAction</span><span class="p">:([</span><span class="n">UIAlertAction</span> <span class="nf">actionWithTitle</span><span class="p">:</span><span class="s">@"Cancel"</span> <span class="nf">style</span><span class="p">:</span><span class="n">UIAlertActionStyleCancel</span> <span class="nf">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">completionHandler</span><span class="p">(</span><span class="nb">NO</span><span class="p">);</span>
+    <span class="p">}])];</span>
+    <span class="p">[</span><span class="n">alertController</span> <span class="nf">addAction</span><span class="p">:([</span><span class="n">UIAlertAction</span> <span class="nf">actionWithTitle</span><span class="p">:</span><span class="s">@"OK"</span> <span class="nf">style</span><span class="p">:</span><span class="n">UIAlertActionStyleDefault</span> <span class="nf">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">completionHandler</span><span class="p">(</span><span class="nb">YES</span><span class="p">);</span>
+    <span class="p">}])];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">presentViewController</span><span class="p">:</span><span class="n">alertController</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="n">completion</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="c1">// web界面中有输入框时调用,JS中调用prompt方法</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">runJavaScriptTextInputPanelWithPrompt</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">prompt</span> <span class="nf">defaultText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">defaultText</span> <span class="nf">initiatedByFrame</span><span class="p">:(</span><span class="n">WKFrameInfo</span> <span class="o">*</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span> <span class="n">_Nullable</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">{</span>
+    <span class="n">UIAlertController</span> <span class="o">*</span><span class="n">alertController</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIAlertController</span> <span class="nf">alertControllerWithTitle</span><span class="p">:</span><span class="n">prompt</span> <span class="nf">message</span><span class="p">:</span><span class="s">@""</span> <span class="n">preferredStyle</span><span class="o">:</span><span class="n">UIAlertControllerStyleAlert</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">alertController</span> <span class="nf">addTextFieldWithConfigurationHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UITextField</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">textField</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">textField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">defaultText</span><span class="p">;</span>
+    <span class="p">}];</span>
+    <span class="p">[</span><span class="n">alertController</span> <span class="nf">addAction</span><span class="p">:([</span><span class="n">UIAlertAction</span> <span class="nf">actionWithTitle</span><span class="p">:</span><span class="s">@"OK"</span> <span class="nf">style</span><span class="p">:</span><span class="n">UIAlertActionStyleDefault</span> <span class="nf">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">completionHandler</span><span class="p">(</span><span class="n">alertController</span><span class="p">.</span><span class="n">textFields</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span><span class="p">?:</span><span class="s">@""</span><span class="p">);</span>
+    <span class="p">}])];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">presentViewController</span><span class="p">:</span><span class="n">alertController</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="n">completion</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>alert</th>
+      <th>confirm</th>
+      <th>prompt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="/assets/images/wkwebview/02-1.png" alt="" /></td>
+      <td><img src="/assets/images/wkwebview/02-2.png" alt="" /></td>
+      <td><img src="/assets/images/wkwebview/02-3.png" alt="" /></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">alert("被OC截获到了");</code></td>
+      <td><code class="language-plaintext highlighter-rouge">confirm("被OC截获到了");</code></td>
+      <td><code class="language-plaintext highlighter-rouge">prompt("A","B");</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="wknavigationdelegate"><code class="language-plaintext highlighter-rouge">WKNavigationDelegate</code></h2>
+
+<p><code class="language-plaintext highlighter-rouge">WKNavigationDelegate</code>主要用于处理一些跳转、加载处理操作。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51</pre></td><td class="code"><pre class="highlight"><code>
+<span class="c1">// 页面开始加载时调用</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">didStartProvisionalNavigation</span><span class="p">:(</span><span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigation</span> <span class="p">{</span>
+<span class="p">}</span>
+<span class="c1">// 页面加载失败时调用</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">didFailProvisionalNavigation</span><span class="p">:(</span><span class="n">null_unspecified</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigation</span> <span class="nf">withError</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">progressView</span> <span class="nf">setProgress</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="p">}</span> 
+<span class="c1">// 当内容开始返回时调用</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">didCommitNavigation</span><span class="p">:(</span><span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigation</span> <span class="p">{</span>
+<span class="p">}</span>
+<span class="c1">// 页面加载完成之后调用</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">didFinishNavigation</span><span class="p">:(</span><span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigation</span> <span class="p">{</span>
+<span class="p">}</span>
+<span class="c1">//提交发生错误时调用</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">didFailNavigation</span><span class="p">:(</span><span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigation</span> <span class="nf">withError</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">progressView</span> <span class="nf">setProgress</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="p">}</span>  
+<span class="c1">// 接收到服务器跳转请求即服务重定向时之后调用</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">didReceiveServerRedirectForProvisionalNavigation</span><span class="p">:(</span><span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigation</span> <span class="p">{</span>
+<span class="p">}</span>
+<span class="c1">// 根据WebView对于即将跳转的HTTP请求头信息和相关信息来决定是否跳转</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">decidePolicyForNavigationAction</span><span class="p">:(</span><span class="n">WKNavigationAction</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationAction</span> <span class="nf">decisionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">WKNavigationActionPolicy</span><span class="p">))</span><span class="nv">decisionHandler</span> <span class="p">{</span>
+    <span class="c1">// iTunes: App Store link</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">urlString</span> <span class="nf">isMatch</span><span class="p">:</span><span class="n">RX</span><span class="p">(</span><span class="s">@"</span><span class="se">\</span><span class="s">/</span><span class="se">\</span><span class="s">/itunes</span><span class="se">\</span><span class="s">.apple</span><span class="se">\</span><span class="s">.com</span><span class="se">\</span><span class="s">/"</span><span class="p">)])</span> <span class="p">{</span>
+        <span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">openURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+        <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationActionPolicyCancel</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationActionPolicyAllow</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// 根据客户端受到的服务器响应头以及response相关信息来决定是否可以跳转</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">decidePolicyForNavigationResponse</span><span class="p">:(</span><span class="n">WKNavigationResponse</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationResponse</span> <span class="nf">decisionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">WKNavigationResponsePolicy</span><span class="p">))</span><span class="nv">decisionHandler</span><span class="p">{</span>
+    <span class="n">NSString</span> <span class="o">*</span> <span class="n">urlStr</span> <span class="o">=</span> <span class="n">navigationResponse</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">URL</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">;</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"当前跳转地址：%@"</span><span class="p">,</span><span class="n">urlStr</span><span class="p">);</span>
+    <span class="c1">//允许跳转</span>
+    <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationResponsePolicyAllow</span><span class="p">);</span>
+    <span class="c1">//不允许跳转</span>
+    <span class="c1">//decisionHandler(WKNavigationResponsePolicyCancel);</span>
+<span class="p">}</span> 
+<span class="c1">// 用于授权验证</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">didReceiveAuthenticationChallenge</span><span class="p">:(</span><span class="n">NSURLAuthenticationChallenge</span> <span class="o">*</span><span class="p">)</span><span class="nv">challenge</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionAuthChallengeDisposition</span> <span class="n">disposition</span><span class="p">,</span> <span class="n">NSURLCredential</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">credential</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">{</span>
+    <span class="c1">//用户身份信息</span>
+    <span class="n">NSURLCredential</span> <span class="o">*</span> <span class="n">newCred</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSURLCredential</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithUser</span><span class="p">:</span><span class="s">@"user123"</span> <span class="nf">password</span><span class="p">:</span><span class="s">@"123"</span> <span class="n">persistence</span><span class="o">:</span><span class="n">NSURLCredentialPersistenceNone</span><span class="p">];</span>
+    <span class="c1">//为 challenge 的发送方提供 credential</span>
+    <span class="p">[</span><span class="n">challenge</span><span class="p">.</span><span class="n">sender</span> <span class="nf">useCredential</span><span class="p">:</span><span class="n">newCred</span> <span class="nf">forAuthenticationChallenge</span><span class="p">:</span><span class="n">challenge</span><span class="p">];</span>
+    <span class="n">completionHandler</span><span class="p">(</span><span class="n">NSURLSessionAuthChallengeUseCredential</span><span class="p">,</span><span class="n">newCred</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">//进程被终止时调用</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewWebContentProcessDidTerminate</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span><span class="p">{</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="wkhttpcookiestore">WKHTTPCookieStore</h2>
+
+<p><code class="language-plaintext highlighter-rouge">WKWebView</code>自己管理cookie的工具。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 查找所有已存储的cookie</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">getAllCookies</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSHTTPCookie</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span>
+<span class="c1">// 保存一个cookie, 保存成功后, 会走一次回调方法</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setCookie</span><span class="p">:(</span><span class="n">NSHTTPCookie</span> <span class="o">*</span><span class="p">)</span><span class="nv">cookie</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span>
+<span class="c1">// 删除一个cookie, 待删除的cookie对象可通过 'getAllCookies' 方法获取</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deleteCookie</span><span class="p">:(</span><span class="n">NSHTTPCookie</span> <span class="o">*</span><span class="p">)</span><span class="nv">cookie</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span>
+<span class="cm">/*! 添加一个观察者, 需要遵循协议 WKHTTPCookieStoreObserver 
+当cookie发送变化时, 会通过 WKHTTPCookieStoreObserver 的协议方法通知该观察者, 在使用完后需要移除观察者
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addObserver</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">WKHTTPCookieStoreObserver</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">observer</span><span class="p">;</span>
+<span class="c1">// 移除观察者</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeObserver</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">WKHTTPCookieStoreObserver</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">observer</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>其中<code class="language-plaintext highlighter-rouge">WKHTTPCookieStoreObserver</code>协议：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 当cookie发生变动时触发</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cookiesDidChangeInCookieStore</span><span class="p">:(</span><span class="n">WKHTTPCookieStore</span> <span class="o">*</span><span class="p">)</span><span class="nv">cookieStore</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="wkwebsitedatastore">WKWebsiteDataStore</h2>
+
+<p><code class="language-plaintext highlighter-rouge">WKWebsiteDataStore</code>包含了网页中可以使用到的数据(cookies、沙盒缓存、内存缓存…)，一般是通过<code class="language-plaintext highlighter-rouge">WKWebViewConfiguration</code>进行相关设置。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18</pre></td><td class="code"><pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">WKWebsiteDataStore</span> <span class="o">*</span><span class="p">)</span><span class="n">defaultDataStore</span><span class="p">;</span><span class="c1">// 默认的data store</span>
+<span class="c1">// 如果为webView设置了这个data Store，则不会有数据缓存被写入文件</span>
+<span class="c1">// 当需要实现隐私浏览的时候，可使用这个</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">WKWebsiteDataStore</span> <span class="o">*</span><span class="p">)</span><span class="n">nonPersistentDataStore</span><span class="p">;</span>
+<span class="c1">// 是否是可缓存数据的，只读</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isPersistent</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">persistent</span><span class="p">;</span>
+<span class="c1">// 获取所有可使用的数据类型</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">allWebsiteDataTypes</span><span class="p">;</span>
+<span class="c1">// 查找指定类型的缓存数据</span>
+<span class="c1">// 回调的值是WKWebsiteDataRecord的集合</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">fetchDataRecordsOfTypes</span><span class="p">:(</span><span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dataTypes</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">WKWebsiteDataRecord</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span>
+<span class="c1">// 删除指定的纪录</span>
+<span class="c1">// 这里的参数是通过上面的方法查找到的WKWebsiteDataRecord实例获取的</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeDataOfTypes</span><span class="p">:(</span><span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dataTypes</span> <span class="nf">forDataRecords</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">WKWebsiteDataRecord</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dataRecords</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span>
+<span class="c1">// 删除某时间后修改的某类型的数据</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeDataOfTypes</span><span class="p">:(</span><span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">websiteDataTypes</span> <span class="nf">modifiedSince</span><span class="p">:(</span><span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">date</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span>
+<span class="c1">// 保存的HTTP cookies</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">WKHTTPCookieStore</span> <span class="o">*</span><span class="n">httpCookieStore</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>其中<code class="language-plaintext highlighter-rouge">WKWebsiteDataRecord</code>网页数据记录类：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">displayName</span><span class="p">;</span><span class="c1">// 展示名称, 通常是域名</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">dataTypes</span><span class="p">;</span><span class="c1">// 包含的数据类型</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>而<code class="language-plaintext highlighter-rouge">dataTypes</code>中的数据缓存类型：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code><span class="n">WK_EXTERN</span> <span class="n">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">WKWebsiteDataTypeDiskCache</span><span class="p">;</span><span class="c1">// 硬盘缓存</span>
+<span class="n">WK_EXTERN</span> <span class="n">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">WKWebsiteDataTypeMemoryCache</span><span class="p">;</span><span class="c1">// 内存缓存</span>
+<span class="n">WK_EXTERN</span> <span class="n">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">WKWebsiteDataTypeOfflineWebApplicationCache</span><span class="p">;</span><span class="c1">// HTML离线web应用程序缓存</span>
+<span class="n">WK_EXTERN</span> <span class="n">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">WKWebsiteDataTypeCookies</span><span class="p">;</span><span class="c1">// cookies</span>
+<span class="n">WK_EXTERN</span> <span class="n">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">WKWebsiteDataTypeSessionStorage</span><span class="p">;</span><span class="c1">// HTML会话存储</span>
+<span class="n">WK_EXTERN</span> <span class="n">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">WKWebsiteDataTypeLocalStorage</span><span class="p">;</span><span class="c1">// 本地缓存</span>
+<span class="n">WK_EXTERN</span> <span class="n">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">WKWebsiteDataTypeWebSQLDatabases</span><span class="p">;</span><span class="c1">// WebSQL 数据库</span>
+<span class="n">WK_EXTERN</span> <span class="n">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">WKWebsiteDataTypeIndexedDBDatabases</span><span class="p">;</span><span class="c1">//  IndexedDB 数据库</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="删除指定时间的网页数据">删除指定时间的网页数据</h3>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">WKWebsiteDataStore</span> <span class="nf">allWebsiteDataTypes</span><span class="p">];</span>
+<span class="n">NSDate</span> <span class="o">*</span><span class="n">filterDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">dateWithTimeIntervalSince1970</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">[[</span><span class="n">WKWebsiteDataStore</span> <span class="nf">defaultDataStore</span><span class="p">]</span> <span class="nf">removeDataOfTypes</span><span class="p">:</span><span class="n">data</span> <span class="nf">modifiedSince</span><span class="p">:</span><span class="n">filterDate</span> <span class="n">completionHandler</span><span class="o">:^</span><span class="p">{</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="查找并且删除">查找并且删除</h3>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code><span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">WKWebsiteDataStore</span> <span class="nf">allWebsiteDataTypes</span><span class="p">];</span>
+<span class="p">[[</span><span class="n">WKWebsiteDataStore</span> <span class="nf">defaultDataStore</span><span class="p">]</span> <span class="nf">fetchDataRecordsOfTypes</span><span class="p">:</span><span class="n">data</span> <span class="nf">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">WKWebsiteDataRecord</span> <span class="o">*&gt;</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">records</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">WKWebsiteDataRecord</span> <span class="o">*</span><span class="n">record</span> <span class="k">in</span> <span class="n">records</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">record</span><span class="p">.</span><span class="n">displayName</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="s">@"baidu"</span><span class="p">])</span> <span class="p">{</span>
+            <span class="p">[[</span><span class="n">WKWebsiteDataStore</span> <span class="nf">defaultDataStore</span><span class="p">]</span> <span class="nf">removeDataOfTypes</span><span class="p">:</span><span class="n">record</span><span class="p">.</span><span class="n">dataTypes</span> <span class="nf">forDataRecords</span><span class="p">:@[</span><span class="n">record</span><span class="p">]</span> <span class="n">completionHandler</span><span class="o">:^</span><span class="p">{</span>
+            <span class="p">}];</span>
+        <span class="p">}</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h1 id="qa">Q&amp;A</h1>
+
+<h2 id="在多个wkwebview之间共享cookie">在多个<code class="language-plaintext highlighter-rouge">WKWebView</code>之间共享cookie</h2>
+
+<p>原理就是所有的<code class="language-plaintext highlighter-rouge">WKWebView</code>使用同一个<code class="language-plaintext highlighter-rouge">WKProcessPool</code>。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="c1">//1. 创建一个process pool</span>
+<span class="n">processPool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKProcessPool</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+
+<span class="c1">//2. 必须在init method中进行设置</span>
+<span class="n">WKWebViewConfiguration</span> <span class="o">*</span><span class="n">config</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKWebViewConfiguration</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="n">config</span><span class="p">.</span><span class="n">processPool</span> <span class="o">=</span> <span class="n">processPool</span><span class="p">;</span>
+<span class="n">webview</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKWebView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span> <span class="nf">configuration</span><span class="p">:</span><span class="n">config</span><span class="p">];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="页面滚动速率">页面滚动速率</h2>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">scrollViewWillBeginDragging</span><span class="p">:(</span><span class="n">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollView</span> <span class="p">{</span>
+     <span class="n">scrollView</span><span class="p">.</span><span class="n">decelerationRate</span> <span class="o">=</span> <span class="n">UIScrollViewDecelerationRateNormal</span><span class="p">;</span>
+     <span class="c1">//UIScrollViewDecelerationRateFast</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="视频自动播放">视频自动播放</h2>
+
+<p>设置是否允许自动播放，要在 WKWebView 初始化之前设置，在 WKWebView 初始化之后设置无效。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">WKWebViewConfiguration</span> <span class="o">*</span><span class="n">config</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKWebViewConfiguration</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="n">config</span><span class="p">.</span><span class="n">requiresUserActionForMediaPlayback</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="c1">// 默认YES</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="wkwebview-页面样式问题">WKWebView 页面样式问题</h2>
+<p>在 WKWebView 适配过程中，我们发现部分H5页面元素位置向下偏移或被拉伸变形：</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>Use shrink-to-fit meta-tag 
+<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no"</span><span class="nt">&gt;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="白屏问题">白屏问题</h2>
+
+<p><code class="language-plaintext highlighter-rouge">WKWebView</code>是一个多进程组件,Network Loading 以及 UI Rendering 在其它进程中执行。<br />打开 WKWebView 后，App 进程内存消耗下降，Other Process 的内存占用会增加。<br />总体的内存占用（App Process Memory + Other Process Memory）不见得比 UIWebView 少很多。</p>
+
+<p>在 UIWebView 上当内存占用太大的时候，App Process 会 crash；而在 WKWebView 上当总体的内存占用比较大的时候，WebContent Process 会 crash，从而出现白屏现象。这个时候 WKWebView.URL 会变为 nil, 简单的 reload 刷新操作已经失效，对于一些长驻的H5页面影响比较大。</p>
+
+<p><strong>1. 使用<code class="language-plaintext highlighter-rouge">WKNavigtionDelegate</code>代理方法重新加载：</strong></p>
+
+<p>当 WKWebView 总体内存占用过大，页面即将白屏的时候，系统会调用上面的回调函数，我们在该函数里执行[webView reload](这个时候 webView.URL 取值尚不为 nil）解决白屏问题。在一些高内存消耗的页面可能会频繁刷新当前页面，H5侧也要做相应的适配操作。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="c1">//进程被终止时调用</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewWebContentProcessDidTerminate</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span><span class="p">{</span>
+    <span class="p">[</span><span class="n">webView</span> <span class="nf">reload</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><strong>2. 检测 webView.title 是否为空</strong></p>
+
+<p>在WKWebView白屏的时候，另一种现象是 webView.titile 会被置空, 因此，可以在 viewWillAppear 的时候检测 webView.title 是否为空来 reload 页面。</p>
+
+<h2 id="适配网页文本大小">适配网页文本大小</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>适配前</th>
+      <th>适配后｜</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="/assets/images/wkwebview/01-1.png" alt="" /></td>
+      <td><img src="/assets/images/wkwebview/01-2.png" alt="" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="c1">//适配网页文本大小</span>
+<span class="n">WKWebViewConfiguration</span> <span class="o">*</span><span class="n">config</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKWebViewConfiguration</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">jSString</span> <span class="o">=</span> <span class="s">@"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"</span><span class="p">;</span>
+<span class="c1">//用于进行JavaScript注入</span>
+<span class="n">WKUserScript</span> <span class="o">*</span><span class="n">wkUScript</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKUserScript</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithSource</span><span class="p">:</span><span class="n">jSString</span> <span class="nf">injectionTime</span><span class="p">:</span><span class="n">WKUserScriptInjectionTimeAtDocumentEnd</span> <span class="n">forMainFrameOnly</span><span class="o">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">[</span><span class="n">config</span><span class="p">.</span><span class="n">userContentController</span> <span class="nf">addUserScript</span><span class="p">:</span><span class="n">wkUScript</span><span class="p">];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="网页进度条">网页进度条</h2>
+
+<p><code class="language-plaintext highlighter-rouge">WKWebView</code>系统属性：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 0.0~1.0</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="kt">double</span> <span class="n">estimatedProgress</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>通过KVO去监听进度值:</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">progressView</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nf">addObserver</span><span class="p">:</span><span class="n">self</span> <span class="nf">forKeyPath</span><span class="p">:</span><span class="n">NSStringFromSelector</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="n">estimatedProgress</span><span class="p">))</span> <span class="n">options</span><span class="o">:</span><span class="mi">0</span> <span class="n">context</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span><span class="p">{</span>
+    <span class="p">[</span><span class="n">_webView</span> <span class="nf">removeObserver</span><span class="p">:</span><span class="n">self</span> <span class="nf">forKeyPath</span><span class="p">:</span><span class="n">NSStringFromSelector</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="n">estimatedProgress</span><span class="p">))];</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark - KVO
+</span><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">observeValueForKeyPath</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">keyPath</span> <span class="nf">ofObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">object</span> <span class="nf">change</span><span class="p">:(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSKeyValueChangeKey</span><span class="p">,</span><span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">change</span> <span class="nf">context</span><span class="p">:(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="nv">context</span><span class="p">{</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">keyPath</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="n">NSStringFromSelector</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="n">estimatedProgress</span><span class="p">))]</span> <span class="o">&amp;&amp;</span> <span class="n">object</span> <span class="o">==</span> <span class="n">_webView</span><span class="p">){</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"网页加载进度 = %f"</span><span class="p">,</span><span class="n">_webView</span><span class="p">.</span><span class="n">estimatedProgress</span><span class="p">);</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">progressView</span><span class="p">.</span><span class="n">progress</span> <span class="o">=</span> <span class="n">_webView</span><span class="p">.</span><span class="n">estimatedProgress</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">_webView</span><span class="p">.</span><span class="n">estimatedProgress</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">dispatch_after</span><span class="p">(</span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="p">(</span><span class="kt">int64_t</span><span class="p">)(</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">)),</span> <span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">progressView</span><span class="p">.</span><span class="n">progress</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="p">[</span><span class="n">super</span> <span class="nf">observeValueForKeyPath</span><span class="p">:</span><span class="n">keyPath</span> <span class="nf">ofObject</span><span class="p">:</span><span class="n">object</span> <span class="n">change</span><span class="o">:</span><span class="n">change</span> <span class="n">context</span><span class="o">:</span><span class="n">context</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="解决wkwebview不能打开任何有target_blank开一个新的窗口属性的网页">解决<code class="language-plaintext highlighter-rouge">WKWebView</code>不能打开任何有<code class="language-plaintext highlighter-rouge">target="_blank"</code>（<code class="language-plaintext highlighter-rouge">开一个新的窗口</code>）属性的网页</h2>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">createWebViewWithConfiguration</span><span class="p">:(</span><span class="n">WKWebViewConfiguration</span> <span class="o">*</span><span class="p">)</span><span class="nv">configuration</span> <span class="nf">forNavigationAction</span><span class="p">:(</span><span class="n">WKNavigationAction</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationAction</span> <span class="nf">windowFeatures</span><span class="p">:(</span><span class="n">WKWindowFeatures</span> <span class="o">*</span><span class="p">)</span><span class="nv">windowFeatures</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">navigationAction</span><span class="p">.</span><span class="n">targetFrame</span><span class="p">.</span><span class="n">isMainFrame</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">webView</span> <span class="nf">loadRequest</span><span class="p">:</span><span class="n">navigationAction</span><span class="p">.</span><span class="n">request</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="js调用oc的方法">JS调用OC的方法</h2>
+
+<h3 id="方式1windowwebkitmessagehandlers">方式1:<code class="language-plaintext highlighter-rouge">window.webkit.messageHandlers</code></h3>
+
+<p>项目中兼容以前的OCR接入。</p>
+
+<p>当JS调用OC方法时：其中<code class="language-plaintext highlighter-rouge">jsToOcNoPrams</code>、<code class="language-plaintext highlighter-rouge">jsToOcWithPrams</code>两个名称是两端统一的。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">jsToOcFunction1</span><span class="p">(){</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">webkit</span><span class="p">.</span><span class="nx">messageHandlers</span><span class="p">.</span><span class="nx">jsToOcNoPrams</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({});</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">jsToOcFunction2</span><span class="p">(){</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">webkit</span><span class="p">.</span><span class="nx">messageHandlers</span><span class="p">.</span><span class="nx">jsToOcWithPrams</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span><span class="dl">"</span><span class="s2">params</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">我是参数</span><span class="dl">"</span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>原生实现方式：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56</pre></td><td class="code"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SEGWebViewViewController</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">WKUIDelegate</span><span class="p">,</span><span class="n">WKNavigationDelegate</span><span class="p">,</span><span class="n">WKScriptMessageHandler</span><span class="o">&gt;</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">SEGWebViewViewController</span>
+<span class="c1">//被自定义的WKScriptMessageHandler在回调方法里通过代理回调回来，绕了一圈就是为了解决内存不释放的问题</span>
+<span class="c1">//通过接收JS传出消息的name进行捕捉的回调方法</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userContentController</span><span class="p">:(</span><span class="n">WKUserContentController</span> <span class="o">*</span><span class="p">)</span><span class="nv">userContentController</span> <span class="nf">didReceiveScriptMessage</span><span class="p">:(</span><span class="n">WKScriptMessage</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"name:%@</span><span class="se">\\</span><span class="s">n body:%@</span><span class="se">\\</span><span class="s">n frameInfo:%@</span><span class="se">\\</span><span class="s">n"</span><span class="p">,</span><span class="n">message</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="n">message</span><span class="p">.</span><span class="n">body</span><span class="p">,</span><span class="n">message</span><span class="p">.</span><span class="n">frameInfo</span><span class="p">);</span>
+    <span class="c1">//用message.body获得JS传出的参数体</span>
+    <span class="n">NSDictionary</span> <span class="o">*</span> <span class="n">parameter</span> <span class="o">=</span> <span class="n">message</span><span class="p">.</span><span class="n">body</span><span class="p">;</span>
+    <span class="c1">//JS调用OC</span>
+    <span class="k">if</span><span class="p">([</span><span class="n">message</span><span class="p">.</span><span class="n">name</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="s">@"jsToOcNoPrams"</span><span class="p">]){</span>
+        <span class="n">UIAlertController</span> <span class="o">*</span><span class="n">alertController</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIAlertController</span> <span class="nf">alertControllerWithTitle</span><span class="p">:</span><span class="s">@"js调用到了oc"</span> <span class="nf">message</span><span class="p">:</span><span class="s">@"不带参数"</span> <span class="n">preferredStyle</span><span class="o">:</span><span class="n">UIAlertControllerStyleAlert</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">alertController</span> <span class="nf">addAction</span><span class="p">:([</span><span class="n">UIAlertAction</span> <span class="nf">actionWithTitle</span><span class="p">:</span><span class="s">@"OK"</span> <span class="nf">style</span><span class="p">:</span><span class="n">UIAlertActionStyleDefault</span> <span class="nf">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">}])];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">presentViewController</span><span class="p">:</span><span class="n">alertController</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="n">completion</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+        
+    <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">([</span><span class="n">message</span><span class="p">.</span><span class="n">name</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="s">@"jsToOcWithPrams"</span><span class="p">]){</span>
+        <span class="n">UIAlertController</span> <span class="o">*</span><span class="n">alertController</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIAlertController</span> <span class="nf">alertControllerWithTitle</span><span class="p">:</span><span class="s">@"js调用到了oc"</span> <span class="nf">message</span><span class="p">:</span><span class="n">parameter</span><span class="p">[</span><span class="s">@"params"</span><span class="p">]</span> <span class="n">preferredStyle</span><span class="o">:</span><span class="n">UIAlertControllerStyleAlert</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">alertController</span> <span class="nf">addAction</span><span class="p">:([</span><span class="n">UIAlertAction</span> <span class="nf">actionWithTitle</span><span class="p">:</span><span class="s">@"OK"</span> <span class="nf">style</span><span class="p">:</span><span class="n">UIAlertActionStyleDefault</span> <span class="nf">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">}])];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">presentViewController</span><span class="p">:</span><span class="n">alertController</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="n">completion</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="n">webView</span><span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_webView</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">){</span>
+        
+        <span class="c1">//创建网页配置对象</span>
+        <span class="n">WKWebViewConfiguration</span> <span class="o">*</span><span class="n">config</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKWebViewConfiguration</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+
+        <span class="c1">//这个类主要用来做native与JavaScript的交互管理</span>
+        <span class="n">WKUserContentController</span> <span class="o">*</span> <span class="n">wkUController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKUserContentController</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+        
+        <span class="c1">//自定义的WKScriptMessageHandler 是为了解决内存不释放的问题</span>
+        <span class="n">WeakWebViewScriptMessageDelegate</span> <span class="o">*</span><span class="n">weakScriptMessageDelegate</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WeakWebViewScriptMessageDelegate</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithDelegate</span><span class="p">:</span><span class="n">self</span><span class="p">];</span>
+        <span class="c1">//注册一个name为jsToOcNoPrams的js方法 设置处理接收JS方法的对象</span>
+        <span class="p">[</span><span class="n">wkUController</span> <span class="nf">addScriptMessageHandler</span><span class="p">:</span><span class="n">weakScriptMessageDelegate</span>  <span class="nf">name</span><span class="p">:</span><span class="s">@"jsToOcNoPrams"</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">wkUController</span> <span class="nf">addScriptMessageHandler</span><span class="p">:</span><span class="n">weakScriptMessageDelegate</span>  <span class="nf">name</span><span class="p">:</span><span class="s">@"jsToOcWithPrams"</span><span class="p">];</span>
+        
+        <span class="n">config</span><span class="p">.</span><span class="n">userContentController</span> <span class="o">=</span> <span class="n">wkUController</span><span class="p">;</span>
+                
+        <span class="n">_webView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKWebView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SCREEN_WIDTH</span><span class="p">,</span> <span class="n">SCREEN_HEIGHT</span><span class="p">)</span> <span class="nf">configuration</span><span class="p">:</span><span class="n">config</span><span class="p">];</span>
+        <span class="n">_webView</span><span class="p">.</span><span class="n">UIDelegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span><span class="c1">// UI代理</span>
+        <span class="n">_webView</span><span class="p">.</span><span class="n">navigationDelegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span><span class="c1">// 导航代理</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">_webView</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span><span class="p">{</span>
+    <span class="c1">//移除注册的js方法</span>
+    <span class="p">[[</span><span class="n">_webView</span> <span class="nf">configuration</span><span class="p">].</span><span class="n">userContentController</span> <span class="nf">removeScriptMessageHandlerForName</span><span class="p">:</span><span class="s">@"jsToOcNoPrams"</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">_webView</span> <span class="nf">configuration</span><span class="p">].</span><span class="n">userContentController</span> <span class="nf">removeScriptMessageHandlerForName</span><span class="p">:</span><span class="s">@"jsToOcWithPrams"</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>自定义的消息句柄：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22</pre></td><td class="code"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">WeakWebViewScriptMessageDelegate</span> <span class="p">:</span> <span class="nc">NSObject</span><span class="o">&lt;</span><span class="n">WKScriptMessageHandler</span><span class="o">&gt;</span>
+<span class="c1">//WKScriptMessageHandler 这个协议类专门用来处理JavaScript调用原生OC的方法</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">WKScriptMessageHandler</span><span class="o">&gt;</span> <span class="n">scriptDelegate</span><span class="p">;</span>
+<span class="k">@end</span>
+<span class="k">@implementation</span> <span class="nc">WeakWebViewScriptMessageDelegate</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDelegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">WKScriptMessageHandler</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">scriptDelegate</span> <span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_scriptDelegate</span> <span class="o">=</span> <span class="n">scriptDelegate</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#pragma mark - WKScriptMessageHandler
+</span><span class="c1">//遵循WKScriptMessageHandler协议，必须实现如下方法，然后把方法向外传递</span>
+<span class="c1">//通过接收JS传出消息的name进行捕捉的回调方法</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userContentController</span><span class="p">:(</span><span class="n">WKUserContentController</span> <span class="o">*</span><span class="p">)</span><span class="nv">userContentController</span> <span class="nf">didReceiveScriptMessage</span><span class="p">:(</span><span class="n">WKScriptMessage</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span> <span class="p">{</span>
+    
+    <span class="k">if</span> <span class="p">([</span><span class="n">self</span><span class="p">.</span><span class="n">scriptDelegate</span> <span class="nf">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">userContentController</span><span class="p">:</span><span class="n">didReceiveScriptMessage</span><span class="o">:</span><span class="p">)])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">scriptDelegate</span> <span class="nf">userContentController</span><span class="p">:</span><span class="n">userContentController</span> <span class="nf">didReceiveScriptMessage</span><span class="p">:</span><span class="n">message</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>也可以直接使用系统定义的<code class="language-plaintext highlighter-rouge">WKScriptMessageHandler</code>来实现。</p>
+
+<h3 id="方式2windowlocationhref">方式2:<code class="language-plaintext highlighter-rouge">window.location.href</code></h3>
+
+<p>当JS调用OC方法时：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">jsToOcFunction3</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">fn</span><span class="p">:</span> <span class="dl">'</span><span class="s1">uhomeNativeApi.cameraCb</span><span class="dl">'</span>
+    <span class="p">};</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">uhomeoc://system.camera?params=</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">query</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>这是直接发起连接跳转，可以通过<code class="language-plaintext highlighter-rouge">WKNavigationDelegate</code>代理来拦截。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">decidePolicyForNavigationAction</span><span class="p">:(</span><span class="n">WKNavigationAction</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationAction</span> <span class="nf">decisionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">WKNavigationActionPolicy</span><span class="p">))</span><span class="nv">decisionHandler</span><span class="p">{</span>
+    
+    <span class="n">NSString</span> <span class="o">*</span> <span class="n">scheme</span> <span class="o">=</span> <span class="n">navigationAction</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">.</span><span class="n">scheme</span><span class="p">;</span>
+    <span class="n">NSString</span> <span class="o">*</span> <span class="n">host</span> <span class="o">=</span> <span class="n">navigationAction</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">.</span><span class="n">host</span><span class="p">;</span>
+    <span class="n">NSString</span> <span class="o">*</span> <span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">navigationAction</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">.</span><span class="n">query</span> <span class="nf">stringByURLDecode</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">scheme</span> <span class="o">&amp;&amp;</span> <span class="n">host</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">scheme</span> <span class="nf">rangeOfString</span><span class="p">:</span><span class="s">@"uhomeoc"</span><span class="p">].</span><span class="n">location</span> <span class="o">!=</span> <span class="n">NSNotFound</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">host</span> <span class="nf">rangeOfString</span><span class="p">:</span><span class="s">@"system.camera"</span><span class="p">].</span><span class="n">location</span> <span class="o">!=</span> <span class="n">NSNotFound</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 使用原生系统功能：相机</span>
+            <span class="p">[</span><span class="n">self</span> <span class="nf">segJSSystemCameraWithQuery</span><span class="p">:</span><span class="n">query</span> <span class="nf">request</span><span class="p">:</span><span class="n">navigationAction</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">];</span>
+            <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationActionPolicyCancel</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationActionPolicyAllow</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="oc调用js的方法">OC调用JS的方法</h2>
+
+<p>假设JS中存在方法，需要用原生方法去执行：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">changeColor</span><span class="p">(</span><span class="nx">parameter</span><span class="p">){</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="nx">randomColor</span><span class="p">();</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">parameter</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>OC原生方法：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code><span class="c1">//OC调用JS</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">ocToJs</span><span class="p">{</span>
+    <span class="c1">//changeColor()是JS方法名，completionHandler是异步回调block</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">jsString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"changeColor('%@')"</span><span class="p">,</span> <span class="s">@"Js颜色参数"</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">_webView</span> <span class="nf">evaluateJavaScript</span><span class="p">:</span><span class="n">jsString</span> <span class="nf">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">_Nullable</span> <span class="n">data</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"改变HTML的背景色"</span><span class="p">);</span>
+    <span class="p">}];</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="scalespagetofit">scalesPageToFit</h2>
+
+<p>UIWebView:</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">scalesPageToFit</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>WKWebView:</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">didFinishNavigation</span><span class="p">:(</span><span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigation</span><span class="p">{</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">injectionJSString</span> <span class="o">=</span> <span class="s">@"var script = document.createElement('meta');"</span>
+    <span class="s">"script.name = 'viewport';"</span>
+    <span class="s">"script.content=</span><span class="se">\"</span><span class="s">width=device-width, user-scalable=no</span><span class="se">\"</span><span class="s">;"</span>
+    <span class="s">"document.getElementsByTagName('head')[0].appendChild(script);"</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">webView</span> <span class="nf">evaluateJavaScript</span><span class="p">:</span><span class="n">injectionJSString</span> <span class="nf">completionHandler</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="设置useragent">设置<code class="language-plaintext highlighter-rouge">userAgent</code></h2>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code><span class="n">_webView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKWebView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">WK_SCREEN_WIDTH</span><span class="p">(),</span> <span class="n">WK_SCREEN_HEIGHT</span><span class="p">())</span> <span class="nf">configuration</span><span class="p">:</span><span class="n">config</span><span class="p">];</span>
+<span class="p">[</span><span class="n">_webView</span> <span class="nf">evaluateJavaScript</span><span class="p">:</span><span class="s">@"navigator.userAgent"</span> <span class="nf">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">result</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">userAgent</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">newUserAgent</span> <span class="o">=</span> <span class="p">[</span><span class="n">userAgent</span> <span class="nf">stringByAppendingString</span><span class="p">:</span><span class="s">@"/uhome_iPhone"</span><span class="p">];</span>
+    
+    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">dictionary</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nf">dictionaryWithObjectsAndKeys</span><span class="p">:</span><span class="n">newUserAgent</span><span class="p">,</span> <span class="s">@"UserAgent"</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">registerDefaults</span><span class="p">:</span><span class="n">dictionary</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">synchronize</span><span class="p">];</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="err">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">9</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">))</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">_webView</span> <span class="nf">setCustomUserAgent</span><span class="p">:</span><span class="n">newUserAgent</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">_webView</span> <span class="nf">setValue</span><span class="p">:</span><span class="n">newUserAgent</span> <span class="nf">forKey</span><span class="p">:</span><span class="s">@"applicationNameForUserAgent"</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}];</span>
+</code></pre></td></tr></tbody></table></div></div>
+<h1 id="wkbackforwardlist-的使用">WKBackForwardList 的使用</h1>
+
+<p><code class="language-plaintext highlighter-rouge">WKBackForwardList</code>类可以通过前进或者后退来进行对网页视图的访问。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">WKBackForwardList</span> <span class="p">:</span> <span class="nc">NSObject</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">WKBackForwardListItem</span> <span class="o">*</span><span class="n">currentItem</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">WKBackForwardListItem</span> <span class="o">*</span><span class="n">backItem</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">WKBackForwardListItem</span> <span class="o">*</span><span class="n">forwardItem</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKBackForwardListItem</span> <span class="o">*</span><span class="p">)</span><span class="nf">itemAtIndex</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">index</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">WKBackForwardListItem</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">backList</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">WKBackForwardListItem</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">forwardList</span><span class="p">;</span>
+<span class="k">@end</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>在<code class="language-plaintext highlighter-rouge">WKWebView</code>中支持<code class="language-plaintext highlighter-rouge">WKBackForwardList</code>的属性和方法：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">WKBackForwardList</span> <span class="o">*</span><span class="n">backForwardList</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">allowsBackForwardNavigationGestures</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">canGoBack</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">canGoForward</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="nf">goToBackForwardListItem</span><span class="p">:(</span><span class="n">WKBackForwardListItem</span> <span class="o">*</span><span class="p">)</span><span class="nv">item</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="n">goBack</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="n">goForward</span><span class="p">;</span>
+
+<span class="c1">// 可以在执行 goBack、goForward之前先把loading停了。</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopLoading</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">WKNavigation</span> <span class="o">*</span><span class="p">)</span><span class="n">reload</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>通过<code class="language-plaintext highlighter-rouge">KVO</code>来监控<code class="language-plaintext highlighter-rouge">@"canGoBack"</code>、<code class="language-plaintext highlighter-rouge">@"canGoForward"</code>属性，动态获取页面goBack、goForward情况。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">segAddKVO</span><span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nf">addObserver</span><span class="p">:</span><span class="n">self</span> <span class="nf">forKeyPath</span><span class="p">:</span><span class="s">@"canGoBack"</span> <span class="n">options</span><span class="o">:</span><span class="n">NSKeyValueObservingOptionNew</span> <span class="n">context</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nf">addObserver</span><span class="p">:</span><span class="n">self</span> <span class="nf">forKeyPath</span><span class="p">:</span><span class="s">@"canGoForward"</span> <span class="n">options</span><span class="o">:</span><span class="n">NSKeyValueObservingOptionNew</span> <span class="n">context</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">observeValueForKeyPath</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">keyPath</span> <span class="nf">ofObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">object</span> <span class="nf">change</span><span class="p">:(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSKeyValueChangeKey</span><span class="p">,</span><span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">change</span> <span class="nf">context</span><span class="p">:(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="nv">context</span><span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">object</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">keyPath</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="s">@"canGoBack"</span><span class="p">]){</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">updateBottomViewGoBackButtonStatus</span><span class="p">];</span>
+    <span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">object</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">keyPath</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="s">@"canGoForward"</span><span class="p">]){</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">updateBottomViewGoForwardButtonStatus</span><span class="p">];</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="p">[</span><span class="n">super</span> <span class="nf">observeValueForKeyPath</span><span class="p">:</span><span class="n">keyPath</span> <span class="nf">ofObject</span><span class="p">:</span><span class="n">object</span> <span class="n">change</span><span class="o">:</span><span class="n">change</span> <span class="n">context</span><span class="o">:</span><span class="n">context</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span><span class="p">{</span>
+    <span class="p">[</span><span class="n">_webView</span> <span class="nf">removeObserver</span><span class="p">:</span><span class="n">self</span> <span class="nf">forKeyPath</span><span class="p">:</span><span class="s">@"canGoBack"</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">_webView</span> <span class="nf">removeObserver</span><span class="p">:</span><span class="n">self</span> <span class="nf">forKeyPath</span><span class="p">:</span><span class="s">@"canGoForward"</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="wkbackforwardlistitem">WKBackForwardListItem</h2>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">WKBackForwardListItem</span> <span class="p">:</span> <span class="nc">NSObject</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">URL</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">initialURL</span><span class="p">;</span>
+<span class="k">@end</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h1 id="cookies">Cookies</h1>
+
+<p>JS原生方法可以获取cookie：<code class="language-plaintext highlighter-rouge">document.cookie</code></p>
+
+<h2 id="获取cookie">获取cookie</h2>
+
+<p>1.从<code class="language-plaintext highlighter-rouge">NSHttpCookieStorage</code>、<code class="language-plaintext highlighter-rouge">WKHttpCookieStore</code>中获取cookie：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18</pre></td><td class="code"><pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">logCookiesFromHTTPCookieStore</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="err">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">11</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">WKWebsiteDataStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[</span><span class="n">WKWebsiteDataStore</span> <span class="nf">defaultDataStore</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">store</span><span class="p">.</span><span class="n">httpCookieStore</span> <span class="nf">getAllCookies</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSHTTPCookie</span> <span class="o">*&gt;</span> <span class="o">*</span> <span class="n">cookies</span><span class="p">)</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">cookies</span> <span class="nf">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSHTTPCookie</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">obj</span><span class="p">,</span> <span class="n">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="n">BOOL</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">NSLog</span><span class="p">(</span><span class="s">@"--&gt;count:%zd; name:%@; value:%@"</span><span class="p">,</span><span class="n">cookies</span><span class="p">.</span><span class="n">count</span><span class="p">,</span> <span class="n">obj</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">.</span><span class="n">value</span><span class="p">);</span>
+                
+            <span class="p">}];</span>
+        <span class="p">}];</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="n">NSArray</span> <span class="o">*</span><span class="n">cookieJar</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHTTPCookieStorage</span> <span class="nf">sharedHTTPCookieStorage</span><span class="p">].</span><span class="n">cookies</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">NSHTTPCookie</span> <span class="o">*</span><span class="n">cookie</span> <span class="k">in</span> <span class="n">cookieJar</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@"--&gt;count:%zd; name:%@; value:%@"</span><span class="p">,</span><span class="n">cookieJar</span><span class="p">.</span><span class="n">count</span><span class="p">,</span> <span class="n">cookie</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">cookie</span><span class="p">.</span><span class="n">value</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>2.从请求头中获取cookie：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">decidePolicyForNavigationAction</span><span class="p">:(</span><span class="n">WKNavigationAction</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationAction</span> <span class="nf">decisionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">WKNavigationActionPolicy</span><span class="p">))</span><span class="nv">decisionHandler</span> <span class="p">{</span>
+    <span class="n">NSArray</span> <span class="o">*</span><span class="n">cookies</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHTTPCookie</span> <span class="nf">cookiesWithResponseHeaderFields</span><span class="p">:[</span><span class="n">navigationAction</span><span class="p">.</span><span class="n">request</span> <span class="nf">allHTTPHeaderFields</span><span class="p">]</span> <span class="nf">forURL</span><span class="p">:</span><span class="n">navigationAction</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">];</span>
+    <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationActionPolicyAllow</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>3.通过JS方法获取cookie：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">ocToJs</span><span class="p">{</span>
+    <span class="c1">//changeColor()是JS方法名，completionHandler是异步回调block</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">jsString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"alert(document.cookie)"</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">_webView</span> <span class="nf">evaluateJavaScript</span><span class="p">:</span><span class="n">jsString</span> <span class="nf">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">_Nullable</span> <span class="n">data</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}];</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>4.获取响应头中的cookie：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">decidePolicyForNavigationResponse</span><span class="p">:(</span><span class="n">WKNavigationResponse</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationResponse</span> <span class="nf">decisionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">WKNavigationResponsePolicy</span><span class="p">))</span><span class="nv">decisionHandler</span><span class="p">{</span>
+    <span class="n">NSHTTPURLResponse</span> <span class="o">*</span><span class="n">response</span> <span class="o">=</span> <span class="n">navigationResponse</span><span class="p">.</span><span class="n">response</span><span class="p">;</span>
+    <span class="c1">// FIXME:获取Cookie!!!</span>
+    <span class="n">NSArray</span> <span class="o">*</span><span class="n">cookies</span> <span class="o">=</span><span class="p">[</span><span class="n">NSHTTPCookie</span> <span class="nf">cookiesWithResponseHeaderFields</span><span class="p">:[</span><span class="n">response</span> <span class="nf">allHeaderFields</span><span class="p">]</span> <span class="nf">forURL</span><span class="p">:</span><span class="n">response</span><span class="p">.</span><span class="n">URL</span><span class="p">];</span>
+    <span class="c1">// 读取wkwebview中的cookie 方法1</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">NSHTTPCookie</span> <span class="o">*</span><span class="n">cookie</span> <span class="k">in</span> <span class="n">cookies</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//[[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"--&gt;wkwebview中的cookie:%@"</span><span class="p">,</span> <span class="n">cookie</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// -------------------- 分割线</span>
+    <span class="c1">// 读取wkwebview中的cookie 方法2 读取Set-Cookie字段</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">cookieString</span> <span class="o">=</span> <span class="p">[[</span><span class="n">response</span> <span class="nf">allHeaderFields</span><span class="p">]</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"Set-Cookie"</span><span class="p">];</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"wkwebview中的cookie:%@"</span><span class="p">,</span> <span class="n">cookieString</span><span class="p">);</span>
+    <span class="c1">// 看看存入到了NSHTTPCookieStorage了没有</span>
+    <span class="n">NSHTTPCookieStorage</span> <span class="o">*</span><span class="n">cookieJar2</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHTTPCookieStorage</span> <span class="nf">sharedHTTPCookieStorage</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">NSHTTPCookie</span> <span class="o">*</span><span class="n">cookie</span> <span class="k">in</span> <span class="n">cookieJar2</span><span class="p">.</span><span class="n">cookies</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"NSHTTPCookieStorage中的cookie%@"</span><span class="p">,</span> <span class="n">cookie</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="n">NSString</span> <span class="o">*</span> <span class="n">urlStr</span> <span class="o">=</span> <span class="n">navigationResponse</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">URL</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">;</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"当前跳转地址：%@"</span><span class="p">,</span><span class="n">urlStr</span><span class="p">);</span>
+    <span class="c1">//允许跳转</span>
+    <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationResponsePolicyAllow</span><span class="p">);</span>
+    <span class="c1">//不允许跳转</span>
+    <span class="c1">//decisionHandler(WKNavigationResponsePolicyCancel);</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="添加cookie">添加cookie</h2>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">addCookie</span> <span class="p">{</span>
+    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">mCookProperties</span> <span class="o">=</span> <span class="p">@{</span>
+    <span class="nl">NSHTTPCookieDomain:</span> <span class="s">@".lilongcnc.cc"</span><span class="p">,</span>
+    <span class="nl">NSHTTPCookiePath:</span> <span class="s">@"/"</span><span class="p">,</span>
+    <span class="nl">NSHTTPCookieName:</span> <span class="s">@"laurenKey"</span><span class="p">,</span>
+    <span class="nl">NSHTTPCookieValue:</span>  <span class="s">@"laurenValue"</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="n">NSHTTPCookie</span> <span class="o">*</span><span class="n">myCookie</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHTTPCookie</span> <span class="nf">cookieWithProperties</span><span class="p">:</span><span class="n">mCookProperties</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="err">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">11</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">WKWebsiteDataStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[</span><span class="n">WKWebsiteDataStore</span> <span class="nf">defaultDataStore</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">store</span><span class="p">.</span><span class="n">httpCookieStore</span> <span class="nf">setCookie</span><span class="p">:</span><span class="n">myCookie</span> <span class="nf">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+        <span class="p">}];</span>
+        
+        
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="p">[[</span><span class="n">NSHTTPCookieStorage</span> <span class="nf">sharedHTTPCookieStorage</span><span class="p">]</span> <span class="nf">setCookie</span><span class="p">:</span><span class="n">myCookie</span><span class="p">];</span>
+        <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">synchronize</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="同步cookie">同步cookie</h2>
+
+<p>在iOS11以下的版本中，WKWebView并没有类似UIWebView中NSHTTPCookieStorage这样的可以直接设置和存储Cookie的官方类。但是在各个App的实际开发过程中，给HTML5后台传入Cookie进行身份校验等属于最基本的操作，正是因为不能方便设置Cookie的原因，在本文发布的时候，很多大厂App的核心web业务并没有使用WKWebView，仍然是UIWebView。iOS11开始，苹果意识到了这个问题，做了妥协，新增WKHTTPCookieStorage来帮助开发者解决Cookie问题，虽然方便了，但是API仍然不稳定，比如iOS11.3的时候就出现了一些变动。</p>
+
+<p>在<code class="language-plaintext highlighter-rouge">UIWebView</code>中，可以通过<code class="language-plaintext highlighter-rouge">NSHttpCookieStorage</code>来管理Cookie，对Cookie进行增删改查。当把Cookie添加到<code class="language-plaintext highlighter-rouge">NSHttpCookieStorage</code>中后，webView在发起请求的时候会自动从<code class="language-plaintext highlighter-rouge">NSHttpCookieStorage</code>中取出Cookie添加到<code class="language-plaintext highlighter-rouge">request Header</code>中，并且这个操作是<strong>零延迟</strong>的。也就是说，你第一行代码添加Cookie到<code class="language-plaintext highlighter-rouge">NSHttpCookieStorag</code>e中，第二行代码<code class="language-plaintext highlighter-rouge">loadRequest:</code>，发起的请求中是带有你设置的Cookie的。</p>
+
+<p>在<code class="language-plaintext highlighter-rouge">WKWebView</code>中，WKWebView实例也会将 Cookie 存储于 NSHTTPCookieStorage中，但存储时机<strong>有延迟</strong>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">NSHttpCookieStorage</code>对<code class="language-plaintext highlighter-rouge">WKWebView</code>而言，只能管理Cookie，但是没有了零延迟自动同步到<code class="language-plaintext highlighter-rouge">request Header</code>这一关键特性。</p>
+
+<p><strong>WKWebView Cookie 问题在于 WKWebView 发起的请求不会自动带上存储于 NSHTTPCookieStorage 容器中的 Cookie。</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>版本</th>
+      <th>方案</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">&lt;iOS11</code></td>
+      <td>使用<code class="language-plaintext highlighter-rouge">NSHttpCookieStorage</code>管理cookie。<br />新页面请求：在<code class="language-plaintext highlighter-rouge">loadRequest</code>之前把cookie添加到<code class="language-plaintext highlighter-rouge">Request Header</code>中。<br /></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">iOS11~iOS12</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WKHttpCookieStorage</code>管理，在<code class="language-plaintext highlighter-rouge">loadRequest</code>之前写入本地cookie</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">iOS13</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WKHttpCookieStorage</code>管理，同步机制变化，不能及时同步。<br />首次请求:在<code class="language-plaintext highlighter-rouge">loadRequest</code>之前写入本地cookie</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="ios11"><code class="language-plaintext highlighter-rouge">&lt;iOS11</code></h3>
+
+<ul>
+  <li>使用<code class="language-plaintext highlighter-rouge">NSHttpCookieStorage</code>管理cookie。</li>
+  <li>请求新WebView页面请求：在<code class="language-plaintext highlighter-rouge">loadRequest</code>之前把cookie添加到<code class="language-plaintext highlighter-rouge">Request Header</code>中。</li>
+  <li>页面跳转：JS写入<code class="language-plaintext highlighter-rouge">document.cookie</code>中【解决后续页面(同域)Ajax、iframe 请求的 Cookie 问题】</li>
+</ul>
+
+<blockquote>
+  <p>document.cookie()无法跨域设置 cookie</p>
+</blockquote>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">loadData</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="err">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">13</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">))</span> <span class="p">{</span> <span class="cm">/*13*/</span>
+        
+    <span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="err">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">11</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">)){</span> <span class="cm">/*11~12*/</span>
+        
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span> <span class="cm">/* 8~10:先把cookie添加到`Request Header`中 */</span>
+        <span class="n">NSMutableURLRequest</span> <span class="o">*</span> <span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableURLRequest</span> <span class="nf">requestWithURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://h5.qzone.qq.com/mqzone/index"</span><span class="p">]];</span>
+        
+        <span class="p">[</span><span class="n">request</span> <span class="nf">addValue</span><span class="p">:</span><span class="s">@"skey=skeyValue"</span> <span class="nf">forHTTPHeaderField</span><span class="p">:</span><span class="s">@"Cookie"</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">_webView</span> <span class="nf">loadRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>设置<code class="language-plaintext highlighter-rouge">document.cookie</code>：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="n">WKUserContentController</span><span class="o">*</span> <span class="n">userContentController</span> <span class="o">=</span> <span class="p">[</span><span class="n">WKUserContentController</span> <span class="nf">new</span><span class="p">]</span> <span class="p">;</span>
+<span class="n">WKUserScript</span> <span class="o">*</span> <span class="n">cookieScript</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKUserScript</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithSource</span><span class="p">:</span> <span class="s">@"document.cookie = 'skey=skeyValue';"</span> <span class="nf">injectionTime</span><span class="p">:</span><span class="n">WKUserScriptInjectionTimeAtDocumentStart</span> <span class="n">forMainFrameOnly</span><span class="o">:</span><span class="nb">NO</span><span class="p">];</span> 
+<span class="p">[</span><span class="n">userContentController</span> <span class="nf">addUserScript</span><span class="p">:</span><span class="n">cookieScript</span><span class="p">];</span>
+<span class="n">config</span><span class="p">.</span><span class="n">userContentController</span> <span class="o">=</span> <span class="n">userContentController</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="ios11ios12"><code class="language-plaintext highlighter-rouge">iOS11~iOS12</code></h3>
+
+<p>iOS11.0推出了<code class="language-plaintext highlighter-rouge">WKHTTPCookieStore</code>，效果和NSHttpCookieStorage一样，是零延迟。在请求发起的时候，我们只需要将Cookie设置到<code class="language-plaintext highlighter-rouge">WKHTTPCookieStore</code>就可以了。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">loadData</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="err">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">11</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">))</span> <span class="p">{</span>
+        <span class="c1">// 1. 设置Cookie</span>
+        <span class="n">NSArray</span> <span class="o">*</span><span class="n">cookieJar</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHTTPCookieStorage</span> <span class="nf">sharedHTTPCookieStorage</span><span class="p">].</span><span class="n">cookies</span><span class="p">;</span>
+        <span class="n">WKWebsiteDataStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[</span><span class="n">WKWebsiteDataStore</span> <span class="nf">defaultDataStore</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">store</span><span class="p">.</span><span class="n">httpCookieStore</span> <span class="nf">setCookie</span><span class="p">:</span><span class="n">cookieJar</span> <span class="nf">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@"cookie添加成功"</span><span class="p">);</span>
+        <span class="p">}];</span>
+        <span class="c1">// 2. 加载请求</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">wkwebView</span> <span class="nf">loadRequest</span><span class="p">:</span> <span class="n">request</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="ios13"><code class="language-plaintext highlighter-rouge">iOS13</code></h3>
+
+<p>在iOS13中可能遇到的问题：<code class="language-plaintext highlighter-rouge">WKHTTPCookieStore</code>设置Cookie之后，第一次发起请求Cookie会丢失，第二次及以后的请求的Cookie没有问题。</p>
+
+<p>可以在login之后先同步一次cookie：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span> <span class="p">{</span>
+   <span class="n">WKWebsiteDataStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[</span><span class="n">WKWebsiteDataStore</span> <span class="nf">defaultDataStore</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">store</span><span class="p">.</span><span class="n">httpCookieStore</span> <span class="nf">setCookie</span><span class="p">:</span><span class="n">cookie</span> <span class="nf">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"cookie添加成功"</span><span class="p">);</span>
+    <span class="p">}];</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h1 id="ios13-新方法">iOS13 新方法</h1>
+
+<h1 id="todo">TODO</h1>
+
+<ul>
+  <li>导航栏新增<code class="language-plaintext highlighter-rouge">页面刷新</code>、<code class="language-plaintext highlighter-rouge">用系统浏览器打开</code>的功能。</li>
+  <li>网页组件建议新增<code class="language-plaintext highlighter-rouge">goBack</code>、<code class="language-plaintext highlighter-rouge">goForward</code>，样式可以参考微信。</li>
+</ul>
+
+<p><img src="/assets/images/wkwebview/03-1.png" width="30%" height="30%" /></p>
+
+<h1 id="参考资料">参考资料</h1>
+
+<ul>
+  <li><a href="https://www.jianshu.com/p/833448c30d70">WKWebView的使用–API篇</a></li>
+  <li><a href="https://www.jianshu.com/p/91cfe58c032d">WKWebView User Agent、跨域、重定向及其它</a></li>
+  <li><a href="https://www.jianshu.com/p/4fa8c4eb1316">IOS进阶之WKWebView</a></li>
+  <li><a href="https://mp.weixin.qq.com/s/rhYKLIbXOsUJC_n6dt9UfA?">WKWebView 那些坑</a></li>
+  <li><a href="https://github.com/Naituw/WBWebViewConsole">WBWebViewConsole</a></li>
+  <li><a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview/26577303#26577303">stackoverflow:Can I set the cookies to be used by a WKWebView?</a></li>
+</ul>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/assets/images/251576903498_.pic_hd.jpg" alt="Sam Lau WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/assets/images/261576903527_.pic_hd.jpg" alt="Sam Lau Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/diary/2020/03/09/diary-ruby/" rel="next" title="Ruby使用记录">
+                <i class="fa fa-chevron-left"></i> Ruby使用记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ios/2020/01/01/ios-devaccount/" rel="prev" title="开发证书管理">
+                开发证书管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.png"
+               alt="Sam Lau" />
+          <p class="site-author-name" itemprop="name">Sam Lau</p>
+           
+              <p class="site-description motion-element" itemprop="description">get busy living or get busy dying</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#webkit组件部分属性方法"> <span class="nav-number">1</span> <span class="nav-text">WebKit组件部分属性方法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkwebview"> <span class="nav-number">1.1</span> <span class="nav-text">WKWebView</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkwebviewconfiguration"> <span class="nav-number">1.2</span> <span class="nav-text">WKWebViewConfiguration</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkusercontentcontroller"> <span class="nav-number">1.3</span> <span class="nav-text">WKUserContentController</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkpreferences"> <span class="nav-number">1.4</span> <span class="nav-text">WKPreferences</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkbackforwardlist"> <span class="nav-number">1.5</span> <span class="nav-text">WKBackForwardList</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkuserscript"> <span class="nav-number">1.6</span> <span class="nav-text">WKUserScript</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkuidelegate"> <span class="nav-number">1.7</span> <span class="nav-text">WKUIDelegate</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wknavigationdelegate"> <span class="nav-number">1.8</span> <span class="nav-text">WKNavigationDelegate</code</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkhttpcookiestore"> <span class="nav-number">1.9</span> <span class="nav-text">WKHTTPCookieStore</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkwebsitedatastore"> <span class="nav-number">1.10</span> <span class="nav-text">WKWebsiteDataStore</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#删除指定时间的网页数据"> <span class="nav-number">1.10.1</span> <span class="nav-text">删除指定时间的网页数据</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#查找并且删除"> <span class="nav-number">1.10.2</span> <span class="nav-text">查找并且删除</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#qa"> <span class="nav-number">2</span> <span class="nav-text">Q&amp;A</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#在多个wkwebview之间共享cookie"> <span class="nav-number">2.1</span> <span class="nav-text">在多个WKWebView之间共享cookie</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#页面滚动速率"> <span class="nav-number">2.2</span> <span class="nav-text">页面滚动速率</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#视频自动播放"> <span class="nav-number">2.3</span> <span class="nav-text">视频自动播放</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkwebview-页面样式问题"> <span class="nav-number">2.4</span> <span class="nav-text">WKWebView 页面样式问题</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#白屏问题"> <span class="nav-number">2.5</span> <span class="nav-text">白屏问题</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#适配网页文本大小"> <span class="nav-number">2.6</span> <span class="nav-text">适配网页文本大小</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#网页进度条"> <span class="nav-number">2.7</span> <span class="nav-text">网页进度条</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#解决wkwebview不能打开任何有target_blank开一个新的窗口属性的网页"> <span class="nav-number">2.8</span> <span class="nav-text">解决WKWebView不能打开任何有target="_blank"（开一个新的窗口）属性的网页</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#js调用oc的方法"> <span class="nav-number">2.9</span> <span class="nav-text">JS调用OC的方法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#方式1windowwebkitmessagehandlers"> <span class="nav-number">2.9.1</span> <span class="nav-text">方式1:window.webkit.messageHandlers</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#方式2windowlocationhref"> <span class="nav-number">2.9.2</span> <span class="nav-text">方式2:window.location.href</code</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#oc调用js的方法"> <span class="nav-number">2.10</span> <span class="nav-text">OC调用JS的方法</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#scalespagetofit"> <span class="nav-number">2.11</span> <span class="nav-text">scalesPageToFit</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#设置useragent"> <span class="nav-number">2.12</span> <span class="nav-text">设置userAgent</code</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#wkbackforwardlist-的使用"> <span class="nav-number">3</span> <span class="nav-text">WKBackForwardList 的使用</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wkbackforwardlistitem"> <span class="nav-number">3.1</span> <span class="nav-text">WKBackForwardListItem</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#cookies"> <span class="nav-number">4</span> <span class="nav-text">Cookies</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#获取cookie"> <span class="nav-number">4.1</span> <span class="nav-text">获取cookie</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#添加cookie"> <span class="nav-number">4.2</span> <span class="nav-text">添加cookie</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#同步cookie"> <span class="nav-number">4.3</span> <span class="nav-text">同步cookie</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#ios11"> <span class="nav-number">4.3.1</span> <span class="nav-text">&lt;iOS11</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#ios11ios12"> <span class="nav-number">4.3.2</span> <span class="nav-text">iOS11~iOS12</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#ios13"> <span class="nav-number">4.3.3</span> <span class="nav-text">iOS13</code</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#ios13-新方法"> <span class="nav-number">5</span> <span class="nav-text">iOS13 新方法</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#todo"> <span class="nav-number">6</span> <span class="nav-text">TODO</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#参考资料"> <span class="nav-number">7</span> <span class="nav-text">参考资料</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sam Lau</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
+
